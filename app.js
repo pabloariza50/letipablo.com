@@ -1,7 +1,7 @@
 /* Configuración de la web. Todo lo que cambia con el tiempo está aquí. */
 const CONFIG = {
   // URL del despliegue de Google Apps Script (ver README). Vacía = modo prueba, no envía nada.
-  appsScriptUrl: '',
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbzD9ExNa2x0NAVxkk-8x96N9LctgR0NvQOPPBwYUcq01jw3tw1gIPMnC26i2lJikpCj/exec',
 
   fecha: '2027-04-10',
   horaCeremonia: '',            // 'HH:MM' cuando la sepáis. Vacía = evento de día completo en el calendario.
