@@ -249,24 +249,24 @@
         <div data-detalles hidden>
 
           <fieldset>
+            <legend>Tu menú</legend>
+            <label>
+              <span>Tus alergias, intolerancias o dieta especial. Déjalo en blanco si no tienes ninguna.</span>
+              <input type="text" name="alergias" placeholder="Celíaco, vegetariano, sin frutos secos...">
+            </label>
+          </fieldset>
+
+          <fieldset>
             <legend>¿Vienes con alguien?</legend>
             <div class="choices">
               <label class="choice"><input type="radio" name="acompanado" value="no" checked><span>Voy solo/a</span></label>
               <label class="choice"><input type="radio" name="acompanado" value="si"><span>Sí, con acompañantes</span></label>
             </div>
             <div data-acompanantes-bloque hidden>
-              <p class="help">Escribe el nombre de cada persona que viene contigo. Los niños tendrán menú infantil y los bebés no necesitan sitio en mesa.</p>
+              <p class="help">Escribe el nombre de cada persona que viene contigo y sus alergias, si tiene. Los niños tendrán menú infantil y los bebés no necesitan sitio en mesa.</p>
               <div data-acompanantes></div>
               <button type="button" class="btn btn--ghost" data-add-acomp>Añadir otra persona</button>
             </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Tu menú</legend>
-            <label>
-              <span>Alergias, intolerancias o dieta especial. Déjalo en blanco si no tienes ninguna.</span>
-              <input type="text" name="alergias" placeholder="Celíaco, vegetariano, sin frutos secos...">
-            </label>
           </fieldset>
 
           <fieldset>
