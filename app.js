@@ -21,6 +21,7 @@ const CONFIG = {
 document.addEventListener('DOMContentLoaded', () => {
   cuentaAtras();
   menuMovil();
+  desplegables();
   paradas();
   calendario();
   contacto();
@@ -42,6 +43,14 @@ function cuentaAtras() {
     el.textContent = texto;
     if (dias <= 0) el.parentElement.textContent = texto;
   });
+}
+
+/* Desplegables: abiertos en escritorio, cerrados en móvil */
+function desplegables() {
+  const mq = window.matchMedia('(max-width: 860px)');
+  const sync = () => document.querySelectorAll('details.fold').forEach(d => { d.open = !mq.matches; });
+  sync();
+  mq.addEventListener('change', sync);
 }
 
 /* Menú en móvil */
