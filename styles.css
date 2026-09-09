@@ -128,7 +128,6 @@ img { max-width: 100%; display: block; }
 .fold[open] .fold__icon::before { content: '\2212'; }
 .fold .rows { border-top: 0; margin-top: 0; padding-left: 12px; }
 
-.iban { font-family: var(--serif); font-size: 22px; letter-spacing: 0.04em; }
 
 /* Formulario */
 form, [data-detalles] { display: flex; flex-direction: column; gap: 36px; }
@@ -170,6 +169,11 @@ textarea { resize: vertical; }
   padding: 32px var(--lado); font-size: 13px; color: var(--gris);
   max-width: var(--ancho); margin: 0 auto;
 }
+.footer__cuenta {
+  font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0;
+  font-variant-numeric: tabular-nums; letter-spacing: 0.02em; cursor: pointer;
+}
+.footer__cuenta:hover { color: var(--tinta); }
 
 /* Móvil */
 @media (max-width: 860px) {
@@ -205,4 +209,5 @@ textarea { resize: vertical; }
   .acomp__quitar { text-align: left; border-bottom: 0; padding: 4px 0 0 0; }
   .btn { align-self: stretch; text-align: center; }
   .footer { flex-direction: column; gap: 4px; }
+  .footer__cuenta { text-align: left; }
 }

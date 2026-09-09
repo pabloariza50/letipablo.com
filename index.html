@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Hanken+Grotesk:wght@400;500&display=swap">
-  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
 
@@ -191,18 +191,6 @@
   </section>
 
 
-  <section id="regalo" class="section" data-regalo hidden>
-    <div class="section__head">
-      <p class="eyebrow">Regalo</p>
-      <h2>Vuestra presencia es el regalo</h2>
-    </div>
-    <div class="section__body">
-      <p>Si queréis tener un detalle con nosotros, nos ayudará con el viaje de novios.</p>
-      <button type="button" class="btn btn--ghost" data-mostrar-iban>Ver número de cuenta</button>
-      <p class="iban" data-iban hidden></p>
-    </div>
-  </section>
-
   <section id="confirmar" class="section section--form">
     <div class="section__head">
       <p class="eyebrow">Confirmación</p>
@@ -329,6 +317,7 @@
 
 <footer class="footer">
   <span>Leti y Pablo</span>
+  <button type="button" class="footer__cuenta" data-cuenta hidden aria-label="Copiar número de cuenta"></button>
   <span>10 de abril de 2027</span>
 </footer>
 
@@ -347,6 +336,6 @@
   </div>
 </template>
 
-<script src="app.js?v=10"></script>
+<script src="app.js?v=11"></script>
 </body>
 </html>

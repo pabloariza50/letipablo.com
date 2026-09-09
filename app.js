@@ -13,8 +13,8 @@ const CONFIG = {
   whatsappLeti: '34634275463',
   whatsappPablo: '34660812140',
 
-  mostrarRegalo: false,         // true cuando queráis enseñar la sección de regalo
-  iban: '',
+  // Número de cuenta para regalos. Vacío = no aparece. Se muestra en el pie, entre el nombre y la fecha.
+  iban: 'ES32 1544 7889 7466 5198 1272',
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   paradas();
   calendario();
   contacto();
-  regalo();
+  cuenta();
   formulario();
 });
 
@@ -110,15 +110,30 @@ function contacto() {
   pon('[data-wa-pablo]', CONFIG.whatsappPablo);
 }
 
-/* Sección de regalo: oculta hasta que se active en CONFIG; el IBAN solo se muestra al pulsar */
-function regalo() {
-  const sec = document.querySelector('[data-regalo]');
-  if (!sec) return;
-  if (!CONFIG.mostrarRegalo || !CONFIG.iban) return;
-  sec.hidden = false;
-  const btn = sec.querySelector('[data-mostrar-iban]');
-  const p = sec.querySelector('[data-iban]');
-  btn.addEventListener('click', () => { p.textContent = CONFIG.iban; p.hidden = false; btn.hidden = true; });
+/* Número de cuenta en el pie: se ve como texto y al tocarlo se copia */
+function cuenta() {
+  const btn = document.querySelector('[data-cuenta]');
+  if (!btn) return;
+  const iban = CONFIG.iban.replace(/\s+/g, '').toUpperCase();
+  if (!iban) return;
+  const texto = iban.replace(/(.{4})/g, '$1 ').trim();
+  btn.textContent = texto;
+  btn.hidden = false;
+  let t;
+  btn.addEventListener('click', async () => {
+    let ok = false;
+    try { await navigator.clipboard.writeText(iban); ok = true; } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = iban; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+      ta.remove();
+    }
+    if (!ok) return;
+    btn.textContent = 'Copiado';
+    clearTimeout(t);
+    t = setTimeout(() => { btn.textContent = texto; }, 1200);
+  });
 }
 
 /* Formulario de confirmación */

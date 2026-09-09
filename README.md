@@ -24,7 +24,7 @@ grep -n "\[" index.html
 - `[HORAS DE VUELTA]`, `[PUNTO DE SALIDA]` — autobuses. Las paradas del desplegable se cambian en `CONFIG.paradasBus`.
 - `[DOMINIO]` — en las etiquetas `og:url` y `og:image` de la cabecera, cuando tengáis el dominio (p. ej. `letiypablo.es`). Hasta entonces WhatsApp no mostrará la foto al compartir el enlace.
 - `[WHATSAPP LETI]`, `[WHATSAPP PABLO]` — se sustituyen solos al poner los números en `CONFIG.whatsappLeti` / `whatsappPablo` (solo dígitos con prefijo, p. ej. `34600000000`).
-- Regalo: la sección está oculta. Se activa con `CONFIG.mostrarRegalo = true` y `CONFIG.iban`. El IBAN solo aparece al pulsar el botón.
+- Número de cuenta: se pone en `CONFIG.iban` y aparece en el pie de página, entre el nombre y la fecha. Al tocarlo se copia. Vacío = no aparece.
 - Hora de la ceremonia en `CONFIG.horaCeremonia` (`'13:00'`) para que el archivo de calendario lleve hora.
 
 ## Foto de portada
