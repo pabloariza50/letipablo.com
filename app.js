@@ -10,8 +10,8 @@ const CONFIG = {
   paradasBus: ['Sanxenxo', 'Samieira', 'Raxó', 'Combarro', 'Poio (me subo después de la ceremonia)', 'Pontevedra'],
 
   // Solo números, con prefijo: '34600000000'. Vacío = se muestra el texto entre corchetes.
-  whatsappLeti: '',
-  whatsappPablo: '',
+  whatsappLeti: '34634275463',
+  whatsappPablo: '34660812140',
 
   mostrarRegalo: false,         // true cuando queráis enseñar la sección de regalo
   iban: '',
@@ -20,7 +20,6 @@ const CONFIG = {
 document.addEventListener('DOMContentLoaded', () => {
   cuentaAtras();
   menuMovil();
-  desplegables();
   paradas();
   calendario();
   contacto();
@@ -42,14 +41,6 @@ function cuentaAtras() {
     el.textContent = texto;
     if (dias <= 0) el.parentElement.textContent = texto;
   });
-}
-
-/* Desplegables: abiertos en escritorio, cerrados en móvil */
-function desplegables() {
-  const mq = window.matchMedia('(max-width: 860px)');
-  const sync = () => document.querySelectorAll('details.fold').forEach(d => { d.open = !mq.matches; });
-  sync();
-  mq.addEventListener('change', sync);
 }
 
 /* Menú en móvil */
