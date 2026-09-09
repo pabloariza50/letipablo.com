@@ -83,7 +83,7 @@ img { max-width: 100%; display: block; }
 .hero__fecha { font-family: var(--serif); font-size: 20px; color: var(--tinta-suave); margin-top: -8px; }
 .hero__photo {
   position: relative;
-  aspect-ratio: 1400 / 1750;
+  aspect-ratio: 1400 / 1400;
   background: linear-gradient(160deg, var(--foto-a) 0%, var(--foto-b) 55%, var(--foto-c) 100%);
 }
 .hero__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }

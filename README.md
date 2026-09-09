@@ -9,7 +9,7 @@ Las respuestas caen en una hoja de Google Sheets a través de Google Apps Script
 - `styles.css` — estilos. Colores y tipografías en las variables del principio.
 - `app.js` — cuenta atrás, menú móvil, calendario, formulario. **La configuración está arriba del todo, en `CONFIG`.**
 - `../apps-script/Code.gs` — el script que recibe las respuestas y las escribe en la hoja de cálculo. Está fuera de `web/` a propósito: esta carpeta se publica entera y el script lleva vuestro email.
-- `assets/portada.jpg` (1400 px) y `assets/portada-900.jpg` (900 px, para móvil) — la foto de portada. Se muestra entera, sin recortes: la columna toma la proporción de la imagen (`aspect-ratio` en `styles.css`). El original a tamaño completo está fuera de esta carpeta, en `../portada-original-v2.jpeg` (la web usa un recorte 4:5 quitando cielo por arriba: `sips -c 3780 3024 --cropOffset 216 0`) (la anterior, en `../portada-original.jpg`).
+- `assets/portada.jpg` (1400 px) y `assets/portada-900.jpg` (900 px, para móvil) — la foto de portada. Se muestra entera, sin recortes: la columna toma la proporción de la imagen (`aspect-ratio` en `styles.css`). El original a tamaño completo está fuera de esta carpeta, en `../portada-original-v2.jpeg` (la web usa un recorte cuadrado quitando cielo por arriba: `sips -c 3024 3024 --cropOffset 972 0`) (la anterior, en `../portada-original.jpg`).
 - `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` — icono de la pestaña y de la pantalla de inicio del móvil (silueta de Ons).
 
 ## Datos por rellenar
