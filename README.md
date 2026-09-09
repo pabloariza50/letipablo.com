@@ -20,7 +20,7 @@ Busca los corchetes en `index.html`:
 grep -n "\[" index.html
 ```
 
-- `[HORA]` — hora de la ceremonia, cóctel y banquete (portada, banda, ceremonia, cronograma).
+- `[HORA]` — hora de la ceremonia (portada, banda, ceremonia).
 - `[HORAS DE VUELTA]`, `[PUNTO DE SALIDA]` — autobuses. Las paradas del desplegable se cambian en `CONFIG.paradasBus`.
 - `[DOMINIO]` — en las etiquetas `og:url` y `og:image` de la cabecera, cuando tengáis el dominio (p. ej. `letiypablo.es`). Hasta entonces WhatsApp no mostrará la foto al compartir el enlace.
 - `[WHATSAPP LETI]`, `[WHATSAPP PABLO]` — se sustituyen solos al poner los números en `CONFIG.whatsappLeti` / `whatsappPablo` (solo dígitos con prefijo, p. ej. `34600000000`).
