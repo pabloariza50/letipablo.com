@@ -51,7 +51,7 @@ Qué hace el script además de guardar la fila:
 
 - **Respuestas repetidas.** Si la misma persona vuelve a enviar el formulario, sus filas anteriores pasan a `Estado = Sustituida` y solo cuentan las `Vigente`. Se compara el nombre sin tildes ni mayúsculas.
 - **Acuse de recibo.** Si el contacto contiene un email, el invitado recibe un correo con lo que ha respondido, remitido por "Leti y Pablo" desde la cuenta que desplegó el script. Con `RESPONDER_A` se elige a qué dirección llegan sus respuestas.
-- **Pestaña Resumen.** Se crea sola con la primera respuesta. Son fórmulas sobre "Respuestas" (personas que vienen, adultos/niños/bebés, autobús por parada, alergias, hotel, canciones, comentarios, noes). Si la borras o la estropeas, menú **Boda → Rehacer resumen** en la hoja de cálculo.
+- **Pestaña Resumen.** Se crea sola con la primera respuesta. Son fórmulas sobre "Respuestas" (personas que vienen, adultos/niños/bebés, autobús por parada, alergias, hotel, comentarios, noes). Si la borras o la estropeas, menú **Boda → Rehacer resumen** en la hoja de cálculo.
 
 Cada vez que cambies `Code.gs` hay que hacer **Implementar → Gestionar implementaciones → editar → nueva versión** para que la URL use el código nuevo.
 

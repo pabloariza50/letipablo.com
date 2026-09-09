@@ -245,7 +245,6 @@ function leer(form) {
     bus: viene ? form.bus.value : '',
     parada: viene && form.bus.value !== 'No' ? (form.parada.value === 'Otro' ? 'Otro: ' + form.paradaOtra.value.trim() : form.parada.value) : '',
     alojamiento: viene && form.alojamiento.checked,
-    cancion: viene ? form.cancion.value.trim() : '',
     comentarios: form.comentarios.value.trim(),
     hp: form.empresa.value,
     origen: location.hostname,
