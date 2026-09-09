@@ -45,7 +45,13 @@ Si la proporción cambia, actualiza el `aspect-ratio` de `.hero__photo` en `styl
 3. Si quieres recibir un email por cada respuesta, pon tu dirección en `AVISAR_A`.
 4. **Implementar → Nueva implementación**. Tipo: *Aplicación web*. Ejecutar como: *Yo*. Quién tiene acceso: *Cualquier usuario*. Implementar y autorizar los permisos.
 5. Copia la URL que termina en `/exec` y pégala en `CONFIG.appsScriptUrl` de `app.js`.
-6. Prueba enviando una confirmación desde la web: debe aparecer una pestaña "Respuestas" con una fila por persona.
+6. Prueba enviando una confirmación desde la web: debe aparecer una pestaña "Respuestas" con una fila por persona y una pestaña "Resumen" con los totales.
+
+Qué hace el script además de guardar la fila:
+
+- **Respuestas repetidas.** Si la misma persona vuelve a enviar el formulario, sus filas anteriores pasan a `Estado = Sustituida` y solo cuentan las `Vigente`. Se compara el nombre sin tildes ni mayúsculas.
+- **Acuse de recibo.** Si el contacto contiene un email, el invitado recibe un correo con lo que ha respondido, remitido por "Leti y Pablo" desde la cuenta que desplegó el script. Con `RESPONDER_A` se elige a qué dirección llegan sus respuestas.
+- **Pestaña Resumen.** Se crea sola con la primera respuesta. Son fórmulas sobre "Respuestas" (personas que vienen, adultos/niños/bebés, autobús por parada, alergias, hotel, canciones, comentarios, noes). Si la borras o la estropeas, menú **Boda → Rehacer resumen** en la hoja de cálculo.
 
 Cada vez que cambies `Code.gs` hay que hacer **Implementar → Gestionar implementaciones → editar → nueva versión** para que la URL use el código nuevo.
 

@@ -209,6 +209,8 @@ function formulario() {
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || 'Respuesta no válida');
+        datos.acuse = json.acuse ? json.email : '';
+        datos.sustituye = !!json.sustituye;
       }
       gracias(form, datos);
     } catch (e) {
@@ -258,14 +260,17 @@ function validar(d, form) {
 function gracias(form, d) {
   const caja = document.querySelector('[data-gracias]');
   const p = caja.querySelector('[data-gracias-texto]');
+  const partes = [];
+  if (d.sustituye) partes.push('Hemos sustituido tu respuesta anterior.');
   if (d.asiste === 'si') {
     const n = 1 + d.acompanantes.length;
-    p.textContent = n > 1
-      ? `Os esperamos a los ${n} el 10 de abril. Si algo cambia, escríbenos.`
-      : 'Te esperamos el 10 de abril. Si algo cambia, escríbenos.';
+    partes.push(n > 1 ? `Os esperamos a los ${n} el 10 de abril.` : 'Te esperamos el 10 de abril.');
   } else {
-    p.textContent = 'Te echaremos de menos. Gracias por avisarnos.';
+    partes.push('Te echaremos de menos. Gracias por avisarnos.');
   }
+  if (d.acuse) partes.push(`Te hemos enviado un correo a ${d.acuse} con lo que has respondido.`);
+  partes.push('Si algo cambia, vuelve a rellenar el formulario con tu nombre o escríbenos.');
+  p.textContent = partes.join(' ');
   form.hidden = true;
   caja.hidden = false;
   const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;
