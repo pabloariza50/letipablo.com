@@ -80,6 +80,7 @@ img { max-width: 100%; display: block; }
   display: flex; flex-direction: column; justify-content: center; gap: 24px;
   padding: 56px 56px 48px var(--lado);
 }
+.hero__fecha { font-family: var(--serif); font-size: 20px; color: var(--tinta-suave); margin-top: -8px; }
 .hero__photo {
   position: relative;
   aspect-ratio: 1400 / 1331;
