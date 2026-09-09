@@ -5,7 +5,6 @@ const CONFIG = {
 
   fecha: '2027-04-10',
   horaCeremonia: '',            // 'HH:MM' cuando la sepáis. Vacía = evento de día completo en el calendario.
-  fechaLimite: '2027-03-01',
 
   // Puntos del recorrido donde puede parar el autobús. El formulario añade siempre "Vivo en otro sitio".
   paradasBus: ['Sanxenxo', 'Samieira', 'Raxó', 'Combarro', 'Poio (me subo después de la ceremonia)', 'Pontevedra'],
