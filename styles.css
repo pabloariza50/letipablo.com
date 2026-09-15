@@ -110,6 +110,14 @@ img { max-width: 100%; display: block; }
 .section__body { display: flex; flex-direction: column; gap: 24px; max-width: 640px; }
 .section__body > p { color: var(--tinta-suave); text-wrap: pretty; }
 
+/* Acuarelas de Poio y Señoráns: el papel se funde con el crema y los bordes se desvanecen */
+.acuarela {
+  display: block; width: 100%; height: auto; margin-top: 20px;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 62%, transparent 100%);
+}
+
 .rows { margin: 0; border-top: 1px solid var(--tinta); }
 .rows > div { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--filete); font-size: 15px; }
 .rows dt { color: var(--gris); flex: 0 0 160px; }
@@ -197,6 +205,7 @@ textarea { resize: vertical; }
   .band__item p:last-child { font-size: 13px; }
   .section { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 36px var(--lado); }
   .section__body { gap: 20px; }
+  .acuarela { margin-top: 12px; max-width: 520px; }
   .subhead { margin-top: 28px; }
   .rows > div { flex-direction: column; gap: 4px; padding: 12px 0; }
   .rows dt { flex-basis: auto; font-size: 13px; }
