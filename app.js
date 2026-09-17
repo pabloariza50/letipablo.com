@@ -211,7 +211,8 @@ function formulario() {
       } else {
         const json = await enviar(datos);
         datos.acuse = json.acuse ? json.email : '';
-        datos.sustituye = !!json.sustituye;
+        // En un reintento, "sustituye" solo significa que el primer intento sí llegó: no se le cuenta al invitado.
+        datos.sustituye = !!json.sustituye && !json.reintento;
         datos.revisar = !!json.revisar;
       }
       msg.className = 'form__msg'; msg.textContent = '';
@@ -252,6 +253,10 @@ async function enviar(datos) {
       let json;
       try { json = JSON.parse(texto); } catch (e) { throw new Error('Respuesta no JSON (' + res.status + ')'); }
       if (!json.ok) throw new Error(json.error || 'Respuesta no válida');
+      // Apps Script a veces contesta a un POST con la salida del GET ({ok:true, mensaje}). Eso no confirma que
+      // se haya guardado: solo vale la respuesta de doPost, que siempre trae "sustituye".
+      if (!('sustituye' in json)) throw new Error('Respuesta que no es de doPost');
+      json.reintento = intento > 0;
       return json;
     } catch (e) {
       ultimoError = e;
