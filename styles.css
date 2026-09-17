@@ -1,9 +1,19 @@
+@font-face {
+  font-family: 'Newsreader'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('assets/fonts/newsreader.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Hanken Grotesk'; font-style: normal; font-weight: 400 500; font-display: swap;
+  src: url('assets/fonts/hanken.woff2') format('woff2');
+}
+
 :root {
   --crema: #f6f5e8;
   --tinta: #333333;
   --tinta-suave: #4d4d4d;
   --gris: #6d6d6d;
   --filete: #cfcdc0;
+  --borde-campo: #8c8a7e;   /* 3,2:1 sobre el crema: mínimo 3:1 para que se vea el campo */
   --foto-a: #d9d4c4;
   --foto-b: #c3bda9;
   --foto-c: #a9a38f;
@@ -144,10 +154,11 @@ legend { font-family: var(--serif); font-size: 22px; padding: 0; margin-bottom: 
 label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--gris); }
 input[type="text"], select, textarea {
   font: inherit; font-size: 16px; color: var(--tinta);
-  background: transparent; border: 1px solid var(--filete); border-radius: 0;
+  background: transparent; border: 1px solid var(--borde-campo); border-radius: 0;
   padding: 12px 14px; width: 100%;
 }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--tinta); }
+input:focus, select:focus, textarea:focus { border-color: var(--tinta); }
+input:focus-visible, select:focus-visible, textarea:focus-visible, .btn:focus-visible, .choice input:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
 select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--gris) 50%), linear-gradient(135deg, var(--gris) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
 textarea { resize: vertical; }
 .choices { display: flex; flex-wrap: wrap; gap: 0 28px; }
@@ -167,8 +178,12 @@ textarea { resize: vertical; }
 .btn--ghost:hover { background: transparent; color: var(--gris); border-color: var(--gris); }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form__msg { font-size: 14px; color: var(--gris); min-height: 1.5em; }
+.form__msg.is-sending::after { content: ''; display: inline-block; width: 1.2em; text-align: left; animation: puntos 1.2s steps(4, end) infinite; }
+@keyframes puntos { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+@media (prefers-reduced-motion: reduce) { .form__msg.is-sending::after { animation: none; content: '...'; } }
 .form__msg.is-error { color: #8a3b2f; }
 .gracias { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+.gracias .rows { margin-top: 12px; }
 .gracias p { color: var(--tinta-suave); }
 
 /* Pie */
@@ -177,11 +192,14 @@ textarea { resize: vertical; }
   padding: 32px var(--lado); font-size: 13px; color: var(--gris);
   max-width: var(--ancho); margin: 0 auto;
 }
-.footer__cuenta {
-  font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0;
-  font-variant-numeric: tabular-nums; letter-spacing: 0.02em; cursor: pointer;
+
+/* Regalo: el número de cuenta se copia al tocarlo */
+.cuenta {
+  font-family: var(--serif); font-size: 22px; color: var(--tinta); background: none; border: 0; padding: 8px 0; margin: 0;
+  align-self: flex-start; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; cursor: pointer;
+  border-bottom: 1px solid var(--tinta); text-align: left; text-wrap: balance;
 }
-.footer__cuenta:hover { color: var(--tinta); }
+.cuenta:hover { color: #777777; border-color: #777777; }
 
 /* Móvil */
 @media (max-width: 860px) {
@@ -218,5 +236,5 @@ textarea { resize: vertical; }
   .acomp__quitar { text-align: left; border-bottom: 0; padding: 4px 0 0 0; }
   .btn { align-self: stretch; text-align: center; }
   .footer { flex-direction: column; gap: 4px; }
-  .footer__cuenta { text-align: left; }
+  .cuenta { font-size: 19px; }
 }

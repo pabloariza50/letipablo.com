@@ -10,6 +10,9 @@ Las respuestas caen en una hoja de Google Sheets a través de Google Apps Script
 - `app.js` — cuenta atrás, menú móvil, calendario, formulario. **La configuración está arriba del todo, en `CONFIG`.**
 - `../apps-script/Code.gs` — el script que recibe las respuestas y las escribe en la hoja de cálculo. Está fuera de `web/` a propósito: esta carpeta se publica entera y el script lleva vuestro email.
 - `assets/portada.jpg` (1400 px) y `assets/portada-900.jpg` (900 px, para móvil) — la foto de portada. Se muestra entera, sin recortes: la columna toma la proporción de la imagen (`aspect-ratio` en `styles.css`). El original a tamaño completo está fuera de esta carpeta, en `../portada-original-v2.jpeg` (la web usa un recorte cuadrado quitando cielo por arriba: `sips -c 3024 3024 --cropOffset 972 0`) (la anterior, en `../portada-original.jpg`).
+- `assets/portada-1200.jpg` — variante para móviles con pantalla 3x (iPhone). `assets/og.jpg` (1200×630, <300 KB) — la imagen que muestran WhatsApp y compañía al compartir el enlace.
+- `assets/boda.ics` — el archivo de "Añadir al calendario". Es un fichero fijo: si cambia la hora o el sitio, edítalo a mano (DTSTART, LOCATION, DESCRIPTION) y sube la fecha de DTSTAMP.
+- `assets/fonts/*.woff2` — Newsreader y Hanken Grotesk autoalojadas (antes venían de Google Fonts).
 - `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` — icono de la pestaña y de la pantalla de inicio del móvil (silueta de Ons).
 
 ## Datos por rellenar
@@ -20,12 +23,11 @@ Busca los corchetes en `index.html`:
 grep -n "\[" index.html
 ```
 
-- `[HORA]` — hora de la ceremonia (portada, banda, ceremonia).
-- `[HORAS DE VUELTA]`, `[PUNTO DE SALIDA]` — autobuses. Las paradas del desplegable se cambian en `CONFIG.paradasBus`.
-- `[DOMINIO]` — en las etiquetas `og:url` y `og:image` de la cabecera, cuando tengáis el dominio (p. ej. `letiypablo.es`). Hasta entonces WhatsApp no mostrará la foto al compartir el enlace.
-- `[WHATSAPP LETI]`, `[WHATSAPP PABLO]` — se sustituyen solos al poner los números en `CONFIG.whatsappLeti` / `whatsappPablo` (solo dígitos con prefijo, p. ej. `34600000000`).
+- **Secciones ocultas.** "Cómo llegar" y "Alojamiento" (y sus enlaces del menú) llevan `hidden` en el HTML hasta que esté todo organizado. Para enseñarlas: `CONFIG.secciones` en `app.js`, poner `llegar: true` y/o `alojamiento: true`, y subir el número de `app.js?v=` en `index.html`.
+- Horarios de autobús: la sección "Cómo llegar" lleva ahora solo un párrafo; cuando haya horarios, se añaden ahí. Las paradas del desplegable se cambian en `CONFIG.paradasBus` (y en `PARADAS` de `Code.gs`).
+- Teléfonos: están en el HTML (sección Contacto y `<noscript>`) y en `CONFIG.whatsappLeti` / `whatsappPablo` (solo dígitos con prefijo). Si cambian, cambiar en los dos sitios.
 - Número de cuenta: se pone en `CONFIG.iban` y aparece en el pie de página, entre el nombre y la fecha. Al tocarlo se copia. Vacío = no aparece.
-- Hora de la ceremonia en `CONFIG.horaCeremonia` (`'13:00'`) para que el archivo de calendario lleve hora.
+- Hora de la ceremonia: en `index.html` (banda y sección Ceremonia) y en `assets/boda.ics`.
 
 ## Foto de portada
 
@@ -49,8 +51,10 @@ Si la proporción cambia, actualiza el `aspect-ratio` de `.hero__photo` en `styl
 
 Qué hace el script además de guardar la fila:
 
-- **Respuestas repetidas.** Si la misma persona vuelve a enviar el formulario, sus filas anteriores pasan a `Estado = Sustituida` y solo cuentan las `Vigente`. Se compara el nombre sin tildes ni mayúsculas.
-- **Acuse de recibo.** Si el contacto contiene un email, el invitado recibe un correo con lo que ha respondido, remitido por "Leti y Pablo" desde la cuenta que desplegó el script. Con `RESPONDER_A` se elige a qué dirección llegan sus respuestas.
+- **Respuestas repetidas.** Si la misma persona (mismo nombre sin tildes ni mayúsculas y mismo teléfono o email) vuelve a enviar el formulario, sus filas anteriores pasan a `Estado = Sustituida`. Si coincide el nombre pero el contacto es otro, puede ser otra persona que se llama igual: la nueva respuesta se guarda con `Estado = Revisar`, la anterior no se toca y llega un aviso a `AVISAR_A`. Al revisarla, cambiad a mano el Estado a `Vigente` (y la otra a `Sustituida` si era la misma persona). El Resumen cuenta todo lo que no sea `Sustituida`.
+- **Aviso por respuesta.** `AVISAR_A` lleva el email que recibe un correo por cada envío.
+- **Espera.** El Apps Script tarda entre 4 y 20 segundos en responder cuando lleva un rato sin usarse. La web manda una petición vacía en cuanto alguien toca el formulario para "despertarlo", espera hasta 45 s por intento y reintenta una vez; si aun así no hay respuesta, avisa de que puede haberse guardado igualmente.
+- **Acuse de recibo.** El email es opcional en el formulario (columna Contacto: "teléfono · email"). Si lo hay, el invitado recibe un correo con lo que ha respondido, remitido por "Leti y Pablo" desde la cuenta que desplegó el script. Con `RESPONDER_A` se elige a qué dirección llegan sus respuestas.
 - **Pestaña Resumen.** Se crea sola con la primera respuesta. Son fórmulas sobre "Respuestas" (personas que vienen, adultos/niños/bebés, autobús por parada, alergias, hotel, comentarios, noes). Si la borras o la estropeas, menú **Boda → Rehacer resumen** en la hoja de cálculo.
 
 Cada vez que cambies `Code.gs` hay que hacer **Implementar → Gestionar implementaciones → editar → nueva versión** para que la URL use el código nuevo.

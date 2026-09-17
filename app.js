@@ -4,28 +4,43 @@ const CONFIG = {
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbzD9ExNa2x0NAVxkk-8x96N9LctgR0NvQOPPBwYUcq01jw3tw1gIPMnC26i2lJikpCj/exec',
 
   fecha: '2027-04-10',
-  horaCeremonia: '12:30',       // 'HH:MM'. Vacía = evento de día completo en el calendario.
 
   // Puntos del recorrido donde puede parar el autobús. El formulario añade siempre "Vivo en otro sitio".
+  // Si cambias esta lista, cambia también PARADAS en apps-script/Code.gs.
   paradasBus: ['Sanxenxo', 'Samieira', 'Raxó', 'Combarro', 'Poio (me subo después de la ceremonia)', 'Pontevedra'],
 
-  // Solo números, con prefijo: '34600000000'. Vacío = se muestra el texto entre corchetes.
+  // Solo números, con prefijo: '34600000000'. Vacío = se deja el enlace tal cual está en el HTML.
   whatsappLeti: '34634275463',
   whatsappPablo: '34660812140',
 
   // Número de cuenta para regalos. Vacío = no aparece. Se muestra en el pie, entre el nombre y la fecha.
   iban: 'ES32 1544 7889 7466 5198 1272',
+
+  // Secciones que todavía no se enseñan. Pon true para mostrarlas (también aparece su enlace en el menú).
+  secciones: { llegar: false, alojamiento: false },
+
+  // Envío: tiempo máximo de espera por intento (ms) y número de reintentos si no llega respuesta.
+  envioTimeout: 45000,
+  envioReintentos: 1,
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  secciones();
   cuentaAtras();
   menuMovil();
   paradas();
-  calendario();
   contacto();
   cuenta();
   formulario();
 });
+
+/* Secciones ocultas en el HTML hasta que se activan en CONFIG.secciones */
+function secciones() {
+  Object.entries(CONFIG.secciones || {}).forEach(([nombre, visible]) => {
+    if (!visible) return;
+    document.querySelectorAll(`[data-seccion="${nombre}"]`).forEach(el => { el.hidden = false; });
+  });
+}
 
 /* Cuenta atrás */
 function cuentaAtras() {
@@ -70,44 +85,22 @@ function paradas() {
   }
 }
 
-/* Archivo .ics para "Añadir al calendario" */
-function calendario() {
-  const enlace = document.getElementById('calendario');
-  if (!enlace) return;
-  const f = CONFIG.fecha.replace(/-/g, '');
-  let inicio, fin;
-  if (CONFIG.horaCeremonia) {
-    const [h, m] = CONFIG.horaCeremonia.split(':');
-    inicio = `DTSTART;TZID=Europe/Madrid:${f}T${h}${m}00`;
-    fin = `DTEND;TZID=Europe/Madrid:${f}T235900`;
-  } else {
-    const dia = new Date(CONFIG.fecha + 'T12:00:00'); dia.setDate(dia.getDate() + 1);
-    const f2 = [dia.getFullYear(), dia.getMonth() + 1, dia.getDate()].map(n => String(n).padStart(2, '0')).join('');
-    inicio = `DTSTART;VALUE=DATE:${f}`;
-    fin = `DTEND;VALUE=DATE:${f2}`;
-  }
-  const ics = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Leti y Pablo//Boda//ES', 'BEGIN:VEVENT',
-    `UID:boda-leti-pablo-${f}@letiypablo`, inicio, fin,
-    'SUMMARY:Boda de Leti y Pablo',
-    'LOCATION:Monasterio de Poio, Poio, Pontevedra',
-    'DESCRIPTION:Ceremonia en el Monasterio de Poio y celebración en el Pazo de Señoráns (Meis).',
-    'END:VEVENT', 'END:VCALENDAR',
-  ].join('\r\n');
-  enlace.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
-}
-
-/* Enlaces de WhatsApp */
+/* Enlaces de WhatsApp: el número se ve siempre (hay quien no usa WhatsApp) */
 function contacto() {
   const pon = (sel, num) => {
     const a = document.querySelector(sel);
     if (!a || !num) return;
     a.href = `https://wa.me/${num}`;
     a.target = '_blank'; a.rel = 'noopener';
-    a.textContent = 'Escribir por WhatsApp';
+    a.textContent = 'WhatsApp · ' + formatoTelefono(num);
   };
   pon('[data-wa-leti]', CONFIG.whatsappLeti);
   pon('[data-wa-pablo]', CONFIG.whatsappPablo);
+}
+
+function formatoTelefono(num) {
+  const n = String(num).replace(/^34/, '');
+  return n.replace(/(\d{3})(?=\d)/g, '$1 ').trim();
 }
 
 /* Número de cuenta en el pie: se ve como texto y al tocarlo se copia */
@@ -119,6 +112,8 @@ function cuenta() {
   const texto = iban.replace(/(.{4})/g, '$1 ').trim();
   btn.textContent = texto;
   btn.hidden = false;
+  const frase = btn.closest('[data-regalo]');
+  if (frase) frase.hidden = false;
   let t;
   btn.addEventListener('click', async () => {
     let ok = false;
@@ -149,6 +144,11 @@ function formulario() {
   const plazas = form.querySelector('[data-plazas]');
   const msg = form.querySelector('[data-form-msg]');
   const btn = form.querySelector('button[type="submit"]');
+
+  // El Apps Script tarda en "despertar" (entre 4 y 20 s en frío). En cuanto alguien toca el formulario
+  // le mandamos una petición vacía para que, cuando pulse Enviar, el servidor ya esté caliente.
+  form.addEventListener('focusin', calentarServidor, { once: true });
+  form.addEventListener('pointerdown', calentarServidor, { once: true });
 
   const personas = () => 1 + [...cont.querySelectorAll('[data-acomp-nombre]')].filter(i => i.value.trim()).length;
 
@@ -201,30 +201,65 @@ function formulario() {
     const error = validar(datos, form);
     if (error) { msg.textContent = error; msg.classList.add('is-error'); return; }
 
-    btn.disabled = true; msg.textContent = 'Enviando...';
+    btn.disabled = true;
+    msg.textContent = 'Enviando. Puede tardar unos segundos';
+    msg.classList.add('is-sending');
     try {
       if (!CONFIG.appsScriptUrl) {
         console.warn('CONFIG.appsScriptUrl está vacía: la respuesta NO se ha enviado.', datos);
         await new Promise(r => setTimeout(r, 600));
       } else {
-        const res = await fetch(CONFIG.appsScriptUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(datos),
-        });
-        const json = await res.json();
-        if (!json.ok) throw new Error(json.error || 'Respuesta no válida');
+        const json = await enviar(datos);
         datos.acuse = json.acuse ? json.email : '';
         datos.sustituye = !!json.sustituye;
+        datos.revisar = !!json.revisar;
       }
+      msg.className = 'form__msg'; msg.textContent = '';
       gracias(form, datos);
     } catch (e) {
       console.error(e);
       btn.disabled = false;
-      msg.textContent = 'No hemos podido enviar la confirmación. Prueba otra vez en un momento o escríbenos por WhatsApp.';
-      msg.classList.add('is-error');
+      msg.className = 'form__msg is-error';
+      msg.textContent = 'No hemos podido confirmar que se haya enviado. Puede que lo hayamos recibido igualmente: ' +
+        'si has puesto tu email te llegará un correo en unos minutos. Si no te llega, vuelve a enviarlo dentro de un rato ' +
+        '(nos quedamos con lo último) o escríbenos por WhatsApp.';
     }
   });
+}
+
+let servidorCaliente = false;
+function calentarServidor() {
+  if (servidorCaliente || !CONFIG.appsScriptUrl) return;
+  servidorCaliente = true;
+  fetch(CONFIG.appsScriptUrl, { method: 'GET', mode: 'no-cors', cache: 'no-store', keepalive: true }).catch(() => {});
+}
+
+/* Envía la respuesta. Reintenta si no llega respuesta o si llega algo que no es JSON (Apps Script a veces
+   devuelve una página HTML de error aunque haya guardado la fila; el reintento sustituye la anterior). */
+async function enviar(datos) {
+  let ultimoError;
+  for (let intento = 0; intento <= CONFIG.envioReintentos; intento++) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), CONFIG.envioTimeout);
+    try {
+      const res = await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(datos),
+        signal: ctrl.signal,
+      });
+      const texto = await res.text();
+      let json;
+      try { json = JSON.parse(texto); } catch (e) { throw new Error('Respuesta no JSON (' + res.status + ')'); }
+      if (!json.ok) throw new Error(json.error || 'Respuesta no válida');
+      return json;
+    } catch (e) {
+      ultimoError = e;
+    } finally {
+      clearTimeout(t);
+    }
+  }
+  throw ultimoError;
 }
 
 function leer(form) {
@@ -236,10 +271,12 @@ function leer(form) {
     alergias: f.querySelector('[data-acomp-alergias]').value.trim(),
   })).filter(a => a.nombre) : [];
   return {
-    nombre: form.nombre.value.trim(),
-    contacto: form.contacto.value.trim(),
+    nombre: form.nombre.value.trim().replace(/\s+/g, ' '),
+    telefono: form.telefono.value.trim(),
+    email: form.email.value.trim(),
+    contacto: [form.telefono.value.trim(), form.email.value.trim()].filter(Boolean).join(' · '),
     asiste: form.asiste.value,
-    acompanado: conGente,
+    acompanado: viene ? form.acompanado.value : 'no',
     acompanantes,
     alergias: viene ? form.alergias.value.trim() : '',
     bus: viene ? form.bus.value : '',
@@ -253,9 +290,13 @@ function leer(form) {
 
 function validar(d, form) {
   if (!d.nombre) return 'Dinos tu nombre, por favor.';
-  if (!d.contacto) return 'Déjanos un teléfono o un email por si tenemos que avisarte.';
+  if (d.nombre.split(' ').length < 2) return 'Escribe tu nombre y al menos un apellido, para no confundirte con otro invitado.';
+  if (!d.telefono) return 'Déjanos un teléfono por si tenemos que avisarte.';
+  if (d.telefono.replace(/\D/g, '').length < 9) return 'Ese teléfono no parece completo. Revísalo, por favor.';
+  if (d.email && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(d.email)) return 'Ese email no parece correcto. Revísalo o déjalo en blanco.';
   if (!d.asiste) return 'Dinos si vendrás.';
-  if (d.acompanado && !d.acompanantes.length) return 'Escribe el nombre de quien viene contigo, o marca que vienes solo/a.';
+  if (d.asiste === 'si' && !d.acompanado) return 'Dinos si vienes solo/a o con alguien.';
+  if (d.acompanado === 'si' && !d.acompanantes.length) return 'Escribe el nombre de quien viene contigo, o marca que vienes solo/a.';
   if (d.asiste === 'si' && d.bus && d.bus !== 'No' && !d.parada) return 'Elige desde dónde cogerás el autobús.';
   if (d.parada === 'Otro: ') return 'Dinos desde dónde vendrías, para ver si podemos poner una parada.';
   return '';
@@ -265,7 +306,8 @@ function gracias(form, d) {
   const caja = document.querySelector('[data-gracias]');
   const p = caja.querySelector('[data-gracias-texto]');
   const partes = [];
-  if (d.sustituye) partes.push('Hemos sustituido tu respuesta anterior.');
+  if (d.revisar) partes.push('Ya teníamos una respuesta con tu nombre pero con otro contacto, así que hemos guardado las dos y lo miramos nosotros.');
+  else if (d.sustituye) partes.push('Hemos sustituido tu respuesta anterior.');
   if (d.asiste === 'si') {
     const n = 1 + d.acompanantes.length;
     partes.push(n > 1 ? `Os esperamos a los ${n} el 10 de abril.` : 'Te esperamos el 10 de abril.');
@@ -275,6 +317,31 @@ function gracias(form, d) {
   if (d.acuse) partes.push(`Te hemos enviado un correo a ${d.acuse} con lo que has respondido.`);
   partes.push('Si algo cambia, vuelve a rellenar el formulario con tu nombre o escríbenos.');
   p.textContent = partes.join(' ');
+
+  // Resumen de lo enviado, para que pueda comprobarlo (con teléfono no hay acuse por correo)
+  const resumen = caja.querySelector('[data-gracias-resumen]');
+  resumen.innerHTML = '';
+  const fila = (k, v) => {
+    if (!v) return;
+    const div = document.createElement('div');
+    const dt = document.createElement('dt'); dt.textContent = k;
+    const dd = document.createElement('dd'); dd.textContent = v;
+    div.append(dt, dd); resumen.appendChild(div);
+  };
+  if (d.asiste === 'si') {
+    const gente = [d.nombre + (d.alergias ? ` (${d.alergias})` : '')]
+      .concat(d.acompanantes.map(a => a.nombre + ' (' + a.tipo + (a.alergias ? ', ' + a.alergias : '') + ')'));
+    fila(gente.length > 1 ? 'Venís' : 'Vienes', gente.join(' · '));
+    fila('Autobús', d.bus && d.bus !== 'No' ? d.bus + (d.parada ? ' desde ' + d.parada.replace(/^Otro: /, '') : '') : 'No');
+    fila('Alojamiento', d.alojamiento ? 'Nos pides ayuda con el hotel' : '');
+  } else {
+    fila('Respuesta', 'No podrás venir');
+  }
+  fila('Teléfono', d.telefono);
+  fila('Email', d.email);
+  fila('Comentarios', d.comentarios);
+  resumen.hidden = !resumen.children.length;
+
   form.hidden = true;
   caja.hidden = false;
   const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;

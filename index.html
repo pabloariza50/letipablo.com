@@ -10,17 +10,19 @@
   <meta property="og:description" content="Os esperamos en nuestra boda. Leti y Pablo">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://letipablo.com/">
-  <meta property="og:image" content="https://letipablo.com/assets/portada.jpg">
-  <meta property="og:image:width" content="1400">
-  <meta property="og:image:height" content="1400">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:image" content="https://letipablo.com/assets/og.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="theme-color" content="#f6f5e8">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Hanken+Grotesk:wght@400;500&display=swap">
-  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="preload" href="assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=14">
 </head>
 <body>
 
@@ -55,8 +57,9 @@
   <nav id="menu" class="nav__links">
     <a href="#ceremonia">Ceremonia</a>
     <a href="#celebracion">Celebración</a>
-    <a href="#llegar">Cómo llegar</a>
-    <a href="#alojamiento">Alojamiento</a>
+    <!-- Ocultas hasta tenerlo organizado: se muestran con CONFIG.secciones en app.js -->
+    <a href="#llegar" data-seccion="llegar" hidden>Cómo llegar</a>
+    <a href="#alojamiento" data-seccion="alojamiento" hidden>Alojamiento</a>
     <a href="#confirmar" class="nav__cta">Confirmar asistencia</a>
   </nav>
 </header>
@@ -69,11 +72,11 @@
       <p class="hero__fecha">Sábado, 10 de abril de 2027</p>
       <div class="links">
         <a href="#confirmar" class="link">Confirmar asistencia</a>
-        <a href="#" id="calendario" class="link link--muted" download="boda-leti-y-pablo.ics">Añadir al calendario</a>
+        <a href="assets/boda.ics" id="calendario" class="link link--muted" download="boda-leti-y-pablo.ics" type="text/calendar">Añadir al calendario</a>
       </div>
     </div>
     <div class="hero__photo">
-      <img src="assets/portada.jpg" srcset="assets/portada-900.jpg 900w, assets/portada.jpg 1400w" sizes="(max-width: 860px) 100vw, 550px" width="1400" height="1400" fetchpriority="high" alt="Leti y Pablo" onerror="this.remove()">
+      <img src="assets/portada.jpg" srcset="assets/portada-900.jpg 900w, assets/portada-1200.jpg 1200w, assets/portada.jpg 1400w" sizes="(max-width: 860px) 100vw, 550px" width="1400" height="1400" fetchpriority="high" alt="Leti y Pablo" onerror="this.remove()">
     </div>
   </section>
 
@@ -86,11 +89,11 @@
     <div class="band__item">
       <p class="eyebrow">Celebración</p>
       <p class="band__title">Pazo de Señoráns</p>
-      <p>Después de la ceremonia · Meis</p>
+      <p>Comida y fiesta hasta las 02:00 · Meis</p>
     </div>
     <div class="band__item">
       <p class="eyebrow">Confirmación</p>
-      <p class="band__title"><span data-cuenta-atras>Faltan 213 días</span></p>
+      <p class="band__title"><span data-cuenta-atras>10 de abril de 2027</span></p>
       <p><a class="link" href="#confirmar">Dinos si vienes</a></p>
     </div>
   </section>
@@ -118,38 +121,24 @@
     </div>
     <div class="section__body">
       <dl class="rows">
+        <div><dt>Cuándo</dt><dd>Al salir de misa · cóctel, comida y fiesta hasta las 02:00</dd></div>
         <div><dt>Dónde</dt><dd>Vilanoviña, Meis · a 20 minutos de Poio</dd></div>
       </dl>
       <a class="link" href="https://www.google.com/maps/search/?api=1&query=Pazo+de+Se%C3%B1or%C3%A1ns+Meis" target="_blank" rel="noopener">Ver en Google Maps</a>
     </div>
   </section>
 
-  <section id="llegar" class="section">
+  <section id="llegar" class="section" data-seccion="llegar" hidden>
     <div class="section__head">
       <p class="eyebrow">Cómo llegar</p>
       <h2>En coche o en autobús</h2>
     </div>
     <div class="section__body">
-      <div class="folds">
-        <details class="fold">
-          <summary><h3 class="subhead">Sanxenxo pola costa</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div><dt>Ida</dt><dd>[HORA] desde Sanxenxo · Nanín, Samieira, Raxó, Combarro, Poio</dd></div>
-            <div><dt>Vuelta</dt><dd>[HORAS DE VUELTA] desde el pazo · Combarro, Raxó, Samieira, Nanín, Sanxenxo</dd></div>
-          </dl>
-        </details>
-        <details class="fold">
-          <summary><h3 class="subhead">Recorrido de Pontevedra</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div><dt>Ida</dt><dd>[HORA] desde [PUNTO DE SALIDA] · Pontevedra, Poio</dd></div>
-            <div><dt>Vuelta</dt><dd>[HORAS DE VUELTA] desde el pazo · Pontevedra</dd></div>
-          </dl>
-        </details>
-      </div>
+      <p>Pondremos autobuses desde Sanxenxo, por la costa, y desde Pontevedra hasta Poio, y de vuelta desde el pazo. Los horarios los cerraremos cuando sepamos cuántos sois: si lo necesitas, dínoslo en el formulario.</p>
     </div>
   </section>
 
-  <section id="alojamiento" class="section">
+  <section id="alojamiento" class="section" data-seccion="alojamiento" hidden>
     <div class="section__head">
       <p class="eyebrow">Dónde dormir</p>
       <h2>Alojamiento</h2>
@@ -207,8 +196,12 @@
             <input type="text" name="nombre" autocomplete="name" required>
           </label>
           <label>
-            <span>Teléfono o email</span>
-            <input type="text" name="contacto" inputmode="email" autocomplete="tel" required>
+            <span>Tu teléfono</span>
+            <input type="tel" name="telefono" inputmode="tel" autocomplete="tel" required>
+          </label>
+          <label>
+            <span>Tu email (opcional) · te mandamos una copia de lo que respondas</span>
+            <input type="email" name="email" inputmode="email" autocomplete="email">
           </label>
         </fieldset>
 
@@ -233,7 +226,7 @@
           <fieldset>
             <legend>¿Vienes con alguien?</legend>
             <div class="choices">
-              <label class="choice"><input type="radio" name="acompanado" value="no" checked><span>Voy solo/a</span></label>
+              <label class="choice"><input type="radio" name="acompanado" value="no" required><span>Voy solo/a</span></label>
               <label class="choice"><input type="radio" name="acompanado" value="si"><span>Sí, con acompañantes</span></label>
             </div>
             <div data-acompanantes-bloque hidden>
@@ -245,6 +238,7 @@
 
           <fieldset>
             <legend>Autobús</legend>
+            <p class="help">Pondremos autobuses a Poio y de vuelta desde el pazo. Dinos si lo necesitas para organizar las paradas.</p>
             <div class="choices">
               <label class="choice"><input type="radio" name="bus" value="No" checked><span>No lo necesito</span></label>
               <label class="choice"><input type="radio" name="bus" value="Ida y vuelta"><span>Ida y vuelta</span></label>
@@ -288,7 +282,20 @@
       <div class="gracias" data-gracias hidden>
         <h3>Gracias, ya lo tenemos.</h3>
         <p data-gracias-texto></p>
+        <dl class="rows" data-gracias-resumen hidden></dl>
       </div>
+      <noscript><p class="muted">Para confirmar desde aquí hace falta JavaScript. Si no puedes activarlo, escríbenos por WhatsApp: Leti 634 275 463 · Pablo 660 812 140.</p></noscript>
+    </div>
+  </section>
+
+  <section id="regalo" class="section" data-regalo hidden>
+    <div class="section__head">
+      <p class="eyebrow">Regalo</p>
+      <h2>El mejor regalo es que vengáis</h2>
+    </div>
+    <div class="section__body">
+      <p>Si además queréis tener un detalle, esta es nuestra cuenta:</p>
+      <button type="button" class="cuenta" data-cuenta aria-label="Copiar número de cuenta"></button>
     </div>
   </section>
 
@@ -299,8 +306,8 @@
     </div>
     <div class="section__body">
       <dl class="rows">
-        <div><dt>Leti</dt><dd><a class="link" data-wa-leti href="#">[WHATSAPP LETI]</a></dd></div>
-        <div><dt>Pablo</dt><dd><a class="link" data-wa-pablo href="#">[WHATSAPP PABLO]</a></dd></div>
+        <div><dt>Leti</dt><dd><a class="link" data-wa-leti href="https://wa.me/34634275463" target="_blank" rel="noopener">634 275 463</a></dd></div>
+        <div><dt>Pablo</dt><dd><a class="link" data-wa-pablo href="https://wa.me/34660812140" target="_blank" rel="noopener">660 812 140</a></dd></div>
       </dl>
     </div>
   </section>
@@ -309,7 +316,6 @@
 
 <footer class="footer">
   <span>Leti y Pablo</span>
-  <button type="button" class="footer__cuenta" data-cuenta hidden aria-label="Copiar número de cuenta"></button>
   <span>10 de abril de 2027</span>
 </footer>
 
@@ -320,7 +326,6 @@
       <select data-acomp-tipo>
         <option value="Adulto">Adulto</option>
         <option value="Niño">Niño</option>
-        <option value="Bebé">Bebé</option>
       </select>
     </label>
     <label><span>Alergias o dieta especial</span><input type="text" data-acomp-alergias placeholder="Ninguna"></label>
@@ -328,6 +333,6 @@
   </div>
 </template>
 
-<script src="app.js?v=11"></script>
+<script src="app.js?v=13"></script>
 </body>
 </html>
