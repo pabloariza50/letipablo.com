@@ -29,6 +29,14 @@ grep -n "\[" index.html
 - Número de cuenta: se pone en `CONFIG.iban` y aparece en el pie de página, entre el nombre y la fecha. Al tocarlo se copia. Vacío = no aparece.
 - Hora de la ceremonia: en `index.html` (banda y sección Ceremonia) y en `assets/boda.ics`.
 
+## Mapa de hoteles
+
+En Alojamiento se incrusta un mapa de Google My Maps con los hoteles, el monasterio, el pazo y las rutas de autobús. El mapa vive en la cuenta de Google de Pablo; la web solo lo enseña.
+
+- **Conectarlo.** En `app.js`, `CONFIG.mapa.myMaps`: pega el enlace del mapa (el de Compartir). Vacío = no aparece ningún mapa. El mapa tiene que estar compartido como «Cualquier usuario con el enlace puede ver».
+- **Cambiar hoteles.** Se editan en Google My Maps (mymaps.google.com); la web se actualiza sola. Acuérdate de cambiar también la lista del HTML.
+- El archivo de partida para importar está en `~/Documents/Boda/bocetos/mapa-hoteles/hoteles-boda.kml`.
+
 ## Foto de portada
 
 Para cambiar la foto, genera las dos versiones a partir del original (la web carga la de 900 px en móvil y la de 1400 px en escritorio):

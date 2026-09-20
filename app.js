@@ -19,6 +19,10 @@ const CONFIG = {
   // Secciones que todavía no se enseñan. Pon true para mostrarlas (también aparece su enlace en el menú).
   secciones: { llegar: false, alojamiento: true },
 
+  // Mapa de hoteles en Alojamiento. Pega aquí el enlace de vuestro mapa de Google My Maps
+  // (el que sale en Compartir, o el de la barra del navegador). Vacío = no aparece ningún mapa.
+  mapa: { myMaps: 'https://www.google.com/maps/d/edit?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo' },
+
   // Envío: tiempo máximo de espera por intento (ms) y número de reintentos si no llega respuesta.
   envioTimeout: 45000,
   envioReintentos: 1,
@@ -32,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   contacto();
   cuenta();
   formulario();
+  mapa();
 });
 
 /* Secciones ocultas en el HTML hasta que se activan en CONFIG.secciones */
@@ -40,6 +45,22 @@ function secciones() {
     if (!visible) return;
     document.querySelectorAll(`[data-seccion="${nombre}"]`).forEach(el => { el.hidden = false; });
   });
+}
+
+/* Mapa de hoteles: Google My Maps incrustado; el navegador lo carga al acercarse (loading="lazy") */
+function mapa() {
+  const figura = document.querySelector('[data-mapa]');
+  const id = ((CONFIG.mapa && CONFIG.mapa.myMaps) || '').match(/(?:[?&]mid=|^)([\w-]{20,})(?:&|$)/);
+  if (!figura || !id) return;
+  const marco = document.createElement('iframe');
+  marco.src = `https://www.google.com/maps/d/embed?mid=${id[1]}`;
+  marco.title = 'Mapa de los alojamientos, el monasterio de Poio y el pazo de Señoráns';
+  marco.loading = 'lazy';
+  marco.referrerPolicy = 'no-referrer';
+  marco.allowFullscreen = true;
+  figura.querySelector('[data-mapa-marco]').appendChild(marco);
+  figura.querySelector('[data-mapa-enlace]').href = `https://www.google.com/maps/d/viewer?mid=${id[1]}`;
+  figura.hidden = false;
 }
 
 /* Cuenta atrás */

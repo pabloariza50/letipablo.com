@@ -146,6 +146,12 @@ img { max-width: 100%; display: block; }
 .fold[open] .fold__icon::before { content: '\2212'; }
 .fold .rows { border-top: 0; margin-top: 0; padding-left: 12px; }
 
+/* Mapa de hoteles: Google My Maps incrustado */
+.mapa { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.mapa__marco { border: 1px solid var(--filete); background: var(--foto-a); line-height: 0; }
+.mapa__marco iframe { display: block; width: 100%; height: 480px; border: 0; }
+.mapa figcaption { font-size: 14px; }
+
 
 /* Formulario */
 form, [data-detalles] { display: flex; flex-direction: column; gap: 36px; }
@@ -231,6 +237,7 @@ textarea { resize: vertical; }
   .rows a.link { padding: 10px 0 2px; margin: -10px 0 0; }
   .section__body > p + .folds { margin-top: 0; }
   .fold summary .subhead { font-size: 19px; }
+  .mapa__marco iframe { height: 400px; }
   form, [data-detalles] { gap: 28px; }
   .acomp { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
   .acomp__quitar { text-align: left; border-bottom: 0; padding: 4px 0 0 0; }
