@@ -17,7 +17,7 @@ const CONFIG = {
   iban: 'ES32 1544 7889 7466 5198 1272',
 
   // Secciones que todavía no se enseñan. Pon true para mostrarlas (también aparece su enlace en el menú).
-  secciones: { llegar: false, alojamiento: false },
+  secciones: { llegar: false, alojamiento: true },
 
   // Envío: tiempo máximo de espera por intento (ms) y número de reintentos si no llega respuesta.
   envioTimeout: 45000,
