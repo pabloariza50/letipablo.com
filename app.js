@@ -61,6 +61,14 @@ function mapa() {
   figura.querySelector('[data-mapa-marco]').appendChild(marco);
   figura.querySelector('[data-mapa-enlace]').href = `https://www.google.com/maps/d/viewer?mid=${id[1]}`;
   figura.hidden = false;
+
+  // La cabecera de Google va recortada por CSS, pero las fichas de hotel se abren en esa misma franja.
+  // Lo que pasa dentro del iframe no se puede leer; sí se nota que recibe el foco: entonces se quita el recorte.
+  const vigia = setInterval(() => {
+    if (document.activeElement !== marco) return;
+    figura.classList.add('is-activo');
+    clearInterval(vigia);
+  }, 300);
 }
 
 /* Cuenta atrás */

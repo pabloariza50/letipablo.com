@@ -148,9 +148,11 @@ img { max-width: 100%; display: block; }
 
 /* Mapa de hoteles: Google My Maps incrustado */
 .mapa { margin: 0; display: flex; flex-direction: column; gap: 10px; }
-/* La cabecera de My Maps (título, autor y foto; 67 px) queda recortada por arriba */
+/* La cabecera de My Maps (título, autor y foto; 67 px) queda recortada por arriba hasta que alguien toca el mapa:
+   las fichas de Google ocupan esa misma franja y saldrían cortadas (ver mapa() en app.js) */
 .mapa__marco { border: 1px solid var(--filete); background: var(--foto-a); line-height: 0; overflow: hidden; }
-.mapa__marco iframe { display: block; width: 100%; height: 547px; margin-top: -67px; border: 0; }
+.mapa__marco iframe { display: block; width: 100%; height: 547px; margin-top: -67px; border: 0; transition: margin-top .25s ease; }
+.mapa.is-activo .mapa__marco iframe { margin-top: 0; }
 .mapa figcaption { font-size: 14px; }
 
 
