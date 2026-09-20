@@ -148,8 +148,9 @@ img { max-width: 100%; display: block; }
 
 /* Mapa de hoteles: Google My Maps incrustado */
 .mapa { margin: 0; display: flex; flex-direction: column; gap: 10px; }
-.mapa__marco { border: 1px solid var(--filete); background: var(--foto-a); line-height: 0; }
-.mapa__marco iframe { display: block; width: 100%; height: 480px; border: 0; }
+/* La cabecera de My Maps (título, autor y foto; 67 px) queda recortada por arriba */
+.mapa__marco { border: 1px solid var(--filete); background: var(--foto-a); line-height: 0; overflow: hidden; }
+.mapa__marco iframe { display: block; width: 100%; height: 547px; margin-top: -67px; border: 0; }
 .mapa figcaption { font-size: 14px; }
 
 
@@ -237,7 +238,7 @@ textarea { resize: vertical; }
   .rows a.link { padding: 10px 0 2px; margin: -10px 0 0; }
   .section__body > p + .folds { margin-top: 0; }
   .fold summary .subhead { font-size: 19px; }
-  .mapa__marco iframe { height: 400px; }
+  .mapa__marco iframe { height: 467px; }
   form, [data-detalles] { gap: 28px; }
   .acomp { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
   .acomp__quitar { text-align: left; border-bottom: 0; padding: 4px 0 0 0; }
