@@ -160,7 +160,8 @@ img { max-width: 100%; display: block; }
 .mapa__globo h4 { margin: 0 0 2px; font-family: var(--serif); font-weight: 400; font-size: 19px; line-height: 1.2; }
 .mapa__globo p { margin: 0; color: var(--tinta-suave); }
 .mapa__globo .mapa__tiempos { margin: 8px 0; padding: 8px 0; border-top: 1px solid var(--filete); border-bottom: 1px solid var(--filete); font-size: 13px; font-variant-numeric: tabular-nums; }
-.mapa__globo a { color: var(--tinta); text-underline-offset: 3px; }
+.mapa__globo a { color: var(--tinta); text-underline-offset: 3px; outline: none; }
+.mapa__globo a:focus-visible { outline: 1px solid var(--filete); outline-offset: 4px; }
 .mapa__marco { border: 1px solid var(--filete); background: var(--foto-a); line-height: 0; overflow: hidden; }
 .mapa__marco iframe { display: block; width: 100%; height: 547px; margin-top: -67px; border: 0; pointer-events: none; }
 .mapa figcaption { font-size: 14px; }

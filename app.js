@@ -109,7 +109,7 @@ function pintarMapaGoogle(lienzo, botones, datos, cfg) {
   const map = new G.Map(lienzo, {
     center: { lat: 42.45, lng: -8.72 }, zoom: 11, minZoom: 10,
     disableDefaultUI: true, zoomControl: true, fullscreenControl: true,
-    gestureHandling: 'cooperative', clickableIcons: false,
+    gestureHandling: 'cooperative', clickableIcons: false, isFractionalZoomEnabled: true,
   });
   const globo = new G.InfoWindow({ maxWidth: 280 });
   const icono = (nombre, lado) => ({ url: `assets/mapa/${nombre}.png`, scaledSize: new G.Size(lado, lado), anchor: new G.Point(lado / 2, lado / 2) });
@@ -148,7 +148,7 @@ function pintarMapaGoogle(lienzo, botones, datos, cfg) {
       if (!sitio) return;
       const [lat, lng, poio, pazo] = sitio;
       ficha(new G.Marker({ map, position: { lat, lng }, icon: icono('hotel-h', 28), title: enlace.textContent, zIndex: 10 }),
-        `<div class="mapa__globo"><h4>${escapar(enlace.textContent)}</h4><p>${escapar(fila.querySelector('dd').textContent)}</p>
+        `<div class="mapa__globo"><h4>${escapar(enlace.textContent)}</h4><p>${fila.querySelector('dd').innerHTML}</p>
          <p class="mapa__tiempos">A Poio ${poio} min · Al pazo ${pazo} min en coche</p>
          <a href="${escapar(enlace.href)}" target="_blank" rel="noopener">Ver la web del hotel</a></div>`);
       limites.extend({ lat, lng }); todo.extend({ lat, lng });
@@ -158,7 +158,9 @@ function pintarMapaGoogle(lienzo, botones, datos, cfg) {
 
   const encuadrar = limites => {
     globo.close();
-    map.fitBounds(limites, 48);
+    // más margen a la derecha: ahí están los botones de zoom y pantalla completa
+    const m = lienzo.offsetWidth < 500 ? 28 : 44;
+    map.fitBounds(limites, { top: m, bottom: m + 10, left: m, right: m + 44 });
     G.event.addListenerOnce(map, 'idle', () => { if (map.getZoom() > 15) map.setZoom(15); });
   };
   zonas.forEach((z, i) => {
