@@ -25,7 +25,7 @@ const CONFIG = {
   // myMaps: enlace del mapa de Google My Maps (el de Compartir). Vacío y sin apiKey = no aparece ningún mapa.
   // rutas:  false quita del mapa por API los recorridos y paradas de autobús.
   mapa: {
-    apiKey: '',
+    apiKey: 'AIzaSyAUTzdYguUFRaU8Egl9Fdmpp-oWr6Ef4WM',
     myMaps: 'https://www.google.com/maps/d/edit?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo',
     rutas: true,
   },
@@ -65,12 +65,12 @@ function mapa() {
   if (id) enlace.href = `https://www.google.com/maps/d/viewer?mid=${id[1]}`;
   else enlace.parentElement.hidden = true;
   const fijo = () => { if (id) mapaFijo(figura, id[1]); else figura.hidden = true; };
-  if (cfg.apiKey && 'IntersectionObserver' in window) mapaGoogle(figura, cfg, fijo);
+  figura.hidden = false;   // antes de medir: oculta, su posición sería 0 y el mapa se cargaría nada más abrir la página
+  if (cfg.apiKey) mapaGoogle(figura, cfg, fijo);
   else fijo();
-  figura.hidden = false;
 }
 
-/* Google Maps por API: el script de Google y los datos se piden solo cuando la sección se acerca a la pantalla */
+/* Google Maps por API: el script de Google y los datos se piden solo cuando la sección se acerca a la pantalla (al hacer scroll) */
 function mapaGoogle(figura, cfg, siFalla) {
   const lienzo = figura.querySelector('[data-mapa-lienzo]');
   const botones = figura.querySelector('[data-mapa-zonas]');
@@ -83,9 +83,9 @@ function mapaGoogle(figura, cfg, siFalla) {
   };
   window.gm_authFailure = fallo;   // Google llama a esto si la clave no vale para este dominio
 
-  const vigia = new IntersectionObserver(entradas => {
-    if (!entradas.some(e => e.isIntersecting)) return;
-    vigia.disconnect();
+  const cargar = () => {
+    if (figura.getBoundingClientRect().top > innerHeight + 600) return;
+    removeEventListener('scroll', cargar);
     Promise.all([
       fetch('assets/mapa/datos.json').then(r => r.json()),
       new Promise((ok, mal) => {
@@ -96,8 +96,9 @@ function mapaGoogle(figura, cfg, siFalla) {
         document.head.appendChild(js);
       }),
     ]).then(([datos]) => { if (!fallado) pintarMapaGoogle(lienzo, botones, datos, cfg); }).catch(fallo);
-  }, { rootMargin: '600px 0px' });
-  vigia.observe(figura);
+  };
+  addEventListener('scroll', cargar, { passive: true });
+  cargar();
 }
 
 function pintarMapaGoogle(lienzo, botones, datos, cfg) {
