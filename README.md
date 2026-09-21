@@ -34,6 +34,7 @@ grep -n "\[" index.html
 En Alojamiento se incrusta un mapa de Google My Maps con los hoteles, el monasterio, el pazo y las rutas de autobús. El mapa vive en la cuenta de Google de Pablo; la web solo lo enseña.
 
 - **Conectarlo.** En `app.js`, `CONFIG.mapa.myMaps`: pega el enlace del mapa (el de Compartir). Vacío = no aparece ningún mapa. El mapa tiene que estar compartido como «Cualquier usuario con el enlace puede ver».
+- **Es una imagen fija a propósito.** El mapa no se puede tocar (`pointer-events: none`): si se pudiera, Google abriría sus fichas y su cabecera con el título y el autor, que no se pueden quitar. Se mueve con los botones de zona (centros y zooms en `mapa()`, `app.js`); para tocar hotel por hotel está el enlace «Abrir el mapa en Google Maps».
 - **Cambiar hoteles.** Se editan en Google My Maps (mymaps.google.com); la web se actualiza sola. Acuérdate de cambiar también la lista del HTML.
 - El archivo de partida para importar está en `~/Documents/Boda/bocetos/mapa-hoteles/hoteles-boda.kml`.
 

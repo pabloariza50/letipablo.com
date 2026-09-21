@@ -47,28 +47,42 @@ function secciones() {
   });
 }
 
-/* Mapa de hoteles: Google My Maps incrustado; el navegador lo carga al acercarse (loading="lazy") */
+/* Mapa de hoteles: Google My Maps incrustado como imagen fija (no se puede tocar: Google abriría sus fichas
+   y su cabecera con el autor). Se mueve con botones de zona, que recargan el mapa centrado donde toca. */
 function mapa() {
   const figura = document.querySelector('[data-mapa]');
   const id = ((CONFIG.mapa && CONFIG.mapa.myMaps) || '').match(/(?:[?&]mid=|^)([\w-]{20,})(?:&|$)/);
   if (!figura || !id) return;
+  const base = `https://www.google.com/maps/d/embed?mid=${id[1]}`;
   const marco = document.createElement('iframe');
-  marco.src = `https://www.google.com/maps/d/embed?mid=${id[1]}`;
+  marco.src = base;
   marco.title = 'Mapa de los alojamientos, el monasterio de Poio y el pazo de Señoráns';
   marco.loading = 'lazy';
   marco.referrerPolicy = 'no-referrer';
-  marco.allowFullscreen = true;
+  marco.tabIndex = -1;
   figura.querySelector('[data-mapa-marco]').appendChild(marco);
   figura.querySelector('[data-mapa-enlace]').href = `https://www.google.com/maps/d/viewer?mid=${id[1]}`;
-  figura.hidden = false;
 
-  // La cabecera de Google va recortada por CSS, pero las fichas de hotel se abren en esa misma franja.
-  // Lo que pasa dentro del iframe no se puede leer; sí se nota que recibe el foco: entonces se quita el recorte.
-  const vigia = setInterval(() => {
-    if (document.activeElement !== marco) return;
-    figura.classList.add('is-activo');
-    clearInterval(vigia);
-  }, 300);
+  // Centro y zoom de cada zona (zoom para pantalla ancha y para móvil). Sin centro = el encuadre general de Google.
+  const zonas = [
+    { nombre: 'Todo' },
+    { nombre: 'Sanxenxo', centro: [42.4008, -8.8030], zoom: [14, 13] },
+    { nombre: 'Raxó y Samieira', centro: [42.4143, -8.7408], zoom: [14, 13] },
+    { nombre: 'Meis', centro: [42.5110, -8.7450], zoom: [12, 11] },
+    { nombre: 'Pontevedra', centro: [42.4297, -8.6413], zoom: [15, 15] },
+  ];
+  const botones = figura.querySelector('[data-mapa-zonas]');
+  zonas.forEach((z, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = z.nombre; b.setAttribute('aria-pressed', String(i === 0));
+    b.addEventListener('click', () => {
+      const zoom = z.centro && z.zoom[marco.offsetWidth >= 520 ? 0 : 1];
+      marco.src = z.centro ? `${base}&ll=${z.centro[0]},${z.centro[1]}&z=${zoom}` : base;
+      botones.querySelectorAll('button').forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+    });
+    botones.appendChild(b);
+  });
+  figura.hidden = false;
 }
 
 /* Cuenta atrás */

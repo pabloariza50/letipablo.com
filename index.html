@@ -22,7 +22,7 @@
   <meta name="theme-color" content="#f6f5e8">
   <link rel="preload" href="assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=18">
 </head>
 <body>
 
@@ -146,6 +146,7 @@
     <div class="section__body">
       <!-- Mapa de Google My Maps: aparece cuando CONFIG.mapa.myMaps tiene el enlace del mapa (app.js) -->
       <figure class="mapa" data-mapa hidden>
+        <div class="mapa__zonas" data-mapa-zonas role="group" aria-label="Acercar el mapa a una zona"></div>
         <div class="mapa__marco" data-mapa-marco></div>
         <figcaption><a class="link" data-mapa-enlace target="_blank" rel="noopener">Abrir el mapa en Google Maps</a></figcaption>
       </figure>
@@ -345,6 +346,6 @@
   </div>
 </template>
 
-<script src="app.js?v=17"></script>
+<script src="app.js?v=18"></script>
 </body>
 </html>
