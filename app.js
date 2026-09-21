@@ -20,12 +20,13 @@ const CONFIG = {
   secciones: { llegar: false, alojamiento: true },
 
   // Mapa de hoteles en Alojamiento.
-  // apiKey: clave de la API de Google Maps (Maps JavaScript API), restringida a letipablo.com: mapa arrastrable con
-  //         fichas propias. Vacía, o si Google la rechaza, se enseña el My Maps de abajo como imagen fija.
+  // apiKey: NO escribir aquí la clave de Google Maps. Este marcador lo sustituye el despliegue (.github/workflows/publicar.yml)
+  //         por el secreto GOOGLE_MAPS_KEY del repositorio. Con clave: mapa arrastrable con fichas propias. Sin clave
+  //         (en local, o si Google la rechaza): se enseña el My Maps de abajo como imagen fija.
   // myMaps: enlace del mapa de Google My Maps (el de Compartir). Vacío y sin apiKey = no aparece ningún mapa.
   // rutas:  false quita del mapa por API los recorridos y paradas de autobús.
   mapa: {
-    apiKey: 'AIzaSyAUTzdYguUFRaU8Egl9Fdmpp-oWr6Ef4WM',
+    apiKey: '__CLAVE_GOOGLE_MAPS__',
     myMaps: 'https://www.google.com/maps/d/edit?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo',
     rutas: true,
   },
@@ -58,7 +59,8 @@ function secciones() {
    Sin clave, o si Google la rechaza: el My Maps incrustado como imagen fija (mapaFijo). */
 function mapa() {
   const figura = document.querySelector('[data-mapa]');
-  const cfg = CONFIG.mapa || {};
+  const cfg = Object.assign({}, CONFIG.mapa);
+  if (/^__/.test(cfg.apiKey || '')) cfg.apiKey = '';   // marcador sin sustituir: en local no hay clave
   const id = (cfg.myMaps || '').match(/(?:[?&]mid=|^)([\w-]{20,})(?:&|$)/);
   if (!figura || (!cfg.apiKey && !id)) return;
   const enlace = figura.querySelector('[data-mapa-enlace]');

@@ -36,6 +36,8 @@ En Alojamiento hay un mapa con los hoteles, el monasterio, el pazo y las rutas d
 - **Google Maps por API** (si `CONFIG.mapa.apiKey` tiene clave): mapa arrastrable, iconos propios (`assets/mapa/*.png`) y fichas con el estilo de la web. Los hoteles se leen de la lista del HTML; coordenadas y minutos en coche salen de `assets/mapa/datos.json` **por nombre** (`"Nombre": [lat, lon, min a Poio, min al pazo]`): si añades un hotel a la lista, añádelo también ahí o no tendrá marcador. Rutas y paradas: `CONFIG.mapa.rutas`.
 - **My Maps fijo** (sin clave, o si Google rechaza la clave): el mapa de Google My Maps de `CONFIG.mapa.myMaps` incrustado como imagen fija, con botones de zona. No se puede tocar a propósito: Google abriría sus fichas y su cabecera con el título y el autor, que no se pueden quitar. Los hoteles de ese mapa se editan en mymaps.google.com (archivo de partida: `~/Documents/Boda/bocetos/mapa-hoteles/donde-dormir.kml`).
 
+**La clave no está en el repositorio.** `app.js` lleva el marcador `__CLAVE_GOOGLE_MAPS__`; al hacer push, GitHub Actions (`.github/workflows/publicar.yml`) lo sustituye por el secreto `GOOGLE_MAPS_KEY` (Settings → Secrets and variables → Actions) y publica. Pages tiene que estar en Settings → Pages → Source: **GitHub Actions**. En local no hay clave, así que se ve el mapa fijo. Para cambiar de clave: editar el secreto y relanzar el workflow (Actions → Publicar la web → Run workflow).
+
 La clave de la API se crea en console.cloud.google.com (proyecto con facturación, API «Maps JavaScript API») y va **restringida** a los sitios `https://letipablo.com/*` y `http://localhost:8765/*` y a esa única API; así da igual que se vea en el código. El enlace «Abrir el mapa en Google Maps» siempre lleva al My Maps.
 
 ## Foto de portada
