@@ -133,6 +133,10 @@ img { max-width: 100%; display: block; }
 .rows dt { color: var(--gris); flex: 0 0 160px; }
 .rows a.link { display: inline-block; padding-top: 10px; padding-bottom: 12px; margin: -10px 0 -10px; }
 .rows dd { margin: 0; text-align: right; }
+/* Condiciones para invitados bajo la descripción del hotel (también sale en el globo del mapa) */
+.oferta { display: block; margin-top: 4px; font-size: 13px; color: var(--gris); text-wrap: balance; }
+.oferta a { text-decoration: underline; text-decoration-color: var(--filete); text-underline-offset: 3px; }
+.oferta .codigo { font-weight: 500; color: var(--tinta); letter-spacing: .02em; user-select: all; }
 
 /* Desplegables (hoteles y autobuses), cerrados por defecto */
 .folds { border-top: 1px solid var(--tinta); }
@@ -156,7 +160,7 @@ img { max-width: 100%; display: block; }
 .mapa__zonas button[aria-pressed="true"] { background: var(--tinta); color: var(--crema); border-color: var(--tinta); }
 /* Mapa de Google por API (arrastrable, con fichas propias) */
 .mapa__lienzo { height: 480px; border: 1px solid var(--filete); background: var(--foto-a); font-family: var(--sans); }
-.mapa__globo { font-family: var(--sans); color: var(--tinta); font-size: 14px; line-height: 1.45; min-width: 180px; max-width: 250px; padding: 0 4px 4px 0; }
+.mapa__globo { font-family: var(--sans); color: var(--tinta); font-size: 14px; line-height: 1.45; min-width: 160px; max-width: 250px; padding: 0 4px 4px 0; }
 .mapa__globo h4 { margin: 0 0 2px; font-family: var(--serif); font-weight: 400; font-size: 19px; line-height: 1.2; }
 .mapa__globo p { margin: 0; color: var(--tinta-suave); }
 .mapa__globo .mapa__tiempos { margin: 8px 0; padding: 8px 0; border-top: 1px solid var(--filete); border-bottom: 1px solid var(--filete); font-size: 13px; font-variant-numeric: tabular-nums; }

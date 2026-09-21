@@ -148,10 +148,11 @@ function pintarMapaGoogle(lienzo, botones, datos, cfg) {
       const sitio = enlace && datos.hoteles[enlace.textContent.trim()];
       if (!sitio) return;
       const [lat, lng, poio, pazo] = sitio;
-      ficha(new G.Marker({ map, position: { lat, lng }, icon: icono('hotel-h', 28), title: enlace.textContent, zIndex: 10 }),
+      const casa = fila.hasAttribute('data-casa'); // casas de alquiler entero: «C» en vez de «H»
+      ficha(new G.Marker({ map, position: { lat, lng }, icon: icono(casa ? 'casa-c' : 'hotel-h', 28), title: enlace.textContent, zIndex: 10 }),
         `<div class="mapa__globo"><h4>${escapar(enlace.textContent)}</h4><p>${fila.querySelector('dd').innerHTML}</p>
          <p class="mapa__tiempos">A Poio ${poio} min · Al pazo ${pazo} min en coche</p>
-         <a href="${escapar(enlace.href)}" target="_blank" rel="noopener">Ver la web del hotel</a></div>`);
+         <a href="${escapar(enlace.href)}" target="_blank" rel="noopener">${casa ? 'Ver la casa' : 'Ver la web del hotel'}</a></div>`);
       limites.extend({ lat, lng }); todo.extend({ lat, lng });
     });
     if (!limites.isEmpty()) zonas.push({ nombre: fold.querySelector('.subhead').textContent.split(',')[0].trim(), limites });
@@ -207,9 +208,11 @@ function mapaFijo(figura, id) {
   // Centro y zoom de cada zona (zoom para pantalla ancha y para móvil). Sin centro = el encuadre general de Google.
   const zonas = [
     { nombre: 'Todo' },
-    { nombre: 'Sanxenxo', centro: [42.4008, -8.8030], zoom: [14, 13] },
+    { nombre: 'Sanxenxo', centro: [42.3990, -8.8100], zoom: [14, 13] },
     { nombre: 'Raxó y Samieira', centro: [42.4143, -8.7408], zoom: [14, 13] },
-    { nombre: 'Meis', centro: [42.5110, -8.7450], zoom: [12, 11] },
+    { nombre: 'Poio', centro: [42.4460, -8.6820], zoom: [13, 13] },
+    { nombre: 'Meis', centro: [42.4970, -8.7210], zoom: [12, 11] },
+    { nombre: 'Cambados', centro: [42.5250, -8.7850], zoom: [14, 13] },
     { nombre: 'Pontevedra', centro: [42.4297, -8.6413], zoom: [15, 15] },
   ];
   const botones = figura.querySelector('[data-mapa-zonas]');
