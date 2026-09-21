@@ -22,7 +22,7 @@
   <meta name="theme-color" content="#f6f5e8">
   <link rel="preload" href="assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=19">
 </head>
 <body>
 
@@ -144,10 +144,11 @@
       <h2>Alojamiento</h2>
     </div>
     <div class="section__body">
-      <!-- Mapa de Google My Maps: aparece cuando CONFIG.mapa.myMaps tiene el enlace del mapa (app.js) -->
+      <!-- Mapa de hoteles (ver mapa() en app.js): Google Maps por API si hay CONFIG.mapa.apiKey; si no, el My Maps fijo -->
       <figure class="mapa" data-mapa hidden>
         <div class="mapa__zonas" data-mapa-zonas role="group" aria-label="Acercar el mapa a una zona"></div>
-        <div class="mapa__marco" data-mapa-marco></div>
+        <div class="mapa__lienzo" data-mapa-lienzo hidden></div>
+        <div class="mapa__marco" data-mapa-marco hidden></div>
         <figcaption><a class="link" data-mapa-enlace target="_blank" rel="noopener">Abrir el mapa en Google Maps</a></figcaption>
       </figure>
       <div class="folds">
@@ -346,6 +347,6 @@
   </div>
 </template>
 
-<script src="app.js?v=18"></script>
+<script src="app.js?v=19"></script>
 </body>
 </html>

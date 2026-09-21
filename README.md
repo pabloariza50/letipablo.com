@@ -31,12 +31,12 @@ grep -n "\[" index.html
 
 ## Mapa de hoteles
 
-En Alojamiento se incrusta un mapa de Google My Maps con los hoteles, el monasterio, el pazo y las rutas de autobús. El mapa vive en la cuenta de Google de Pablo; la web solo lo enseña.
+En Alojamiento hay un mapa con los hoteles, el monasterio, el pazo y las rutas de autobús. Tiene dos modos (`mapa()` en `app.js`):
 
-- **Conectarlo.** En `app.js`, `CONFIG.mapa.myMaps`: pega el enlace del mapa (el de Compartir). Vacío = no aparece ningún mapa. El mapa tiene que estar compartido como «Cualquier usuario con el enlace puede ver».
-- **Es una imagen fija a propósito.** El mapa no se puede tocar (`pointer-events: none`): si se pudiera, Google abriría sus fichas y su cabecera con el título y el autor, que no se pueden quitar. Se mueve con los botones de zona (centros y zooms en `mapa()`, `app.js`); para tocar hotel por hotel está el enlace «Abrir el mapa en Google Maps».
-- **Cambiar hoteles.** Se editan en Google My Maps (mymaps.google.com); la web se actualiza sola. Acuérdate de cambiar también la lista del HTML.
-- El archivo de partida para importar está en `~/Documents/Boda/bocetos/mapa-hoteles/hoteles-boda.kml`.
+- **Google Maps por API** (si `CONFIG.mapa.apiKey` tiene clave): mapa arrastrable, iconos propios (`assets/mapa/*.png`) y fichas con el estilo de la web. Los hoteles se leen de la lista del HTML; coordenadas y minutos en coche salen de `assets/mapa/datos.json` **por nombre** (`"Nombre": [lat, lon, min a Poio, min al pazo]`): si añades un hotel a la lista, añádelo también ahí o no tendrá marcador. Rutas y paradas: `CONFIG.mapa.rutas`.
+- **My Maps fijo** (sin clave, o si Google rechaza la clave): el mapa de Google My Maps de `CONFIG.mapa.myMaps` incrustado como imagen fija, con botones de zona. No se puede tocar a propósito: Google abriría sus fichas y su cabecera con el título y el autor, que no se pueden quitar. Los hoteles de ese mapa se editan en mymaps.google.com (archivo de partida: `~/Documents/Boda/bocetos/mapa-hoteles/donde-dormir.kml`).
+
+La clave de la API se crea en console.cloud.google.com (proyecto con facturación, API «Maps JavaScript API») y va **restringida** a los sitios `https://letipablo.com/*` y `http://localhost:8765/*` y a esa única API; así da igual que se vea en el código. El enlace «Abrir el mapa en Google Maps» siempre lleva al My Maps.
 
 ## Foto de portada
 

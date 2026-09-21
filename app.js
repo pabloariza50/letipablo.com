@@ -19,9 +19,16 @@ const CONFIG = {
   // Secciones que todavía no se enseñan. Pon true para mostrarlas (también aparece su enlace en el menú).
   secciones: { llegar: false, alojamiento: true },
 
-  // Mapa de hoteles en Alojamiento. Pega aquí el enlace de vuestro mapa de Google My Maps
-  // (el que sale en Compartir, o el de la barra del navegador). Vacío = no aparece ningún mapa.
-  mapa: { myMaps: 'https://www.google.com/maps/d/edit?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo' },
+  // Mapa de hoteles en Alojamiento.
+  // apiKey: clave de la API de Google Maps (Maps JavaScript API), restringida a letipablo.com: mapa arrastrable con
+  //         fichas propias. Vacía, o si Google la rechaza, se enseña el My Maps de abajo como imagen fija.
+  // myMaps: enlace del mapa de Google My Maps (el de Compartir). Vacío y sin apiKey = no aparece ningún mapa.
+  // rutas:  false quita del mapa por API los recorridos y paradas de autobús.
+  mapa: {
+    apiKey: '',
+    myMaps: 'https://www.google.com/maps/d/edit?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo',
+    rutas: true,
+  },
 
   // Envío: tiempo máximo de espera por intento (ms) y número de reintentos si no llega respuesta.
   envioTimeout: 45000,
@@ -47,13 +54,127 @@ function secciones() {
   });
 }
 
-/* Mapa de hoteles: Google My Maps incrustado como imagen fija (no se puede tocar: Google abriría sus fichas
-   y su cabecera con el autor). Se mueve con botones de zona, que recargan el mapa centrado donde toca. */
+/* Mapa de hoteles. Con CONFIG.mapa.apiKey: Google Maps por API, arrastrable y con fichas propias (mapaGoogle).
+   Sin clave, o si Google la rechaza: el My Maps incrustado como imagen fija (mapaFijo). */
 function mapa() {
   const figura = document.querySelector('[data-mapa]');
-  const id = ((CONFIG.mapa && CONFIG.mapa.myMaps) || '').match(/(?:[?&]mid=|^)([\w-]{20,})(?:&|$)/);
-  if (!figura || !id) return;
-  const base = `https://www.google.com/maps/d/embed?mid=${id[1]}`;
+  const cfg = CONFIG.mapa || {};
+  const id = (cfg.myMaps || '').match(/(?:[?&]mid=|^)([\w-]{20,})(?:&|$)/);
+  if (!figura || (!cfg.apiKey && !id)) return;
+  const enlace = figura.querySelector('[data-mapa-enlace]');
+  if (id) enlace.href = `https://www.google.com/maps/d/viewer?mid=${id[1]}`;
+  else enlace.parentElement.hidden = true;
+  const fijo = () => { if (id) mapaFijo(figura, id[1]); else figura.hidden = true; };
+  if (cfg.apiKey && 'IntersectionObserver' in window) mapaGoogle(figura, cfg, fijo);
+  else fijo();
+  figura.hidden = false;
+}
+
+/* Google Maps por API: el script de Google y los datos se piden solo cuando la sección se acerca a la pantalla */
+function mapaGoogle(figura, cfg, siFalla) {
+  const lienzo = figura.querySelector('[data-mapa-lienzo]');
+  const botones = figura.querySelector('[data-mapa-zonas]');
+  lienzo.hidden = false;
+  let fallado = false;
+  const fallo = () => {
+    if (fallado) return;
+    fallado = true; lienzo.hidden = true; botones.textContent = '';
+    siFalla();
+  };
+  window.gm_authFailure = fallo;   // Google llama a esto si la clave no vale para este dominio
+
+  const vigia = new IntersectionObserver(entradas => {
+    if (!entradas.some(e => e.isIntersecting)) return;
+    vigia.disconnect();
+    Promise.all([
+      fetch('assets/mapa/datos.json').then(r => r.json()),
+      new Promise((ok, mal) => {
+        window.__mapaListo = ok;
+        const js = document.createElement('script');
+        js.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(cfg.apiKey)}&v=weekly&loading=async&language=es&region=ES&callback=__mapaListo`;
+        js.onerror = mal;
+        document.head.appendChild(js);
+      }),
+    ]).then(([datos]) => { if (!fallado) pintarMapaGoogle(lienzo, botones, datos, cfg); }).catch(fallo);
+  }, { rootMargin: '600px 0px' });
+  vigia.observe(figura);
+}
+
+function pintarMapaGoogle(lienzo, botones, datos, cfg) {
+  const G = google.maps;
+  // Un dedo desplaza la página y dos mueven el mapa (en ordenador se arrastra con el ratón): así no atrapa el scroll
+  const map = new G.Map(lienzo, {
+    center: { lat: 42.45, lng: -8.72 }, zoom: 11, minZoom: 10,
+    disableDefaultUI: true, zoomControl: true, fullscreenControl: true,
+    gestureHandling: 'cooperative', clickableIcons: false,
+  });
+  const globo = new G.InfoWindow({ maxWidth: 280 });
+  const icono = (nombre, lado) => ({ url: `assets/mapa/${nombre}.png`, scaledSize: new G.Size(lado, lado), anchor: new G.Point(lado / 2, lado / 2) });
+  const ficha = (marca, html) => marca.addListener('click', () => { globo.setContent(html); globo.open({ map, anchor: marca }); });
+
+  if (cfg.rutas !== false) {
+    datos.rutas.forEach(r => {
+      const path = r.geo.map(([lat, lng]) => ({ lat, lng }));
+      new G.Polyline({ map, path, strokeColor: '#ffffff', strokeWeight: 7, strokeOpacity: 0.85, clickable: false, zIndex: 1 });
+      const trazo = r.discontinua
+        ? { strokeOpacity: 0, icons: [{ icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, strokeColor: '#333333', scale: 3 }, offset: '0', repeat: '11px' }] }
+        : { strokeColor: '#333333', strokeWeight: 3.5, strokeOpacity: 1 };
+      const linea = new G.Polyline(Object.assign({ map, path, zIndex: 2 }, trazo));
+      linea.addListener('click', e => {
+        globo.setContent(`<div class="mapa__globo"><h4>${escapar(r.nombre)}</h4><p>${String(r.km).replace('.', ',')} km · unos ${r.min} min</p></div>`);
+        globo.setPosition(e.latLng); globo.open({ map });
+      });
+    });
+    datos.paradas.forEach(([nombre, lat, lng]) =>
+      new G.Marker({ map, position: { lat, lng }, icon: icono('parada', 14), title: `Parada · ${nombre}`, clickable: false, zIndex: 3 }));
+  }
+
+  datos.lugares.forEach(([nombre, que, lat, lng], i) =>
+    ficha(new G.Marker({ map, position: { lat, lng }, icon: icono(i === 0 ? 'iglesia' : 'horreo', 40), title: nombre, zIndex: 20 }),
+      `<div class="mapa__globo"><h4>${escapar(nombre)}</h4><p>${escapar(que)}</p></div>`));
+
+  // Los hoteles se leen de la lista de la página (un grupo por desplegable); las coordenadas, de datos.json por nombre
+  const todo = new G.LatLngBounds();
+  datos.lugares.forEach(l => todo.extend({ lat: l[2], lng: l[3] }));
+  const zonas = [{ nombre: 'Todo', limites: todo }];
+  document.querySelectorAll('#alojamiento .fold').forEach(fold => {
+    const limites = new G.LatLngBounds();
+    fold.querySelectorAll('.rows > div').forEach(fila => {
+      const enlace = fila.querySelector('dt a');
+      const sitio = enlace && datos.hoteles[enlace.textContent.trim()];
+      if (!sitio) return;
+      const [lat, lng, poio, pazo] = sitio;
+      ficha(new G.Marker({ map, position: { lat, lng }, icon: icono('hotel-h', 28), title: enlace.textContent, zIndex: 10 }),
+        `<div class="mapa__globo"><h4>${escapar(enlace.textContent)}</h4><p>${escapar(fila.querySelector('dd').textContent)}</p>
+         <p class="mapa__tiempos">A Poio ${poio} min · Al pazo ${pazo} min en coche</p>
+         <a href="${escapar(enlace.href)}" target="_blank" rel="noopener">Ver la web del hotel</a></div>`);
+      limites.extend({ lat, lng }); todo.extend({ lat, lng });
+    });
+    if (!limites.isEmpty()) zonas.push({ nombre: fold.querySelector('.subhead').textContent.split(',')[0].trim(), limites });
+  });
+
+  const encuadrar = limites => {
+    globo.close();
+    map.fitBounds(limites, 48);
+    G.event.addListenerOnce(map, 'idle', () => { if (map.getZoom() > 15) map.setZoom(15); });
+  };
+  zonas.forEach((z, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = z.nombre; b.setAttribute('aria-pressed', String(i === 0));
+    b.addEventListener('click', () => {
+      encuadrar(z.limites);
+      botones.querySelectorAll('button').forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+    });
+    botones.appendChild(b);
+  });
+  encuadrar(todo);
+}
+
+/* My Maps incrustado como imagen fija (no se puede tocar: Google abriría sus fichas y su cabecera con el autor).
+   Se mueve con botones de zona, que recargan el mapa centrado donde toca. */
+function mapaFijo(figura, id) {
+  figura.querySelector('[data-mapa-marco]').hidden = false;
+  const base = `https://www.google.com/maps/d/embed?mid=${id}`;
   const marco = document.createElement('iframe');
   marco.src = base;
   marco.title = 'Mapa de los alojamientos, el monasterio de Poio y el pazo de Señoráns';
@@ -61,7 +182,6 @@ function mapa() {
   marco.referrerPolicy = 'no-referrer';
   marco.tabIndex = -1;
   figura.querySelector('[data-mapa-marco]').appendChild(marco);
-  figura.querySelector('[data-mapa-enlace]').href = `https://www.google.com/maps/d/viewer?mid=${id[1]}`;
 
   // Centro y zoom de cada zona (zoom para pantalla ancha y para móvil). Sin centro = el encuadre general de Google.
   const zonas = [
@@ -82,7 +202,6 @@ function mapa() {
     });
     botones.appendChild(b);
   });
-  figura.hidden = false;
 }
 
 /* Cuenta atrás */

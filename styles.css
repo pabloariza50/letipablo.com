@@ -154,6 +154,13 @@ img { max-width: 100%; display: block; }
 .mapa__zonas button { font: 500 13px/1 var(--sans); color: var(--tinta); background: transparent; border: 1px solid var(--filete); padding: 0 14px; min-height: 36px; cursor: pointer; }
 .mapa__zonas button:hover { border-color: var(--tinta); }
 .mapa__zonas button[aria-pressed="true"] { background: var(--tinta); color: var(--crema); border-color: var(--tinta); }
+/* Mapa de Google por API (arrastrable, con fichas propias) */
+.mapa__lienzo { height: 480px; border: 1px solid var(--filete); background: var(--foto-a); font-family: var(--sans); }
+.mapa__globo { font-family: var(--sans); color: var(--tinta); font-size: 14px; line-height: 1.45; min-width: 180px; max-width: 250px; padding: 0 4px 4px 0; }
+.mapa__globo h4 { margin: 0 0 2px; font-family: var(--serif); font-weight: 400; font-size: 19px; line-height: 1.2; }
+.mapa__globo p { margin: 0; color: var(--tinta-suave); }
+.mapa__globo .mapa__tiempos { margin: 8px 0; padding: 8px 0; border-top: 1px solid var(--filete); border-bottom: 1px solid var(--filete); font-size: 13px; font-variant-numeric: tabular-nums; }
+.mapa__globo a { color: var(--tinta); text-underline-offset: 3px; }
 .mapa__marco { border: 1px solid var(--filete); background: var(--foto-a); line-height: 0; overflow: hidden; }
 .mapa__marco iframe { display: block; width: 100%; height: 547px; margin-top: -67px; border: 0; pointer-events: none; }
 .mapa figcaption { font-size: 14px; }
@@ -244,6 +251,7 @@ textarea { resize: vertical; }
   .section__body > p + .folds { margin-top: 0; }
   .fold summary .subhead { font-size: 19px; }
   .mapa__marco iframe { height: 467px; }
+  .mapa__lienzo { height: 400px; }
   .mapa__zonas button { min-height: 44px; }
   form, [data-detalles] { gap: 28px; }
   .acomp { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
