@@ -121,7 +121,7 @@ img { max-width: 100%; display: block; }
 .section__body > p { color: var(--tinta-suave); text-wrap: pretty; }
 
 /* Fotos de Poio y Señoráns */
-.foto { display: block; width: 100%; height: auto; margin-top: 20px; }
+.foto { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
 
 .rows { margin: 0; border-top: 1px solid var(--tinta); }
 .rows > div { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--filete); font-size: 15px; }
@@ -238,7 +238,6 @@ textarea { resize: vertical; }
   .band__item p:last-child { font-size: 13px; }
   .section { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 36px var(--lado); }
   .section__body { gap: 20px; }
-  .foto { margin-top: 12px; max-width: 520px; }
   .subhead { margin-top: 28px; }
   .rows > div { flex-direction: column; gap: 4px; padding: 12px 0; }
   .rows dt { flex-basis: auto; font-size: 13px; }
