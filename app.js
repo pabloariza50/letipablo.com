@@ -70,6 +70,7 @@ function mapa() {
   figura.hidden = false;   // antes de medir: oculta, su posición sería 0 y el mapa se cargaría nada más abrir la página
   if (cfg.apiKey) mapaGoogle(figura, cfg, fijo);
   else fijo();
+  document.querySelectorAll('#alojamiento .fold').forEach(fold => fold.addEventListener('toggle', () => zonaDelDesplegable(fold)));
 }
 
 /* Google Maps por API: el script de Google y los datos se piden solo cuando la sección se acerca a la pantalla (al hacer scroll) */
@@ -173,6 +174,21 @@ function pintarMapaGoogle(lienzo, botones, datos, cfg) {
     botones.appendChild(b);
   });
   encuadrar(todo);
+  const abierto = document.querySelector('#alojamiento .fold[open]');
+  if (abierto) zonaDelDesplegable(abierto);
+}
+
+/* Al abrir un desplegable de hoteles, el mapa se acerca a su zona (pulsa su botón, así vale para los dos mapas).
+   Al cerrarlo vuelve a otro que siga abierto o, si no queda ninguno, al encuadre general. */
+function zonaDelDesplegable(fold) {
+  const botones = [...document.querySelectorAll('[data-mapa-zonas] button')];
+  const boton = f => botones.find(b => b.textContent === f.querySelector('.subhead').textContent.split(',')[0].trim());
+  const suyo = boton(fold);
+  if (!suyo) return;
+  if (fold.open) { suyo.click(); return; }
+  if (suyo.getAttribute('aria-pressed') !== 'true') return;
+  const otro = [...document.querySelectorAll('#alojamiento .fold[open]')].pop();
+  ((otro && boton(otro)) || botones[0]).click();
 }
 
 /* My Maps incrustado como imagen fija (no se puede tocar: Google abriría sus fichas y su cabecera con el autor).
