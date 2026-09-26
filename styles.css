@@ -272,7 +272,7 @@ textarea { resize: vertical; }
 }
 .plano { margin: 0; }
 /* Cómo llegar: el plano es apaisado y ocupa el ancho de la sección, entre el título y el texto */
-.section--plano { grid-template-areas: "head ." "plano plano" ". body"; row-gap: 40px; }
+.section--plano { grid-template-areas: "head ." "plano plano" ". body"; row-gap: 28px; }
 .section--plano .section__head { grid-area: head; }
 .section--plano .plano { grid-area: plano; }
 .section--plano .section__body { grid-area: body; }
