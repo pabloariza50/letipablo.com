@@ -17,7 +17,7 @@ const CONFIG = {
   iban: 'ES32 1544 7889 7466 5198 1272',
 
   // Secciones que todavía no se enseñan. Pon true para mostrarlas (también aparece su enlace en el menú).
-  secciones: { llegar: false, alojamiento: true },
+  secciones: { llegar: true, alojamiento: true },
 
   // Mapa de hoteles en Alojamiento.
   // apiKey: NO escribir aquí la clave de Google Maps. Este marcador lo sustituye el despliegue (.github/workflows/publicar.yml)
@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cuenta();
   formulario();
   mapa();
+  plano();
 });
 
 /* Secciones ocultas en el HTML hasta que se activan en CONFIG.secciones */
@@ -71,6 +72,21 @@ function mapa() {
   if (cfg.apiKey) mapaGoogle(figura, cfg, fijo);
   else fijo();
   document.querySelectorAll('#alojamiento .fold').forEach(fold => fold.addEventListener('toggle', () => zonaDelDesplegable(fold)));
+}
+
+/* Plano ilustrado de Cómo llegar: se incrusta el SVG en la página para que use las fuentes de la web.
+   Si falla la descarga se queda la <img> (mismo dibujo con las fuentes del sistema). */
+function plano() {
+  const figura = document.querySelector('[data-plano]');
+  const img = figura && figura.querySelector('img');
+  if (!img) return;
+  fetch(img.getAttribute('src'))
+    .then(r => (r.ok ? r.text() : Promise.reject()))
+    .then(svg => {
+      figura.innerHTML = svg;
+      figura.scrollLeft = (figura.scrollWidth - figura.clientWidth) / 2;   // en móvil (se desliza de lado) empieza centrado
+    })
+    .catch(() => {});
 }
 
 /* Google Maps por API: el script de Google y los datos se piden solo cuando la sección se acerca a la pantalla (al hacer scroll) */
@@ -208,11 +224,9 @@ function mapaFijo(figura, id) {
   // Centro y zoom de cada zona (zoom para pantalla ancha y para móvil). Sin centro = el encuadre general de Google.
   const zonas = [
     { nombre: 'Todo' },
-    { nombre: 'Sanxenxo', centro: [42.3990, -8.8100], zoom: [14, 13] },
+    { nombre: 'Sanxenxo', centro: [42.4008, -8.8030], zoom: [14, 13] },
     { nombre: 'Raxó y Samieira', centro: [42.4143, -8.7408], zoom: [14, 13] },
-    { nombre: 'Poio', centro: [42.4460, -8.6820], zoom: [13, 13] },
-    { nombre: 'Meis', centro: [42.4970, -8.7210], zoom: [12, 11] },
-    { nombre: 'Cambados', centro: [42.5250, -8.7850], zoom: [14, 13] },
+    { nombre: 'Meis', centro: [42.5110, -8.7450], zoom: [12, 11] },
     { nombre: 'Pontevedra', centro: [42.4297, -8.6413], zoom: [15, 15] },
   ];
   const botones = figura.querySelector('[data-mapa-zonas]');

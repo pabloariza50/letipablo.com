@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 940 530" role="img" aria-labelledby="plano-t plano-d" class="plano__svg">
+<title id="plano-t">Plano de la boda</title>
+<desc id="plano-d">Dibujo de la zona: Sanxenxo, Raxó y Combarro por la PO-308 hasta el Monasterio de Poio; desde allí la VG-4.8 y la PO-531 llevan al Pazo de Señoráns, en Meis, adonde también se llega desde Sanxenxo por la AG-41 y desde Cambados por la VG-4.2. Pontevedra y su estación de tren están junto a Poio, en la AP-9, que va al norte a Santiago y al sur a Vigo.</desc>
+<style> .plano__svg { display:block; width:100%; height:auto; } .plano__svg text { font-family:'Architects Daughter', 'Bradley Hand', 'Segoe Print', cursive; fill:#2a3a7a; } .pl-papel { fill:#f6f5e8; } .pl-trazo, .pl-trazo * { fill:none; stroke:#2a3a7a; stroke-width:1.1; stroke-linecap:round; stroke-linejoin:round; } .pl-relleno { fill:#f6f5e8 !important; } .pl-via-borde { fill:none; stroke:#2a3a7a; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; } .pl-via-hueco { fill:none; stroke:#f6f5e8; stroke-width:5.6; stroke-linecap:round; stroke-linejoin:round; } .pl-via-rayas { fill:none; stroke:#2a3a7a; stroke-width:5.6; stroke-dasharray:.9 2.4; opacity:.75; } .pl-ref { font-size:12.5px; letter-spacing:.06em; } .pl-sede { font-size:16.5px; letter-spacing:.05em; } .pl-cuando { font-size:12px; letter-spacing:.06em; } .pl-pueblo { font-size:15px; letter-spacing:.08em; } .pl-punto { fill:#2a3a7a; } .pl-fin { fill:#f6f5e8; stroke:#2a3a7a; stroke-width:1.2; } .pl-estela { fill:none; stroke:#2a3a7a; stroke-width:1.1; stroke-dasharray:3 5; stroke-linecap:round; } </style>
+<defs>
+<filter id="pl-mano" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="11"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter>
+<filter id="pl-mano-fino" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="1.3"/></filter>
+</defs>
+<rect class="pl-papel" width="940" height="530"/>
+<g filter="url(#pl-mano)">
+<path class="pl-via-borde" d="M250.0,352.0 C267.0,351.0 316.7,348.0 352.0,346.0 C387.3,344.0 420.7,342.7 462.0,340.0 C503.3,337.3 563.7,321.3 600.0,330.0 C636.3,338.7 653.3,381.2 680.0,392.0 C706.7,402.8 723.3,395.0 760.0,395.0 C796.7,395.0 876.7,392.5 900.0,392.0"/>
+<path class="pl-via-borde" d="M600.0,330.0 C598.3,324.3 595.3,307.3 590.0,296.0 C584.7,284.7 571.7,267.7 568.0,262.0"/>
+<path class="pl-via-borde" d="M276.0,238.0 C283.0,233.7 304.0,217.5 318.0,212.0 C332.0,206.5 346.3,198.7 360.0,205.0 C373.7,211.3 380.0,240.5 400.0,250.0 C420.0,259.5 452.0,260.0 480.0,262.0 C508.0,264.0 543.3,266.3 568.0,262.0 C592.7,257.7 618.0,240.3 628.0,236.0"/>
+<path class="pl-via-borde" d="M250.0,352.0 C247.7,343.3 231.7,319.0 236.0,300.0 C240.3,281.0 269.3,248.3 276.0,238.0"/>
+<path class="pl-via-borde" d="M112.0,196.0 C120.0,202.7 145.3,225.0 160.0,236.0 C174.7,247.0 186.0,252.0 200.0,262.0 C214.0,272.0 236.7,290.3 244.0,296.0"/>
+<path class="pl-via-borde" d="M250.0,352.0 C241.7,354.7 216.3,364.7 200.0,368.0 C183.7,371.3 160.0,371.3 152.0,372.0"/>
+<path class="pl-via-borde" d="M900.0,38.0 C899.5,68.3 897.0,161.0 897.0,220.0 C897.0,279.0 899.5,363.3 900.0,392.0"/>
+<path class="pl-via-borde" d="M900.0,392.0 C900.3,409.0 901.7,477.0 902.0,494.0"/>
+<path id="pl-pv308" class="pl-via-hueco" d="M250.0,352.0 C267.0,351.0 316.7,348.0 352.0,346.0 C387.3,344.0 420.7,342.7 462.0,340.0 C503.3,337.3 563.7,321.3 600.0,330.0 C636.3,338.7 653.3,381.2 680.0,392.0 C706.7,402.8 723.3,395.0 760.0,395.0 C796.7,395.0 876.7,392.5 900.0,392.0"/>
+<path id="pl-vg48" class="pl-via-hueco" d="M600.0,330.0 C598.3,324.3 595.3,307.3 590.0,296.0 C584.7,284.7 571.7,267.7 568.0,262.0"/>
+<path id="pl-po531" class="pl-via-hueco" d="M276.0,238.0 C283.0,233.7 304.0,217.5 318.0,212.0 C332.0,206.5 346.3,198.7 360.0,205.0 C373.7,211.3 380.0,240.5 400.0,250.0 C420.0,259.5 452.0,260.0 480.0,262.0 C508.0,264.0 543.3,266.3 568.0,262.0 C592.7,257.7 618.0,240.3 628.0,236.0"/>
+<path id="pl-ag41" class="pl-via-hueco" d="M250.0,352.0 C247.7,343.3 231.7,319.0 236.0,300.0 C240.3,281.0 269.3,248.3 276.0,238.0"/>
+<path class="pl-via-rayas" d="M250.0,352.0 C247.7,343.3 231.7,319.0 236.0,300.0 C240.3,281.0 269.3,248.3 276.0,238.0"/>
+<path id="pl-vg42" class="pl-via-hueco" d="M112.0,196.0 C120.0,202.7 145.3,225.0 160.0,236.0 C174.7,247.0 186.0,252.0 200.0,262.0 C214.0,272.0 236.7,290.3 244.0,296.0"/>
+<path id="pl-lanzada" class="pl-via-hueco" d="M250.0,352.0 C241.7,354.7 216.3,364.7 200.0,368.0 C183.7,371.3 160.0,371.3 152.0,372.0"/>
+<path id="pl-ap9" class="pl-via-hueco" d="M900.0,38.0 C899.5,68.3 897.0,161.0 897.0,220.0 C897.0,279.0 899.5,363.3 900.0,392.0"/>
+<path class="pl-via-rayas" d="M900.0,38.0 C899.5,68.3 897.0,161.0 897.0,220.0 C897.0,279.0 899.5,363.3 900.0,392.0"/>
+<path id="pl-ap9s" class="pl-via-hueco" d="M900.0,392.0 C900.3,409.0 901.7,477.0 902.0,494.0"/>
+<path class="pl-via-rayas" d="M900.0,392.0 C900.3,409.0 901.7,477.0 902.0,494.0"/>
+<text class="pl-ref" dy="16"><textPath href="#pl-pv308" xlink:href="#pl-pv308" startOffset="40%" text-anchor="middle">PO-308</textPath></text>
+<text class="pl-ref" dy="16"><textPath href="#pl-vg48" xlink:href="#pl-vg48" startOffset="50%" text-anchor="middle">VG-4.8</textPath></text>
+<text class="pl-ref" dy="16"><textPath href="#pl-po531" xlink:href="#pl-po531" startOffset="58%" text-anchor="middle">PO-531</textPath></text>
+<text class="pl-ref" dy="16"><textPath href="#pl-ag41" xlink:href="#pl-ag41" startOffset="22%" text-anchor="middle">AG-41</textPath></text>
+<text class="pl-ref" dy="-7"><textPath href="#pl-vg42" xlink:href="#pl-vg42" startOffset="50%" text-anchor="middle">VG-4.2</textPath></text>
+<text class="pl-ref" dy="16"><textPath href="#pl-ap9" xlink:href="#pl-ap9" startOffset="45%" text-anchor="middle">AP-9 · SANTIAGO 1 H</textPath></text>
+<circle class="pl-fin" cx="112" cy="196" r="4.2"/>
+<circle class="pl-fin" cx="152" cy="372" r="4.2"/>
+<circle class="pl-fin" cx="628" cy="236" r="4.2"/>
+<image href="assets/plano-senorans.png" xlink:href="assets/plano-senorans.png" x="330" y="10" width="310" height="175"/>
+<image href="assets/plano-poio.png" xlink:href="assets/plano-poio.png" x="650" y="100" width="128" height="203"/>
+<circle class="pl-punto" cx="360" cy="205" r="8.5"/>
+<circle class="pl-punto" cx="600" cy="330" r="8.5"/>
+<text class="pl-sede" x="378" y="203" text-anchor="start">PAZO DE SEÑORÁNS</text>
+<text class="pl-cuando" x="378" y="220" text-anchor="start">SÁBADO 10 DE ABRIL · CELEBRACIÓN</text>
+<text class="pl-sede" x="618" y="316" text-anchor="start">MONASTERIO DE POIO</text>
+<text class="pl-cuando" x="618" y="333" text-anchor="start">SÁBADO 10 DE ABRIL · 12:30</text>
+<g transform="translate(0,-50)">
+<g class="pl-trazo" filter="url(#pl-mano)"><path class="pl-relleno" d="M42 118 V96 L55.0 87 L68 96 V118"/><path d="M47 102 h5 v6 h-5z M58 102 h5 v6 h-5z"/><path class="pl-relleno" d="M68 118 V90 L79.0 81 L90 90 V118"/><path d="M73 96 h5 v6 h-5z M80 96 h5 v6 h-5z"/><path class="pl-relleno" d="M90 118 V98 L105.0 89 L120 98 V118"/><path d="M95 104 h5 v6 h-5z M110 104 h5 v6 h-5z"/><path class="pl-relleno" d="M120 118 V92 L132.0 83 L144 92 V118"/><path d="M125 98 h5 v6 h-5z M134 98 h5 v6 h-5z"/><path class="pl-relleno" d="M144 118 V96 L158.0 87 L172 96 V118"/><path d="M149 102 h5 v6 h-5z M162 102 h5 v6 h-5z"/><path d="M46 128 V170"/><path d="M72 128 V170"/><path d="M98 128 V170"/><path d="M124 128 V170"/><path d="M150 128 V170"/><path d="M40 128 H176 M40 134 H176"/><path d="M42 128 q3 -7 6 0 q3 -6 6 0 M54 128 q3 -7 6 0 q3 -6 6 0 M66 128 q3 -7 6 0 q3 -6 6 0 M78 128 q3 -7 6 0 q3 -6 6 0 M90 128 q3 -7 6 0 q3 -6 6 0 M102 128 q3 -7 6 0 q3 -6 6 0 M114 128 q3 -7 6 0 q3 -6 6 0 M126 128 q3 -7 6 0 q3 -6 6 0 M138 128 q3 -7 6 0 q3 -6 6 0 M150 128 q3 -7 6 0 q3 -6 6 0 M162 128 q3 -7 6 0 q3 -6 6 0"/><path d="M48 134 q2 6 4 0 M61 134 q2 6 4 0 M74 134 q2 6 4 0 M87 134 q2 6 4 0 M100 134 q2 6 4 0 M113 134 q2 6 4 0 M126 134 q2 6 4 0 M139 134 q2 6 4 0 M152 134 q2 6 4 0 M165 134 q2 6 4 0"/><path d="M30 172 H186" style="stroke-width:.8"/></g>
+<text class="pl-pueblo" x="108" y="205" text-anchor="middle">CAMBADOS</text>
+<text class="pl-cuando" x="108" y="221" text-anchor="middle">VIÑEDOS DE ALBARIÑO</text>
+</g>
+<g transform="translate(0,-232)">
+<g class="pl-trazo" filter="url(#pl-mano)"><path d="M24 520 C40 518 52 506 58 492 C64 478 82 474 92 484 C84 482 78 490 84 498 C92 508 108 508 122 500"/><path d="M22 530 C44 528 60 524 76 516 M84 522 C100 520 116 516 130 510" style="stroke-width:.8"/><path d="M60 500 C66 492 74 490 80 494" style="stroke-width:.7"/><path class="pl-relleno" d="M100 440 C110 452 112 478 104 496 C98 480 96 456 100 440 Z"/><path d="M101 452 L106 486"/></g>
+<text class="pl-pueblo" x="76" y="552" text-anchor="middle">A LANZADA</text>
+</g>
+<g transform="translate(40,-345)">
+<g class="pl-trazo" filter="url(#pl-mano)"><path class="pl-relleno" d="M150 752 V732 L158.0 726 L166 732 V752"/><path d="M154 737 h3 M159 737 h3" style="stroke-width:.9"/><path d="M154 745 h3 M159 745 h3" style="stroke-width:.9"/><path class="pl-relleno" d="M166 752 V726 L177.0 720 L188 726 V752"/><path d="M170 731 h3 M181 731 h3" style="stroke-width:.9"/><path d="M170 739 h3 M181 739 h3" style="stroke-width:.9"/><path d="M170 747 h3 M181 747 h3" style="stroke-width:.9"/><path class="pl-relleno" d="M188 752 V734 L195.0 728 L202 734 V752"/><path d="M192 739 h3 M195 739 h3" style="stroke-width:.9"/><path d="M192 747 h3 M195 747 h3" style="stroke-width:.9"/><path class="pl-relleno" d="M202 752 V722 L214.0 716 L226 722 V752"/><path d="M206 727 h3 M219 727 h3" style="stroke-width:.9"/><path d="M206 735 h3 M219 735 h3" style="stroke-width:.9"/><path d="M206 743 h3 M219 743 h3" style="stroke-width:.9"/><path class="pl-relleno" d="M226 752 V730 L235.0 724 L244 730 V752"/><path d="M230 735 h3 M237 735 h3" style="stroke-width:.9"/><path d="M230 743 h3 M237 743 h3" style="stroke-width:.9"/><path class="pl-relleno" d="M244 752 V734 L254.0 728 L264 734 V752"/><path d="M248 739 h3 M257 739 h3" style="stroke-width:.9"/><path d="M248 747 h3 M257 747 h3" style="stroke-width:.9"/><path d="M140 752 H290"/><path d="M144 760 q8 -3 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" style="stroke-width:.7"/><path d="M268 757 V730 L275 752 H268" /><path d="M262 757 h13"/><path d="M280 757 V730 L287 752 H280" /><path d="M274 757 h13"/></g>
+<text class="pl-pueblo" x="214" y="786" text-anchor="middle">SANXENXO</text>
+</g>
+<g transform="translate(0,-345)">
+<g class="pl-trazo" filter="url(#pl-mano)"><path class="pl-relleno" d="M29.9,861.9 L34.1,852.0 L39.5,856.9 L39.5,861.1 L44.1,855.0 L44.0,836.4 L47.2,816.7 L50.6,809.8 L50.5,795.4 L53.1,788.2 L57.5,787.8 L53.2,787.0 L57.4,777.4 L59.9,753.3 L71.2,734.8 L74.0,723.7 L72.9,713.4 L67.4,713.5 L63.4,730.6 L60.2,724.0 L57.9,727.8 L55.4,725.8 L51.5,717.7 L51.2,727.0 L53.4,730.4 L51.4,731.4 L54.0,732.8 L49.1,738.1 L48.6,752.0 L41.7,759.9 L35.8,756.1 L34.2,768.0 L26.9,776.9 L30.8,781.4 L32.9,795.1 L36.3,797.7 L36.5,806.2 L40.5,809.3 L37.3,814.9 L38.0,822.1 L29.8,814.8 L23.4,822.9 L24.9,831.2 L28.0,834.4 L22.1,841.1 L29.7,849.2 L26.7,858.1 L30.1,858.4 L29.9,861.9 Z"/></g>
+<g class="pl-trazo" filter="url(#pl-mano)"><path class="pl-relleno" d="M104 790 H130 L125 797 H109 Z"/><path class="pl-relleno" d="M117 789 V760 L130 787 Z"/><path class="pl-relleno" d="M115 766 L106 787 H115"/></g>
+<text class="pl-pueblo" x="84" y="852" text-anchor="start">ILLA DE ONS</text>
+</g>
+<path class="pl-estela" d="M190 425 C166 438 140 450 108 452"/>
+<g transform="translate(270,-290)">
+<g class="pl-trazo" filter="url(#pl-mano-fino)"><path d="M430 716 H530"/><path d="M434 716 V706 a10 10 0 0 1 20 0 V716" /><path d="M456 716 V706 a10 10 0 0 1 20 0 V716" /><path d="M478 716 V706 a10 10 0 0 1 20 0 V716" /><path d="M500 716 V706 a10 10 0 0 1 20 0 V716" /><path d="M428 724 q8 -3 16 0 t16 0 t16 0 t16 0 t16 0 t16 0" style="stroke-width:.7"/></g>
+</g>
+<circle class="pl-punto" cx="760" cy="395" r="5"/>
+<g transform="translate(270,-290)">
+<text class="pl-pueblo" x="480" y="748" text-anchor="middle">PONTEVEDRA</text>
+<text class="pl-cuando" x="480" y="764" text-anchor="middle">ESTACIÓN DE TREN</text>
+</g>
+<circle class="pl-punto" cx="352" cy="346" r="3.2"/>
+<circle class="pl-punto" cx="462" cy="340" r="3.2"/>
+<circle class="pl-punto" cx="250" cy="352" r="5"/>
+<text class="pl-cuando" x="352" y="334" text-anchor="middle">RAXÓ</text>
+<text class="pl-cuando" x="462" y="328" text-anchor="middle">COMBARRO</text>
+<path class="pl-trazo" d="M895 38 l5 -10 l5 10" filter="url(#pl-mano-fino)"/>
+<path class="pl-trazo" d="M897 496 l5 10 l5 -10" filter="url(#pl-mano-fino)"/>
+<text class="pl-ref" dy="16"><textPath href="#pl-ap9s" xlink:href="#pl-ap9s" startOffset="50%" text-anchor="middle">VIGO 35 MIN</textPath></text>
+</svg>

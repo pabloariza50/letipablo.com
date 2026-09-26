@@ -264,3 +264,25 @@ textarea { resize: vertical; }
   .footer { flex-direction: column; gap: 4px; }
   .cuenta { font-size: 19px; }
 }
+
+/* Plano ilustrado (Cómo llegar). Los estilos del dibujo van dentro de assets/plano.svg */
+@font-face {
+  font-family: 'Architects Daughter'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('assets/fonts/architects-daughter.woff2') format('woff2');
+}
+.plano { margin: 0; }
+/* Cómo llegar: el plano es apaisado y ocupa el ancho de la sección, entre el título y el texto */
+.section--plano { grid-template-areas: "head ." "plano plano" ". body"; row-gap: 40px; }
+.section--plano .section__head { grid-area: head; }
+.section--plano .plano { grid-area: plano; }
+.section--plano .section__body { grid-area: body; }
+@media (max-width: 860px) {
+  .section--plano { grid-template-areas: none; row-gap: 20px; }
+  .section.section--plano > * { grid-area: auto; }
+}
+.plano svg, .plano img { display: block; width: 100%; height: auto; }
+@media (max-width: 600px) {
+  /* En móvil el plano apaisado se desliza de lado en vez de encogerse */
+  .plano { overflow-x: auto; margin: 0 calc(-1 * var(--lado)); padding: 0 var(--lado); -webkit-overflow-scrolling: touch; }
+  .plano svg, .plano img { width: 720px; max-width: none; }
+}

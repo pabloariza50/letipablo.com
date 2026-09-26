@@ -22,7 +22,7 @@
   <meta name="theme-color" content="#f6f5e8">
   <link rel="preload" href="assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=21">
+  <link rel="stylesheet" href="styles.css?v=22">
 </head>
 <body>
 
@@ -129,12 +129,37 @@
     </div>
   </section>
 
-  <section id="llegar" class="section" data-seccion="llegar" hidden>
+  <section id="llegar" class="section section--plano" data-seccion="llegar" hidden>
     <div class="section__head">
       <p class="eyebrow">Cómo llegar</p>
-      <h2>En coche o en autobús</h2>
+      <h2>Rías Baixas</h2>
+      <div class="datos">
+        <p>Poio está en la ría de Pontevedra y el pazo, en el valle del Salnés, a veinte minutos.</p>
+      </div>
     </div>
+    <!-- Plano ilustrado: assets/plano.svg, se genera con bocetos/plano/plano2.py y lo incrusta plano() en app.js -->
+    <figure class="plano" data-plano>
+      <img src="assets/plano.svg" width="940" height="530" loading="lazy" alt="Plano dibujado de la zona: Sanxenxo, Monasterio de Poio y Pazo de Señoráns; la AP-9 lleva a Santiago y a Vigo">
+    </figure>
     <div class="section__body">
+      <h3 class="subhead">En avión</h3>
+      <dl class="rows">
+        <div><dt>Vigo</dt><dd>El más cercano: 35 minutos a Poio, 45 a Sanxenxo</dd></div>
+        <div><dt>Santiago</dt><dd>Una hora por la AP-9, con más vuelos</dd></div>
+        <div><dt>A Coruña</dt><dd>Hora y media</dd></div>
+        <div><dt>Oporto</dt><dd>Dos horas; el que tiene más vuelos internacionales</dd></div>
+      </dl>
+      <p class="muted">En los cuatro hay alquiler de coches, y es lo más cómodo para moverse esos días.</p>
+      <h3 class="subhead">En tren</h3>
+      <dl class="rows">
+        <div><dt>Pontevedra</dt><dd>Directos desde Madrid, Santiago y Vigo · a 10 minutos de Poio en taxi</dd></div>
+      </dl>
+      <h3 class="subhead">En coche</h3>
+      <dl class="rows">
+        <div><dt>Desde el norte o el sur</dt><dd>AP-9 hasta Pontevedra y, desde allí, la carretera de la costa hacia Sanxenxo</dd></div>
+        <div><dt>Desde Madrid</dt><dd>Unas seis horas por la A-6 y la A-52</dd></div>
+      </dl>
+      <h3 class="subhead">El día de la boda</h3>
       <p>Pondremos autobuses desde Sanxenxo, por la costa, y desde Pontevedra hasta Poio, y de vuelta desde el pazo. Los horarios los cerraremos cuando sepamos cuántos sois: si lo necesitas, dínoslo en el formulario.</p>
     </div>
   </section>
@@ -157,12 +182,9 @@
           <summary><h3 class="subhead">Sanxenxo, a un cuarto de hora</h3><span class="fold__icon" aria-hidden="true"></span></summary>
           <dl class="rows">
             <div><dt><a class="link" href="https://www.augustasanxenxo.com/ecowellnessresort/" target="_blank" rel="noopener">Augusta Eco Wellness</a></dt><dd>Spa, a 600 m de Silgar · <span class="nowrap">€€€€</span><span class="oferta">5&nbsp;% de descuento reservando en su web con el código <strong class="codigo">LETIPABLO100427</strong> · mínimo 2 noches</span></dd></div>
-            <div><dt><a class="link" href="https://hotelsilgar92.com/" target="_blank" rel="noopener">Hotel Silgar 92</a></dt><dd>En la playa de Silgar · <span class="nowrap">€€€€</span></dd></div>
             <div><dt><a class="link" href="https://www.hotelsanxenxo.com/" target="_blank" rel="noopener">Gran Talaso Hotel</a></dt><dd>Talaso, paseo de Silgar · <span class="nowrap">€€€</span></dd></div>
             <div><dt><a class="link" href="https://apartamentosrotilio.com/" target="_blank" rel="noopener">Apartamentos Rotilio</a></dt><dd>Entre la playa y el puerto · <span class="nowrap">€€€</span></dd></div>
-            <div><dt><a class="link" href="https://nanin.com/" target="_blank" rel="noopener">Hotel Spa Nanín Playa</a></dt><dd>Spa, frente a la playa de Nanín · <span class="nowrap">€€</span></dd></div>
             <div><dt><a class="link" href="https://www.hotelcarlos.es/" target="_blank" rel="noopener">Hotel Carlos I Silgar</a></dt><dd>Centro, con spa · <span class="nowrap">€</span></dd></div>
-            <div data-casa><dt><a class="link" href="https://vacacionessalnes.com/es/casagalinanes" target="_blank" rel="noopener">Casa Galiñanes</a></dt><dd>Casa entera para 16, en Portonovo · <span class="nowrap">€</span> por persona</dd></div>
           </dl>
         </details>
         <details class="fold">
@@ -172,28 +194,10 @@
           </dl>
         </details>
         <details class="fold">
-          <summary><h3 class="subhead">Poio, junto al monasterio</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div data-casa><dt><a class="link" href="https://casaabuelajulia.com/" target="_blank" rel="noopener">Casa Abuela Julia</a></dt><dd>Casa entera para 14, vistas a la ría · <span class="nowrap">€€</span> por persona</dd></div>
-            <div data-casa><dt><a class="link" href="https://lardevilarino.com/" target="_blank" rel="noopener">Lar de Vilariño</a></dt><dd>Casona del XVIII para 10 · <span class="nowrap">€</span> por persona</dd></div>
-          </dl>
-        </details>
-        <details class="fold">
           <summary><h3 class="subhead">Meis, junto al pazo</h3><span class="fold__icon" aria-hidden="true"></span></summary>
           <dl class="rows">
             <div><dt><a class="link" href="https://www.quintadesanamaro.com/" target="_blank" rel="noopener">Quinta de San Amaro</a></dt><dd>Hotel rural, a 5 minutos · <span class="nowrap">€€€€</span><span class="oferta">10&nbsp;% de descuento desde 2 noches: reserva en <a href="mailto:info@quintadesanamaro.com">info@quintadesanamaro.com</a> o en el <a class="nowrap" href="tel:+34630877590">630 877 590</a> y di que vienes a la boda de <strong class="codigo">Pablo y Leti</strong> · cancelación gratis hasta 5 días antes</span></dd></div>
             <div><dt><a class="link" href="https://www.novavilariasbaixas.com/" target="_blank" rel="noopener">Novavila Design Wine</a></dt><dd>En una bodega de albariño · <span class="nowrap">€€€€</span></dd></div>
-            <div data-casa><dt><a class="link" href="https://www.escapadarural.com/casa-rural/pontevedra/casal-do-marco" target="_blank" rel="noopener">Casal do Marco</a></dt><dd>Casa entera para 10 · <span class="nowrap">€€</span> por persona</dd></div>
-            <div data-casa><dt><a class="link" href="https://www.oscarballos.es/" target="_blank" rel="noopener">Os Carballos</a></dt><dd>Casa de piedra para 10, en Barro · <span class="nowrap">€€</span> por persona</dd></div>
-            <div data-casa><dt><a class="link" href="https://casa-vacaciones-sanxenxo.es/" target="_blank" rel="noopener">Casa de Torres</a></dt><dd>Casa de labranza para 14, en Dena · <span class="nowrap">€</span> por persona</dd></div>
-          </dl>
-        </details>
-        <details class="fold">
-          <summary><h3 class="subhead">Cambados, a un cuarto de hora del pazo</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div data-casa><dt><a class="link" href="https://casadosmaza.com/" target="_blank" rel="noopener">Casa dos Maza</a></dt><dd>Pazo entre viñedos para 18 · <span class="nowrap">€€€€</span> por persona</dd></div>
-            <div data-casa><dt><a class="link" href="https://casadoferreiro.com/" target="_blank" rel="noopener">Casa do Ferreiro</a></dt><dd>Casa de piedra para 12, con piscina</dd></div>
-            <div data-casa><dt><a class="link" href="https://casadamuineira.com/es/" target="_blank" rel="noopener">Casa da Muiñeira</a></dt><dd>Casa entera para 10, junto al río · <span class="nowrap">€</span> por persona</dd></div>
           </dl>
         </details>
         <details class="fold">
@@ -364,6 +368,6 @@
   </div>
 </template>
 
-<script src="app.js?v=24"></script>
+<script src="app.js?v=25"></script>
 </body>
 </html>
