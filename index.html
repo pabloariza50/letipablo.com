@@ -2,76 +2,102 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Qué puede cargar la página: solo lo propio, y el formulario solo habla con Google Apps Script.
+       Si cambia el script en línea de más abajo, hay que recalcular su huella sha256 (ver README). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://script.google.com https://*.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Leti y Pablo · 10 de abril de 2027</title>
-  <meta name="description" content="Nos casamos el 10 de abril de 2027 en el Monasterio de Poio. Toda la información de la boda y la confirmación de asistencia.">
+  <meta name="description" content="Nos casamos el 10 de abril de 2027 en el Monasterio de Poio. Dinos si vienes.">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="format-detection" content="telephone=no">
+  <meta property="og:site_name" content="Leti y Pablo">
   <meta property="og:title" content="Leti y Pablo · 10 de abril de 2027">
-  <meta property="og:description" content="Os esperamos en nuestra boda. Leti y Pablo">
+  <meta property="og:description" content="Sábado 10 de abril de 2027, 12:30 · Monasterio de Poio y Pazo de Señoráns">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://letipablo.com/">
   <meta property="og:locale" content="es_ES">
-  <meta property="og:image" content="https://letipablo.com/assets/og.jpg">
+  <meta property="og:image" content="https://letipablo.com/assets/og.jpg?v=2">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Leti y Pablo en la proa de un velero, con la ría al atardecer">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="theme-color" content="#16222c">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=26">
+  <link rel="preload" href="assets/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=27">
   <!-- Sin JavaScript no hay revelado al hacer scroll: el contenido se ve siempre -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
+<!-- El perfil de la isla de Ons, que separa las secciones y cierra el pie -->
+<svg class="dibujos" aria-hidden="true" focusable="false" width="0" height="0">
+  <symbol id="ons" viewBox="0 0 240 20">
+    <path vector-effect="non-scaling-stroke" d="M0 16.5H240"/>
+    <path vector-effect="non-scaling-stroke" transform="translate(33.5 16.5) scale(1 2.1) translate(-52.48 -10)" d="M52.48 10.0 L56.03 8.72 L59.57 7.73 L63.12 7.02 L66.67 6.6 L70.92 6.31 L75.18 6.03 L79.43 5.89 L83.69 6.03 L87.94 6.31 L92.2 6.74 L96.45 7.02 L100.71 7.16 L104.96 6.88 L109.22 6.6 L113.48 6.31 L117.73 6.03 L121.99 5.46 L126.24 5.04 L130.5 4.75 L134.75 4.75 L139.01 5.04 L143.26 5.32 L147.52 5.6 L151.77 5.89 L156.03 6.17 L160.28 6.6 L164.54 6.88 L168.79 7.02 L173.05 6.88 L177.3 6.45 L181.56 5.89 L185.11 5.46 L188.65 5.32 L192.2 5.46 L195.74 5.74 L200.0 6.31 L204.26 6.88 L208.51 7.45 L212.77 7.87 L217.02 8.3 L220.57 8.72 L223.4 9.29 L225.53 10.0"/>
+  </symbol>
+</svg>
+
 <main>
 
   <section id="inicio" class="hero">
-    <img class="hero__foto" data-portada src="assets/portada.jpg" srcset="assets/portada-900.jpg 900w, assets/portada-1200.jpg 1200w, assets/portada.jpg 1400w, assets/portada-1900.jpg 1900w" sizes="(orientation: landscape) 108vw, 108vh" width="1400" height="1400" fetchpriority="high" alt="Leti y Pablo en la proa de un velero, con la ría al atardecer" onerror="this.remove()">
+    <!-- En vertical (móviles y tabletas) se sirve un recorte 3:4 de la misma foto: pesa una cuarta parte menos -->
+    <picture>
+      <source media="(orientation: portrait) and (max-aspect-ratio: 3/4)" srcset="assets/portada-v-675.jpg 675w, assets/portada-v-900.jpg 900w, assets/portada-v-1100.jpg 1100w, assets/portada-v-1425.jpg 1425w" sizes="81vh" width="1425" height="1900">
+      <img class="hero__foto" data-portada src="assets/portada.jpg" srcset="assets/portada-900.jpg 900w, assets/portada-1200.jpg 1200w, assets/portada.jpg 1400w, assets/portada-1900.jpg 1900w, assets/portada-2600.jpg 2600w" sizes="(orientation: landscape) 108vw, 108vh" width="1400" height="1400" fetchpriority="high" alt="Leti y Pablo en la proa de un velero, con la ría al atardecer">
+    </picture>
     <div class="hero__velo"></div>
     <div class="hero__texto">
-      <h1 class="hero__nombres">Leti <em>y</em> Pablo</h1>
+      <h1 class="hero__nombres" translate="no">Leti <em>y</em> Pablo</h1>
       <div class="hero__filete"></div>
-      <p class="hero__fecha">Sábado 10 de abril de 2027 · Rías Baixas</p>
+      <p class="hero__fecha"><span class="hero__dia">Sábado 10 de abril de 2027</span> <span class="nowrap"><span class="hero__punto">· </span>Rías Baixas</span></p>
     </div>
+    <span class="hero__bajar" aria-hidden="true"></span>
   </section>
 
   <section class="wrap bienvenida">
-    <p class="ornament" aria-hidden="true">· · ·</p>
+    <svg class="ornament" aria-hidden="true" focusable="false" viewBox="0 0 240 20"><use href="#ons"/></svg>
     <h2 class="bienvenida__titulo">¡Os esperamos!</h2>
     <p class="bienvenida__texto">Un abrazo muy fuerte</p>
+    <p class="bienvenida__atajo" data-atajo><a class="enlace" href="#confirmar" data-ir-formulario>Dinos si vienes</a></p>
   </section>
 
   <section id="ceremonia" class="banda banda--limpia">
-    <img src="assets/foto-poio-700.jpg" srcset="assets/foto-poio-700.jpg 700w, assets/foto-poio-1280.jpg 1280w" sizes="100vw" width="1280" height="854" loading="lazy" alt="Fachada del Monasterio de San Xoán de Poio">
+    <img src="assets/foto-poio-700.jpg" srcset="assets/foto-poio-700.jpg 700w, assets/foto-poio-1000.jpg 1000w, assets/foto-poio-1280.jpg 1280w, assets/foto-poio-1600.jpg 1600w" sizes="100vw" width="1600" height="1068" loading="lazy" decoding="async" fetchpriority="low" alt="Fachada del Monasterio de Poio">
     <div class="banda__texto">
       <span class="banda__tipo">Ceremonia · 12:30</span>
-      <h2>Monasterio de Poio</h2>
+      <h2 translate="no">Monasterio de Poio</h2>
       <p>A 20 minutos de Sanxenxo</p>
-      <a href="https://www.google.com/maps/search/?api=1&query=Monasterio+de+Poio" target="_blank" rel="noopener">Ver en el mapa</a>
+      <p class="banda__enlaces">
+        <a href="https://www.google.com/maps/search/?api=1&query=Monasterio+de+Poio" target="_blank" rel="noopener" aria-label="Ver en el mapa: Monasterio de Poio">Ver en el mapa</a>
+        <!-- Sin «download»: en iPhone y Mac abre el calendario con el evento listo. En el resto, app.js lo cambia por Google Calendar -->
+        <a href="assets/boda.ics" type="text/calendar" data-calendario>Añadir al calendario</a>
+      </p>
     </div>
   </section>
 
   <section id="celebracion" class="banda banda--pie">
-    <img src="assets/foto-senorans-700.jpg" srcset="assets/foto-senorans-700.jpg 700w, assets/foto-senorans-1269.jpg 1269w" sizes="100vw" width="1269" height="846" loading="lazy" alt="Pazo de Señoráns al anochecer">
+    <img src="assets/foto-senorans-700.jpg" srcset="assets/foto-senorans-700.jpg 700w, assets/foto-senorans-1000.jpg 1000w, assets/foto-senorans-1269.jpg 1269w" sizes="100vw" width="1269" height="846" loading="lazy" decoding="async" fetchpriority="low" alt="Pazo de Señoráns al anochecer">
     <div class="banda__texto">
       <span class="banda__tipo">Celebramos en…</span>
-      <h2>Pazo de Señoráns</h2>
-      <p>Vilanoviña, Meis · a 20 minutos de Poio y de Sanxenxo</p>
-      <a href="https://www.google.com/maps/search/?api=1&query=Pazo+de+Se%C3%B1or%C3%A1ns+Meis" target="_blank" rel="noopener">Ver en el mapa</a>
+      <h2 translate="no">Pazo de Señoráns</h2>
+      <p>Vilanoviña, Meis · <span class="nowrap">a 20 minutos</span> de Poio <span class="nowrap">y de Sanxenxo</span></p>
+      <p class="banda__enlaces">
+        <a href="https://www.google.com/maps/search/?api=1&query=Pazo+de+Se%C3%B1or%C3%A1ns+Meis" target="_blank" rel="noopener" aria-label="Ver en el mapa: Pazo de Señoráns">Ver en el mapa</a>
+      </p>
     </div>
   </section>
 
-  <!-- «Cómo llegar» y «Alojamiento» se enseñan con CONFIG.secciones en app.js -->
-  <section id="llegar" class="wrap" data-seccion="llegar" hidden>
-    <p class="ornament" aria-hidden="true">· · ·</p>
+  <!-- «Cómo llegar» y «Alojamiento» se pueden esconder con CONFIG.secciones en app.js -->
+  <section id="llegar" class="wrap" data-seccion="llegar">
+    <svg class="ornament" aria-hidden="true" focusable="false" viewBox="0 0 240 20"><use href="#ons"/></svg>
     <span class="section-label">Cómo llegar</span>
-    <h2 class="section-title section-title--rotulo">Rías Baixas</h2>
+    <h2 class="section-title section-title--rotulo" translate="no">Rías Baixas</h2>
     <!-- Plano ilustrado OCULTO (28 sept 2026): para recuperarlo, descomentar la figura.
          assets/plano.svg se genera con bocetos/plano/plano2.py y lo incrusta plano() en app.js
     <figure class="plano reveal" data-plano>
@@ -80,78 +106,78 @@
     -->
     <div class="llegar reveal d1">
       <dl class="rows">
-        <div><dt>En avión</dt><dd>Vigo, a 35 minutos · Santiago, a una hora</dd></div>
-        <div><dt>En tren</dt><dd>Estación de Pontevedra, a 10 minutos en taxi</dd></div>
-        <div><dt>En coche</dt><dd>AP-9 hasta Pontevedra</dd></div>
-        <div><dt>El día de la boda</dt><dd>Habrá autobuses; las paradas dependerán de dónde durmáis. Dínoslo en el formulario</dd></div>
+        <div><dt>En avión</dt><dd>Santiago, a 70 minutos de Poio · Vigo, a 35, con vuelos nacionales · Desde el extranjero, también Oporto, a 2 horas</dd></div>
+        <div><dt>En tren</dt><dd>Tren directo de Madrid a Pontevedra, unas 3 horas y 45 minutos · La estación está a 10 minutos de Poio en taxi</dd></div>
+        <div><dt>En coche</dt><dd>AP-9 hasta Pontevedra y PO-308 hasta Poio</dd></div>
+        <div><dt>El día de la boda</dt><dd>Habrá autobuses. Dinos <a href="#confirmar" data-ir-formulario>en el formulario</a> dónde duermes.</dd></div>
       </dl>
     </div>
   </section>
 
-  <section id="alojamiento" class="wrap" data-seccion="alojamiento" hidden>
-    <p class="ornament" aria-hidden="true">· · ·</p>
-    <span class="section-label">Dónde dormir</span>
-    <h2 class="section-title">Aloja<em>miento</em></h2>
+  <section id="alojamiento" class="wrap" data-seccion="alojamiento">
+    <svg class="ornament" aria-hidden="true" focusable="false" viewBox="0 0 240 20"><use href="#ons"/></svg>
+    <h2 class="section-title">Alojamiento</h2>
     <div class="aloja reveal d1">
-      <p class="aloja__nota">Precio orientativo, de € a €€€€</p>
-      <p class="aloja__mapa"><a href="https://www.google.com/maps/d/viewer?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo&ll=42.504111113673225%2C-8.707246764404296&z=11" target="_blank" rel="noopener">Ver en el mapa</a></p>
-      <!-- Los minutos en coche de cada zona salen de assets/mapa/datos.json -->
+      <p class="aloja__nota">Precio orientativo, <span class="nowrap" translate="no">de € a €€€€</span></p>
+      <p class="aloja__mapa"><a href="https://www.google.com/maps/d/viewer?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo&ll=42.504111113673225%2C-8.707246764404296&z=11" target="_blank" rel="noopener" aria-label="Ver en el mapa: alojamientos">Ver en el mapa</a></p>
+      <!-- Los minutos en coche de cada zona salen de assets/mapa/datos.json.
+           Nombres, códigos y precios llevan translate="no": el traductor del navegador los cambiaba. -->
       <details class="zona">
-        <summary><h3>Sanxenxo</h3><span class="zona__sub">A 20 minutos del monasterio y del pazo</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <summary><h3 translate="no">Sanxenxo</h3><span class="zona__sub">A 20 minutos del monasterio <span class="nowrap">y del pazo</span></span><span class="zona__mas" aria-hidden="true"></span></summary>
         <ul>
-          <li><a href="https://www.augustasanxenxo.com/ecowellnessresort/" target="_blank" rel="noopener">Augusta Eco Wellness</a><span>Spa, a 600 m de Silgar · <span class="nowrap">€€€€</span></span><span class="oferta">5&nbsp;% de descuento reservando en su web con el código <strong class="codigo">LETIPABLO100427</strong> · mínimo 2 noches</span></li>
-          <li><a href="https://www.hotelsanxenxo.com/" target="_blank" rel="noopener">Gran Talaso Hotel</a><span>Talaso, paseo de Silgar · <span class="nowrap">€€€</span></span></li>
-          <li><a href="https://apartamentosrotilio.com/" target="_blank" rel="noopener">Apartamentos Rotilio</a><span>Entre la playa y el puerto · <span class="nowrap">€€€</span></span></li>
-          <li><a href="https://www.hotelcarlos.es/" target="_blank" rel="noopener">Hotel Carlos I Silgar</a><span>Centro, con spa · <span class="nowrap">€</span></span></li>
-          <li><a href="https://hotelsilgar92.com/" target="_blank" rel="noopener">Hotel Silgar 92</a><span>En la playa de Silgar · <span class="nowrap">€€€</span></span><span class="oferta">Solo abre si entre todos reservamos 10 habitaciones; si no, anulan las reservas un mes antes. Reserva en <a href="mailto:reservas@hotelsilgar92.com">reservas@hotelsilgar92.com</a> con el asunto «Boda Pablo»</span></li>
+          <li><a href="https://www.augustasanxenxo.com/ecowellnessresort/" target="_blank" rel="noopener" translate="no">Augusta Eco Wellness</a><span>Spa, a 600 m de la playa de Silgar · <span class="precio" translate="no" aria-hidden="true">€€€€</span><span class="sr">precio alto</span></span><span class="oferta">5&nbsp;% de descuento reservando en su web con el código <button type="button" class="codigo" data-copiar="LETIPABLO100427" translate="no">LETIPABLO100427</button><span class="copiado" data-copiado role="status"></span> · estancias del 7 al 12 de abril, mínimo 2 noches</span></li>
+          <li><a href="https://www.hotelsanxenxo.com/" target="_blank" rel="noopener" translate="no">Gran Talaso Hotel</a><span>Talaso, paseo de Silgar · <span class="precio" translate="no" aria-hidden="true">€€€</span><span class="sr">precio medio alto</span></span></li>
+          <li><a href="https://apartamentosrotilio.com/" target="_blank" rel="noopener" translate="no">Apartamentos Rotilio</a><span>Entre la playa y el puerto · <span class="precio" translate="no" aria-hidden="true">€€€</span><span class="sr">precio medio alto</span></span></li>
+          <li><a href="https://www.hotelcarlos.es/" target="_blank" rel="noopener" translate="no">Hotel Carlos I Silgar</a><span>Centro, con spa · <span class="precio" translate="no" aria-hidden="true">€</span><span class="sr">precio económico</span></span></li>
+          <li><a href="https://hotelsilgar92.com/" target="_blank" rel="noopener" translate="no">Hotel Silgar 92</a><span>En la playa de Silgar · <span class="precio" translate="no" aria-hidden="true">€€€</span><span class="sr">precio medio alto</span></span><span class="oferta">Abre solo si reservamos 10 habitaciones entre todos; si no, el hotel anula las reservas un mes antes de la boda. Escribe a <a href="mailto:reservas@hotelsilgar92.com?subject=Boda%20Pablo" translate="no">reservas@hotelsilgar92.com</a> con el asunto <span class="nowrap" translate="no">«Boda Pablo»</span>.</span></li>
         </ul>
       </details>
       <details class="zona">
-        <summary><h3>Raxó y Samieira</h3><span class="zona__sub">A 12 minutos del monasterio · 25 del pazo</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <summary><h3 translate="no">Raxó</h3><span class="zona__sub">A 12 minutos del monasterio <span class="nowrap">· 25 del pazo</span></span><span class="zona__mas" aria-hidden="true"></span></summary>
         <ul>
-          <li><a href="https://pepevieira.com/hotel" target="_blank" rel="noopener">Pepe Vieira</a><span>Hotel paisaje sobre la ría · <span class="nowrap">€€€€</span></span></li>
+          <li><a href="https://pepevieira.com/hotel" target="_blank" rel="noopener" translate="no">Pepe Vieira</a><span>Hotel paisaje sobre la ría · <span class="precio" translate="no" aria-hidden="true">€€€€</span><span class="sr">precio alto</span></span></li>
         </ul>
       </details>
       <details class="zona">
-        <summary><h3>Meis</h3><span class="zona__sub">A 10-15 minutos del pazo · 20 del monasterio</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <summary><h3 translate="no">Meis y Meaño</h3><span class="zona__sub">A 10-15 minutos del pazo <span class="nowrap">· 15-20 del monasterio</span></span><span class="zona__mas" aria-hidden="true"></span></summary>
         <ul>
-          <li><a href="https://www.quintadesanamaro.com/" target="_blank" rel="noopener">Quinta de San Amaro</a><span>Hotel rural, a 5 minutos · <span class="nowrap">€€€€</span></span><span class="oferta">10&nbsp;% de descuento desde 2 noches: reserva en <a href="mailto:info@quintadesanamaro.com">info@quintadesanamaro.com</a> o en el <a class="nowrap" href="tel:+34630877590">630 877 590</a> y di que vienes a la boda de <strong class="codigo">Pablo y Leti</strong> · cancelación gratis hasta 5 días antes</span></li>
-          <li><a href="https://www.novavilariasbaixas.com/" target="_blank" rel="noopener">Novavila Design Wine</a><span>En una bodega de albariño · <span class="nowrap">€€€€</span></span></li>
-          <li><a href="https://www.escapadarural.com/casa-rural/pontevedra/casal-do-marco" target="_blank" rel="noopener">Casal do Marco</a><span>Casa rural para grupos de 10 a 14 · <span class="nowrap">€€</span> por persona</span><span class="oferta">Solo abre para un grupo: mínimo 10 personas y 2 noches. Reserva en el <a class="nowrap" href="tel:+34629253339">629 253 339</a></span></li>
+          <li><a href="https://www.quintadesanamaro.com/" target="_blank" rel="noopener" translate="no">Quinta de San Amaro</a><span>Hotel rural en Meaño · <span class="precio" translate="no" aria-hidden="true">€€€€</span><span class="sr">precio alto</span></span><span class="oferta">10&nbsp;% de descuento desde 2 noches diciendo que vienes a la boda de <strong class="referencia" translate="no">Pablo y Leti</strong>. Escribe a <a href="mailto:info@quintadesanamaro.com" translate="no">info@quintadesanamaro.com</a> o llama al <a class="nowrap" href="tel:+34630877590" translate="no">+34 630 877 590</a>. Cancelación gratis hasta 5 días antes.</span></li>
+          <li><a href="https://www.novavilariasbaixas.com/" target="_blank" rel="noopener" translate="no">Novavila Design Wine</a><span>En una bodega de albariño · <span class="precio" translate="no" aria-hidden="true">€€€€</span><span class="sr">precio alto</span></span></li>
+          <li><a href="https://www.escapadarural.com/casa-rural/pontevedra/casal-do-marco" target="_blank" rel="noopener" translate="no">Casal do Marco</a><span>Casa rural entera, de 10 a 14 personas · <span class="precio" translate="no" aria-hidden="true">€€</span><span class="sr">precio medio</span> por persona</span><span class="oferta">Solo abre si se junta un grupo de 10 o más, 2 noches. Llama al <a class="nowrap" href="tel:+34629253339" translate="no">+34 629 253 339</a>.</span></li>
         </ul>
       </details>
       <details class="zona">
-        <summary><h3>Pontevedra</h3><span class="zona__sub">A 10 minutos del monasterio · 20 del pazo</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <summary><h3 translate="no">Pontevedra</h3><span class="zona__sub">A 10 minutos del monasterio <span class="nowrap">· 20 del pazo</span></span><span class="zona__mas" aria-hidden="true"></span></summary>
         <ul>
-          <li><a href="https://paradores.es/es/parador-de-pontevedra" target="_blank" rel="noopener">Parador de Pontevedra</a><span>Pazo del XVI, casco histórico · <span class="nowrap">€€€</span></span></li>
+          <li><a href="https://paradores.es/es/parador-de-pontevedra" target="_blank" rel="noopener" translate="no">Parador de Pontevedra</a><span>Pazo del siglo XVI, casco histórico · <span class="precio" translate="no" aria-hidden="true">€€€</span><span class="sr">precio medio alto</span></span></li>
         </ul>
       </details>
     </div>
   </section>
 
   <section id="confirmar" class="wrap">
-    <p class="ornament" aria-hidden="true">· · ·</p>
-    <h2 class="section-title section-title--frase">Nos hace mucha ilusión verte <em>allí</em></h2>
+    <svg class="ornament" aria-hidden="true" focusable="false" viewBox="0 0 240 20"><use href="#ons"/></svg>
+    <h2 class="section-title section-title--frase" data-confirmar-titulo>Nos hace mucha ilusión verte allí</h2>
     <p class="confirm__fecha reveal"><span data-cuenta-atras>10 de abril de 2027</span></p>
     <!-- El botón despliega el formulario aquí mismo; quien llega con #confirmar en el enlace lo encuentra ya abierto -->
     <button type="button" class="confirm__btn reveal d1" data-abrir-formulario aria-expanded="false" aria-controls="formulario">Dinos si vienes</button>
 
-    <div id="formulario" class="formulario" hidden>
+    <div id="formulario" class="formulario" tabindex="-1" hidden>
       <form id="rsvp" novalidate>
 
         <fieldset>
           <legend>Quién responde</legend>
           <label>
             <span>Tu nombre y apellidos</span>
-            <input type="text" name="nombre" autocomplete="name" required>
+            <input type="text" name="nombre" autocomplete="name" autocapitalize="words" enterkeyhint="next" maxlength="80" required>
           </label>
           <label>
             <span>Tu teléfono</span>
-            <input type="tel" name="telefono" inputmode="tel" autocomplete="tel" required>
+            <input type="tel" name="telefono" inputmode="tel" autocomplete="tel" enterkeyhint="next" maxlength="20" required>
           </label>
           <label>
             <span>Tu email (opcional)</span>
-            <input type="email" name="email" inputmode="email" autocomplete="email">
+            <input type="email" name="email" inputmode="email" autocomplete="email" autocapitalize="none" enterkeyhint="next" maxlength="100">
           </label>
         </fieldset>
 
@@ -168,27 +194,28 @@
           <fieldset>
             <legend>Tu menú</legend>
             <label>
-              <span>Tus alergias, intolerancias o dieta especial</span>
-              <input type="text" name="alergias" placeholder="Celíaco, vegetariano, sin frutos secos...">
+              <span>Tus alergias, intolerancias o dieta especial (opcional)</span>
+              <input type="text" name="alergias" placeholder="Celíaco, vegetariano…" autocomplete="off" enterkeyhint="next" maxlength="120">
             </label>
           </fieldset>
 
           <fieldset>
             <legend>¿Vienes con alguien?</legend>
             <div class="choices">
-              <label class="choice"><input type="radio" name="acompanado" value="no" required><span>Voy solo/a</span></label>
+              <label class="choice"><input type="radio" name="acompanado" value="no" required><span>No, solo yo</span></label>
               <label class="choice"><input type="radio" name="acompanado" value="si"><span>Sí, con acompañantes</span></label>
             </div>
             <div data-acompanantes-bloque hidden>
               <p class="help">Los niños tendrán menú infantil.</p>
               <div data-acompanantes></div>
               <button type="button" class="btn btn--ghost" data-add-acomp>Añadir otra persona</button>
+              <p class="help" data-acomp-tope hidden>Si sois más, escríbenos.</p>
             </div>
           </fieldset>
 
           <fieldset>
             <legend>Autobús</legend>
-            <p class="help">Pondremos autobuses a Poio y de vuelta desde el pazo. Dinos si lo necesitas para organizar las paradas.</p>
+            <p class="help">Pondremos autobuses a Poio, de Poio al pazo y de vuelta desde el pazo. Dinos si lo necesitas para organizar las paradas.</p>
             <div class="choices">
               <label class="choice"><input type="radio" name="bus" value="No" checked><span>No lo necesito</span></label>
               <label class="choice"><input type="radio" name="bus" value="Ida y vuelta"><span>Ida y vuelta</span></label>
@@ -196,12 +223,12 @@
               <label class="choice"><input type="radio" name="bus" value="Solo vuelta"><span>Solo vuelta</span></label>
             </div>
             <label data-parada hidden>
-              <span>¿Desde dónde?</span>
+              <span>Tu parada</span>
               <select name="parada"></select>
             </label>
             <label data-parada-otra hidden>
-              <span>¿Dónde vives?</span>
-              <input type="text" name="paradaOtra" placeholder="Portonovo, Vilagarcía, Vigo...">
+              <span>¿Dónde duermes?</span>
+              <input type="text" name="paradaOtra" placeholder="Portonovo, Meis…" autocomplete="off" enterkeyhint="next" maxlength="50">
             </label>
             <p class="help" data-plazas hidden></p>
           </fieldset>
@@ -216,67 +243,73 @@
         <fieldset>
           <legend>¿Algo más?</legend>
           <label>
-            <span>Cualquier cosa que debamos saber</span>
-            <textarea name="comentarios" rows="3"></textarea>
+            <span>Cualquier cosa que debamos saber (opcional)</span>
+            <textarea name="comentarios" rows="4" maxlength="500"></textarea>
           </label>
         </fieldset>
 
+        <!-- Trampa para robots: no se ve ni se alcanza con el teclado. El nombre no es de ningún dato personal,
+             para que el autorrelleno del navegador no lo toque -->
         <div class="hp" aria-hidden="true">
-          <label>Empresa <input type="text" name="empresa" tabindex="-1" autocomplete="off"></label>
+          <label>No rellenar <input type="text" name="confirma_web" tabindex="-1" autocomplete="off"></label>
         </div>
 
-        <button type="submit" class="btn">Enviar confirmación</button>
+        <button type="button" class="btn" data-enviar>Enviar</button>
         <p class="form__msg" data-form-msg role="status" aria-live="polite"></p>
       </form>
 
       <div class="gracias" data-gracias hidden>
-        <h3>Gracias, ya lo tenemos.</h3>
+        <h3 tabindex="-1" data-gracias-titulo>Nos vemos en Poio</h3>
         <p data-gracias-texto></p>
         <dl class="rows" data-gracias-resumen hidden></dl>
-        <p data-gracias-calendario hidden><a class="enlace" href="assets/boda.ics" download="boda-leti-y-pablo.ics" type="text/calendar">Añadir al calendario</a></p>
+        <p class="gracias__enlaces">
+          <a class="enlace" href="assets/boda.ics" type="text/calendar" data-calendario data-gracias-calendario hidden>Añadir al calendario</a>
+          <button type="button" class="enlace" data-cambiar>Cambiar mi respuesta</button>
+        </p>
       </div>
     </div>
-    <noscript><p class="help">Para confirmar desde aquí hace falta JavaScript. Si no puedes activarlo, escríbenos por WhatsApp: Leti 634 275 463 · Pablo 660 812 140.</p></noscript>
+    <noscript><p class="help">El formulario no funciona en este navegador. Escríbenos por WhatsApp: Leti +34 634 275 463 · Pablo +34 660 812 140.</p></noscript>
   </section>
 
-  <!-- Número de cuenta: sale de CONFIG.iban en app.js. Vacío = la sección no aparece -->
+  <!-- Número de cuenta: sale de CONFIG.iban en app.js (y el titular, de CONFIG.titular). Vacío = la sección no aparece -->
   <section id="cuenta" class="wrap cuenta" data-regalo hidden>
     <p class="cuenta__texto">Si quieres ayudarnos en nuestro viaje</p>
-    <button type="button" class="cuenta__iban" data-cuenta aria-label="Copiar el número de cuenta"></button>
-    <p class="cuenta__aviso" data-cuenta-aviso aria-live="polite"></p>
+    <button type="button" class="cuenta__iban" data-cuenta translate="no"></button>
+    <p class="cuenta__titular" data-cuenta-titular translate="no" hidden></p>
+    <p class="cuenta__aviso" data-cuenta-aviso role="status"></p>
   </section>
 
   <section id="contacto" class="wrap">
-    <p class="ornament" aria-hidden="true">· · ·</p>
-    <span class="section-label">Contacto</span>
-    <h2 class="section-title">¿Alguna <em>duda?</em></h2>
+    <svg class="ornament" aria-hidden="true" focusable="false" viewBox="0 0 240 20"><use href="#ons"/></svg>
+    <h2 class="section-title">¿Alguna duda?</h2>
     <div class="contacto reveal d1">
-      <div><strong>Leti</strong><a data-wa-leti href="https://wa.me/34634275463" target="_blank" rel="noopener">634 275 463</a></div>
-      <div><strong>Pablo</strong><a data-wa-pablo href="https://wa.me/34660812140" target="_blank" rel="noopener">660 812 140</a></div>
+      <div><strong translate="no">Leti</strong><a data-wa-leti href="https://wa.me/34634275463" target="_blank" rel="noopener" aria-label="+34 634 275 463, WhatsApp de Leti" translate="no">+34 634 275 463</a></div>
+      <div><strong translate="no">Pablo</strong><a data-wa-pablo href="https://wa.me/34660812140" target="_blank" rel="noopener" aria-label="+34 660 812 140, WhatsApp de Pablo" translate="no">+34 660 812 140</a></div>
     </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <p class="footer__nombres">Leti y Pablo</p>
-  <p class="footer__fecha">10 · Abril · 2027</p>
+  <div class="footer__horizonte" aria-hidden="true"><svg focusable="false" viewBox="0 0 240 20"><use href="#ons"/></svg></div>
+  <p class="footer__nombres" translate="no">Leti y Pablo</p>
+  <p class="footer__fecha">10 · abril · 2027</p>
 </footer>
 
 <template id="tpl-acomp">
   <div class="acomp">
-    <label class="acomp__nombre"><span>Nombre y apellidos</span><input type="text" data-acomp-nombre required></label>
-    <label><span>Tipo</span>
-      <select data-acomp-tipo>
+    <label class="acomp__nombre"><span data-acomp-rotulo>Nombre y apellidos</span><input type="text" data-acomp-nombre autocomplete="off" autocapitalize="words" enterkeyhint="next" maxlength="80" required></label>
+    <label><span>¿Adulto o niño?</span>
+      <select data-acomp-tipo autocomplete="off">
         <option value="Adulto">Adulto</option>
         <option value="Niño">Niño</option>
       </select>
     </label>
-    <label><span>Alergias o dieta especial</span><input type="text" data-acomp-alergias placeholder="Ninguna"></label>
-    <button type="button" class="acomp__quitar" data-acomp-quitar aria-label="Quitar acompañante">Quitar</button>
+    <label><span>Alergias o dieta (opcional)</span><input type="text" data-acomp-alergias autocomplete="off" enterkeyhint="next" maxlength="120"></label>
+    <button type="button" class="acomp__quitar" data-acomp-quitar>Quitar</button>
   </div>
 </template>
 
-<script src="app.js?v=28"></script>
+<script src="app.js?v=29"></script>
 </body>
 </html>

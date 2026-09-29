@@ -22,12 +22,14 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:boda-leti-pablo-20270410@letipablo.com
-DTSTAMP:20260915T150000Z
+DTSTAMP:20260929T130000Z
 DTSTART;TZID=Europe/Madrid:20270410T123000
 DTEND;TZID=Europe/Madrid:20270411T020000
 SUMMARY:Boda de Leti y Pablo
 LOCATION:Monasterio de Poio\, Poio\, Pontevedra
-DESCRIPTION:Misa a las 12:30 en el Monasterio de Poio. Después\, cóctel\, comida y fiesta en el Pazo de Señoráns (Meis) hasta las 02:00. Toda la información en https://letipablo.com
+DESCRIPTION:Ceremonia a las 12:30 en el Monasterio de Poio. Después celebr
+ amos en el Pazo de Señoráns (Vilanoviña\, Meis). Toda la información e
+ n https://letipablo.com
 URL:https://letipablo.com
 END:VEVENT
 END:VCALENDAR

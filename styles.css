@@ -1,5 +1,19 @@
 /* Estilo «Mar»: fondo del azul del mar de la portada y todo el texto en un solo crudo.
-   Las tipografías (Cormorant Garamond y Jost) se cargan de Google Fonts desde index.html. */
+   Tipografías: Cormorant Garamond y Jost, autoalojadas en assets/fonts (subconjunto latino, fuentes variables).
+   Los tamaños de letra van en rem para que respeten el tamaño que cada uno tenga puesto en su navegador. */
+
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 300 400; font-display: swap;
+  src: url('assets/fonts/cormorant.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 300; font-display: swap;
+  src: url('assets/fonts/cormorant-cursiva.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Jost'; font-style: normal; font-weight: 300 400; font-display: swap;
+  src: url('assets/fonts/jost.woff2') format('woff2');
+}
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -9,18 +23,22 @@
   --mar-hondo: #111b24;                  /* pie de página */
   --crudo: #e9e4d9;
   --crudo-suave: rgba(233, 228, 217, .72);   /* texto secundario */
+  --crudo-medio: rgba(233, 228, 217, .6);    /* textos de ejemplo de los campos */
   --crudo-tenue: rgba(233, 228, 217, .42);   /* filetes de enlaces, botones y campos */
   --filete: rgba(233, 228, 217, .15);
   --papel: #f4f1e6;                      /* lámina del plano */
   --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --sans: 'Jost', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --lado: clamp(24px, 6vw, 72px);
+  /* Márgenes laterales que además esquivan la muesca del móvil cuando está tumbado */
+  --izq: max(var(--lado), env(safe-area-inset-left, 0px));
+  --der: max(var(--lado), env(safe-area-inset-right, 0px));
 }
 
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
-  font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.6;
+  font-family: var(--sans); font-weight: 300; font-size: 1rem; line-height: 1.6;
   background: var(--mar); color: var(--crudo);
   overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
@@ -28,14 +46,40 @@ a { color: inherit; }
 img { max-width: 100%; display: block; }
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--crudo); outline-offset: 3px; }
-.nowrap { white-space: nowrap; }
+[tabindex="-1"]:focus { outline: none; }
+::selection { background: rgba(233, 228, 217, .28); color: var(--crudo); }
+/* Palabras que van juntas: bajan enteras a la línea siguiente y, si ni así caben (letra muy grande), se parten */
+.nowrap { display: inline-block; }
+h1, h2, h3, p, dd, dt, legend, label, summary { overflow-wrap: anywhere; min-width: 0; }
+.dibujos { position: absolute; }
+/* Texto solo para lectores de pantalla */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* Portada: la foto a toda pantalla y el rótulo abajo a la izquierda */
+/* Rótulos en versalitas. Cuatro fichas para toda la web:
+   rótulo (antetítulos), etiqueta (textos de apoyo y campos), cabecera (portada y bienvenida) y botón o enlace.
+   Las centradas compensan con padding-left el espaciado que queda tras la última letra. */
+.section-label, .banda__tipo, .footer__fecha {
+  font-size: .8125rem; line-height: 1.6; letter-spacing: .3em; text-transform: uppercase;
+}
+.aloja__nota, .zona__sub, .confirm__fecha, .cuenta__aviso, .cuenta__titular, .copiado, .contacto strong,
+label > span, .acomp__quitar, .btn--ghost {
+  font-size: .8125rem; line-height: 1.6; letter-spacing: .2em; text-transform: uppercase;
+}
+.hero__fecha, .bienvenida__texto, .cuenta__texto {
+  font-size: clamp(.75rem, 2.2vw, .875rem); line-height: 1.7; letter-spacing: .42em; text-transform: uppercase;
+}
+.confirm__btn, .btn, .banda__enlaces a, .aloja__mapa a, .enlace {
+  font-family: var(--sans); font-weight: 300; font-size: .8125rem; line-height: 1.6;
+  letter-spacing: .26em; text-transform: uppercase;
+}
+
+/* Portada: la foto a toda pantalla y el rótulo abajo a la izquierda.
+   svh y no dvh: la altura no cambia cuando el navegador del móvil pliega sus barras */
 .hero {
-  position: relative; height: 100vh; height: 100dvh; min-height: 580px;
+  position: relative; height: 100vh; height: 100svh; min-height: 480px;
   display: flex; align-items: flex-end; justify-content: flex-start; overflow: hidden;
   background: var(--mar);
-  padding: 0 clamp(24px, 6vw, 76px) clamp(54px, 9vh, 96px);
+  padding: 0 max(clamp(24px, 6vw, 76px), env(safe-area-inset-right, 0px)) clamp(54px, 9vh, 96px) max(clamp(24px, 6vw, 76px), env(safe-area-inset-left, 0px));
 }
 .hero__foto {
   position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
@@ -49,25 +93,35 @@ img { max-width: 100%; display: block; }
 }
 .hero__texto { position: relative; text-align: left; max-width: min(720px, 92vw); }
 .hero__nombres {
-  font-family: var(--serif); font-weight: 300; font-size: clamp(54px, 11vw, 110px);
+  font-family: var(--serif); font-weight: 300; font-size: clamp(3.375rem, 11vw, 6.875rem);
   line-height: 1; letter-spacing: .02em; text-shadow: 0 4px 30px rgba(0, 0, 0, .55);
+  overflow-wrap: anywhere;
 }
 .hero__nombres em { font-style: italic; }
 .hero__filete { width: 64px; height: 1px; background: linear-gradient(to right, var(--crudo), transparent); margin: 26px 0; }
-.hero__fecha {
-  font-size: clamp(11px, 2.2vw, 14px); letter-spacing: .42em; text-transform: uppercase;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
+.hero__fecha { text-shadow: 0 2px 12px rgba(0, 0, 0, .6); }
+.hero__dia { display: inline-block; }
+/* Un hilo al pie de la foto: debajo hay más */
+.hero__bajar {
+  position: absolute; left: 50%; bottom: 12px; width: 1px; height: 30px;
+  background: linear-gradient(to bottom, transparent, var(--crudo-suave));
 }
 
 /* Secciones de texto, centradas */
-.wrap { max-width: 960px; margin: 0 auto; padding: clamp(72px, 11vw, 128px) var(--lado); text-align: center; }
-.ornament { color: var(--crudo-tenue); letter-spacing: .35em; font-size: 18px; margin-bottom: 18px; }
-.section-label { display: block; font-size: 11px; letter-spacing: .5em; text-transform: uppercase; margin-bottom: 16px; }
-.section-title {
-  font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 6.5vw, 60px); line-height: 1.08;
-  text-wrap: balance; margin-bottom: clamp(26px, 4vw, 40px);
+.wrap {
+  max-width: 960px; margin: 0 auto; text-align: center;
+  padding: clamp(72px, 11vw, 128px) var(--der) clamp(72px, 11vw, 128px) var(--izq);
 }
-.section-title em { font-style: italic; }
+/* El horizonte de Ons: separa las secciones */
+.ornament {
+  display: block; width: 132px; height: 11px; margin: 0 auto 22px;
+  fill: none; stroke: var(--crudo-suave); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;
+}
+.section-label { display: block; margin-bottom: 16px; padding-left: .3em; }
+.section-title {
+  font-family: var(--serif); font-weight: 300; font-size: clamp(2.125rem, 6.5vw, 3.75rem); line-height: 1.08;
+  text-wrap: balance; overflow-wrap: anywhere; margin-bottom: clamp(26px, 4vw, 40px);
+}
 .section-title--frase { line-height: 1.16; max-width: 15em; margin-inline: auto; }
 .section-title--rotulo { line-height: 1.05; letter-spacing: .02em; }
 /* Menos aire entre «Cómo llegar» y «Alojamiento»: la mitad que entre el resto de secciones */
@@ -77,13 +131,12 @@ img { max-width: 100%; display: block; }
 /* Bienvenida */
 .bienvenida { max-width: none; }
 .bienvenida__titulo {
-  font-family: var(--serif); font-weight: 300; font-size: clamp(44px, 8.8vw, 88px);
+  font-family: var(--serif); font-weight: 300; font-size: clamp(2.75rem, 8.8vw, 5.5rem);
   line-height: 1; letter-spacing: .02em; margin-bottom: clamp(22px, 3vw, 32px);
+  text-wrap: balance; overflow-wrap: anywhere;
 }
-.bienvenida__texto {
-  font-size: clamp(11px, 2.2vw, 14px); letter-spacing: .42em; text-transform: uppercase;
-  padding-left: .42em;   /* compensa el espaciado tras la última letra */
-}
+.bienvenida__texto { padding-left: .42em; /* compensa el espaciado tras la última letra */ }
+.bienvenida__atajo { margin-top: clamp(30px, 4.5vw, 44px); }
 
 /* Fotos de Poio y Señoráns: a todo el ancho, como la portada, y enteras (3:2, sin recorte) */
 .banda {
@@ -94,34 +147,44 @@ img { max-width: 100%; display: block; }
   position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover;
   filter: saturate(.86) brightness(.86);
 }
+/* La del pazo es de noche: sin oscurecerla más */
+.banda--pie img { filter: saturate(.9); }
 .banda::after { content: ''; position: absolute; inset: 0; }
-/* El monasterio solo se funde con el azul por abajo, sin subir por encima de la puerta */
+/* El monasterio solo se funde con el azul por abajo, sin subir por encima de la puerta.
+   El segundo velo oscurece la piedra clara de detrás del texto */
 .banda--limpia::after { background:
   linear-gradient(to bottom, transparent 84%, rgba(22, 34, 44, .5) 92%, rgba(22, 34, 44, .9) 97%, rgba(22, 34, 44, 1) 100%),
-  linear-gradient(to bottom, transparent 50%, rgba(6, 11, 16, .62) 100%); }
+  linear-gradient(to bottom, transparent 38%, rgba(6, 11, 16, .74) 100%); }
 /* El pazo se funde por abajo y, en espejo, por arriba */
 .banda--pie::after { background:
   linear-gradient(to top, transparent 38%, rgba(22, 34, 44, .38) 64%, rgba(22, 34, 44, .86) 90%, rgba(22, 34, 44, 1) 100%),
   linear-gradient(to bottom, transparent 38%, rgba(6, 11, 16, .38) 64%, rgba(22, 34, 44, .86) 90%, rgba(22, 34, 44, 1) 100%); }
 /* Franja del color de la página entre las dos fotos */
 .banda--pie { margin-top: clamp(28px, 4vw, 52px); }
-.banda__texto { position: relative; z-index: 1; padding: 0 24px clamp(30px, 5vw, 52px); }
-.banda__tipo { display: block; font-size: 10px; letter-spacing: .5em; text-transform: uppercase; margin-bottom: 12px; }
-.banda h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 6.5vw, 60px); line-height: 1.2; margin-bottom: 12px; }
-.banda p { font-size: 16px; color: var(--crudo-suave); line-height: 1.7; }
-.banda a {
-  display: inline-block; margin-top: 16px; font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
-  text-decoration: none; border-bottom: 1px solid var(--crudo-tenue); padding-bottom: 3px;
+.banda__texto {
+  position: relative; z-index: 1; text-shadow: 0 2px 14px rgba(0, 0, 0, .55);
+  padding: 0 max(24px, env(safe-area-inset-right, 0px)) clamp(30px, 5vw, 52px) max(24px, env(safe-area-inset-left, 0px));
 }
-.banda a:hover { border-color: var(--crudo); }
+.banda__tipo { display: block; margin-bottom: 12px; padding-left: .3em; }
+.banda h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.125rem, 6.5vw, 3.75rem); line-height: 1.2; margin-bottom: 12px; }
+/* Sobre la foto, el texto va en crudo pleno */
+.banda p { font-size: 1rem; line-height: 1.7; text-wrap: balance; }
+.banda__enlaces { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 clamp(24px, 4vw, 40px); margin-top: 4px; }
+/* El filete queda bajo el texto y la zona que se puede tocar mide 44 px de alto */
+.banda__enlaces a, .aloja__mapa a, .enlace {
+  display: inline-block; min-height: 44px; padding: 16px 0 0 .26em; color: var(--crudo);
+  text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 7px;
+  background: none; border: 0; border-radius: 0; cursor: pointer;
+}
 
 /* Cómo llegar */
 .llegar { max-width: 640px; margin: 0 auto; text-align: left; }
 .rows > div {
   display: grid; grid-template-columns: minmax(110px, .8fr) 1.5fr; gap: 12px; padding: 10px 0;
-  border-top: 1px solid var(--filete); font-size: 15.5px; line-height: 1.6;
+  border-top: 1px solid var(--filete); font-size: 1rem; line-height: 1.6;
 }
-.rows dd { color: var(--crudo-suave); }
+.rows dd { color: var(--crudo-suave); min-width: 0; overflow-wrap: anywhere; }
+.rows dd a { text-decoration-color: var(--crudo-tenue); text-underline-offset: 3px; }
 
 /* Plano ilustrado (oculto por ahora): una lámina de papel sobre el fondo oscuro.
    Los estilos del dibujo van dentro de assets/plano.svg */
@@ -137,26 +200,14 @@ img { max-width: 100%; display: block; }
 
 /* Alojamiento: una zona por desplegable, cerradas al entrar */
 .aloja { max-width: 640px; margin: 0 auto; text-align: center; }
-.aloja__nota {
-  font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--crudo-suave);
-  margin-bottom: clamp(18px, 2.6vw, 24px);
-}
-.aloja__mapa { margin-bottom: clamp(40px, 6vw, 60px); }
-.aloja__mapa a, .enlace {
-  display: inline-block; font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
-  text-decoration: none; border-bottom: 1px solid var(--crudo-tenue); padding-bottom: 4px;
-}
-.aloja__mapa a:hover, .enlace:hover { border-color: var(--crudo); }
+.aloja__nota { color: var(--crudo-suave); padding-left: .2em; text-wrap: balance; }
+.aloja__mapa { margin-bottom: clamp(36px, 5.5vw, 56px); }
 .zona { border-top: 1px solid var(--filete); }
 .zona:last-child { border-bottom: 1px solid var(--filete); }
 .zona summary { list-style: none; cursor: pointer; position: relative; padding: clamp(20px, 2.8vw, 28px) 44px; }
 .zona summary::-webkit-details-marker { display: none; }
-.zona h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(24px, 3.4vw, 30px); line-height: 1.15; }
-.zona summary:hover h3 { opacity: .8; }
-.zona__sub {
-  display: block; font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--crudo-suave);
-  margin-top: 9px; line-height: 1.8;
-}
+.zona h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3.4vw, 1.875rem); line-height: 1.15; }
+.zona__sub { display: block; color: var(--crudo-suave); margin-top: 9px; line-height: 1.8; text-wrap: balance; }
 /* El más se convierte en menos al abrir */
 .zona__mas { position: absolute; right: 6px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); }
 .zona__mas::before, .zona__mas::after {
@@ -165,109 +216,160 @@ img { max-width: 100%; display: block; }
 }
 .zona__mas::after { transform: rotate(90deg); }
 .zona[open] .zona__mas::after { transform: rotate(0deg); }
-.zona ul { list-style: none; display: grid; gap: clamp(22px, 3vw, 30px); padding: 4px 0 clamp(30px, 4.5vw, 42px); }
-.zona li > a { font-size: 19px; text-decoration: none; border-bottom: 1px solid var(--crudo-tenue); padding-bottom: 3px; }
-.zona li > a:hover { border-color: var(--crudo); }
-.zona li > span { display: block; font-size: 14px; line-height: 1.65; color: var(--crudo-suave); margin-top: 10px; }
+.zona ul { list-style: none; display: grid; gap: clamp(16px, 2.4vw, 24px); padding: 0 0 clamp(30px, 4.5vw, 42px); }
+.zona li > a {
+  display: inline-block; min-height: 44px; padding-top: 10px; font-size: 1.1875rem;
+  text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 6px;
+}
+.zona li > span { display: block; font-size: .9375rem; line-height: 1.65; color: var(--crudo-suave); margin-top: 2px; }
 /* Condiciones para invitados, bajo la descripción del hotel */
-.zona li > .oferta { max-width: 44ch; margin: 6px auto 0; color: var(--crudo); text-wrap: balance; }
-.oferta a { text-decoration: underline; text-decoration-color: var(--crudo-tenue); text-underline-offset: 3px; }
-.oferta .codigo { font-weight: 400; letter-spacing: .04em; user-select: all; }
+.zona li > .oferta { max-width: 44ch; margin: 8px auto 0; color: var(--crudo); line-height: 2.1; text-wrap: balance; }
+.oferta a { display: inline-block; padding: 0 2px; text-decoration: underline; text-decoration-color: var(--crudo-tenue); text-underline-offset: 3px; }
+.oferta .referencia { font-weight: 400; display: inline-block; }
+/* El código de descuento se copia al tocarlo, como el número de cuenta */
+.codigo {
+  font: inherit; font-weight: 400; letter-spacing: .04em; color: inherit; max-width: 100%; overflow-wrap: anywhere;
+  background: none; border: 0; border-bottom: 1px solid var(--crudo-tenue); border-radius: 0; cursor: pointer;
+  padding: 0 2px; display: inline-block; line-height: 1.5;
+}
+.copiado:not(:empty) { margin-left: 10px; color: var(--crudo-suave); }
 
 /* Confirmación: cuenta atrás y botón que despliega el formulario */
-.confirm__fecha {
-  font-size: 11px; line-height: 1.6; letter-spacing: .32em; text-transform: uppercase; color: var(--crudo-suave);
-  margin: 16px 0 36px;
-}
+.confirm__fecha { color: var(--crudo-suave); margin: 16px 0 36px; padding-left: .2em; }
 .confirm__btn, .btn {
-  display: inline-block; padding: 16px 42px; border: 1px solid var(--crudo-tenue); border-radius: 0;
+  display: inline-block; min-height: 52px; padding: 15px 42px 15px calc(42px + .26em);
+  border: 1px solid var(--crudo-tenue); border-radius: 0;
   background: none; color: var(--crudo); cursor: pointer;
-  font-family: var(--sans); font-weight: 300; font-size: 12px; line-height: 1.6; letter-spacing: .32em; text-transform: uppercase;
   text-decoration: none; transition: background .3s ease, color .3s ease;
 }
-.confirm__btn:hover, .btn:hover { background: var(--crudo); color: var(--mar); }
-.confirm__btn { scroll-margin-top: 40px; }
+.confirm__btn:active, .btn:active { background: var(--crudo); color: var(--mar); }
+/* Quien ha dicho que no, no necesita leer «verte allí» ni la cuenta atrás encima del agradecimiento */
+.es-no [data-confirmar-titulo], .es-no .confirm__fecha { display: none; }
 
 /* Formulario */
-.formulario { max-width: 560px; margin: clamp(48px, 7vw, 72px) auto 0; text-align: left; }
+.formulario { max-width: 560px; margin: clamp(48px, 7vw, 72px) auto 0; text-align: left; scroll-margin-top: 28px; }
+.es-no .formulario, .ya-contestado .formulario { margin-top: 0; }
 form, [data-detalles] { display: flex; flex-direction: column; gap: clamp(36px, 5vw, 48px); }
 fieldset { border: 0; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
-legend { font-family: var(--serif); font-weight: 300; font-size: clamp(24px, 3.4vw, 30px); line-height: 1.15; margin-bottom: 18px; }
+legend { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3.4vw, 1.875rem); line-height: 1.15; margin-bottom: 18px; }
 label { display: flex; flex-direction: column; gap: 8px; }
-label > span { font-size: 11.5px; line-height: 1.6; letter-spacing: .22em; text-transform: uppercase; color: var(--crudo-suave); }
+label > span { color: var(--crudo); }
 input[type="text"], input[type="tel"], input[type="email"], select, textarea {
-  font: 300 16px/1.5 var(--sans); color: var(--crudo);
+  font: 300 1rem/1.5 var(--sans); color: var(--crudo);
   background: transparent; border: 1px solid var(--crudo-tenue); border-radius: 0;
-  padding: 13px 14px; width: 100%;
+  padding: 13px 14px; width: 100%; min-height: 52px;
 }
-::placeholder { color: var(--crudo-tenue); opacity: 1; }
+::placeholder { color: var(--crudo-medio); opacity: 1; }
 input:focus, select:focus, textarea:focus { border-color: var(--crudo); }
+/* Campos que rellena el navegador: sin su fondo claro */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-text-fill-color: var(--crudo); caret-color: var(--crudo);
+  -webkit-box-shadow: 0 0 0 1000px var(--mar) inset; box-shadow: 0 0 0 1000px var(--mar) inset;
+  transition: background-color 9999s ease-out;
+}
 select {
   appearance: none; -webkit-appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--crudo-suave) 50%), linear-gradient(135deg, var(--crudo-suave) 50%, transparent 50%);
   background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat;
-  padding-right: 40px;
+  padding-right: 40px; text-overflow: ellipsis;
 }
 select option { background: var(--mar); color: var(--crudo); }
-textarea { resize: vertical; }
-.help { font-size: 14px; line-height: 1.65; color: var(--crudo-suave); }
+textarea { resize: none; }
+.help { font-size: .9375rem; line-height: 1.65; color: var(--crudo-suave); }
 .choices { display: flex; flex-wrap: wrap; gap: 0 30px; }
 .choice { flex-direction: row; align-items: center; gap: 12px; cursor: pointer; min-height: 44px; }
-.choice > span { font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--crudo); }
-.choice input { accent-color: var(--crudo); width: 18px; height: 18px; flex: none; }
+.choice > span { font-size: 1rem; letter-spacing: 0; text-transform: none; color: var(--crudo); }
+/* Botones de opción y casilla dibujados con el crudo de la web */
+.choice input {
+  appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; margin: 0;
+  display: grid; place-content: center; cursor: pointer;
+  background: transparent; border: 1px solid var(--crudo-suave); border-radius: 50%;
+}
+.choice input[type="checkbox"] { border-radius: 0; }
+.choice input::before {
+  content: ''; width: 10px; height: 10px; border-radius: inherit; background: var(--crudo);
+  transform: scale(0); transition: transform .15s ease;
+}
+.choice input:checked { border-color: var(--crudo); }
+.choice input:checked::before { transform: scale(1); }
+/* Campo con un error: borde doble en crudo pleno y el aviso justo debajo */
+[aria-invalid="true"] { border-color: var(--crudo); box-shadow: inset 0 0 0 1px var(--crudo); }
+.choice input[aria-invalid="true"] { box-shadow: 0 0 0 1px var(--crudo); }
+.campo__error { font-size: 1rem; line-height: 1.5; font-weight: 400; color: var(--crudo); scroll-margin: 120px 0; }
 [data-acompanantes-bloque] { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
 [data-acompanantes] { width: 100%; }
 .acomp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--filete); }
 .acomp__nombre { grid-column: 1 / -1; }
 .acomp__quitar, .btn--ghost {
-  background: none; border: 0; border-bottom: 1px solid var(--crudo-tenue); padding: 12px 0 4px; cursor: pointer;
-  font-family: var(--sans); font-weight: 300; font-size: 11.5px; line-height: 1.6; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--crudo); justify-self: start;
+  min-height: 44px; background: none; border: 0; border-radius: 0; padding: 14px 0 0; cursor: pointer;
+  font-family: var(--sans); font-weight: 300; color: var(--crudo); justify-self: start;
+  text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 7px;
 }
 .acomp__quitar { grid-column: 1 / -1; color: var(--crudo-suave); }
-.acomp__quitar:hover, .btn--ghost:hover { background: none; color: var(--crudo); border-color: var(--crudo); }
-.btn--ghost { margin-top: 14px; }
+.btn--ghost { margin-top: 14px; display: inline-block; }
 .btn { align-self: flex-start; }
 .btn:disabled { opacity: .6; cursor: default; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.form__msg { font-size: 14px; line-height: 1.65; color: var(--crudo-suave); min-height: 1.65em; margin-top: -18px; }
+.form__msg { font-size: 1rem; line-height: 1.6; color: var(--crudo-suave); min-height: 1.6em; margin-top: -18px; scroll-margin: 120px 0; }
 .form__msg.is-sending::after { content: ''; display: inline-block; width: 1.2em; text-align: left; animation: puntos 1.2s steps(4, end) infinite; }
 @keyframes puntos { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
 @media (prefers-reduced-motion: reduce) { .form__msg.is-sending::after { animation: none; content: '...'; } }
 .form__msg.is-error { color: var(--crudo); font-weight: 400; }
-.gracias { display: flex; flex-direction: column; gap: 18px; text-align: center; }
-.gracias h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(28px, 4.4vw, 40px); line-height: 1.15; }
+.form__msg a { display: inline-block; text-decoration-color: var(--crudo-tenue); text-underline-offset: 3px; }
+.gracias { display: flex; flex-direction: column; gap: 18px; text-align: center; scroll-margin: 60px 0; }
+.gracias h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.75rem, 4.4vw, 2.5rem); line-height: 1.15; text-wrap: balance; overflow-wrap: anywhere; }
 .gracias > p { color: var(--crudo-suave); text-wrap: pretty; }
 .gracias .rows { text-align: left; border-bottom: 1px solid var(--filete); margin: 10px 0; }
+.gracias__enlaces { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 clamp(24px, 4vw, 40px); }
+/* Tras un «no», un filete y aire antes del número de cuenta: que se lea como otra sección */
+.es-no .gracias { padding-bottom: clamp(48px, 7vw, 72px); border-bottom: 1px solid var(--filete); }
+.es-no + .cuenta { padding-top: clamp(24px, 4vw, 40px); }
 
 /* Número de cuenta: se copia al tocarlo */
 .cuenta { padding-top: 0; padding-bottom: 0; }
-.cuenta__texto {
-  font-size: clamp(11px, 2.2vw, 14px); letter-spacing: .42em; text-transform: uppercase;
-  padding-left: .42em; line-height: 1.9;
-}
+.cuenta__texto { padding-left: .42em; line-height: 1.9; text-wrap: balance; }
 .cuenta__iban {
-  display: inline-block; margin-top: 14px; background: none; border: 0; cursor: pointer;
-  font-family: var(--serif); font-weight: 400; font-size: clamp(13px, 2.1vw, 17px);
+  display: inline-block; min-height: 44px; margin-top: 4px; padding: 14px 8px 0; background: none; border: 0; border-radius: 0; cursor: pointer;
+  font-family: var(--serif); font-weight: 400; font-size: clamp(.9375rem, 2.1vw, 1.0625rem);
   letter-spacing: .08em; color: var(--crudo); font-variant-numeric: lining-nums tabular-nums;
-  border-bottom: 1px solid var(--crudo-tenue); padding-bottom: 4px; user-select: all;
+  text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 7px;
+  user-select: all; -webkit-user-select: all;
 }
-.cuenta__iban:hover { border-color: var(--crudo); }
-.cuenta__aviso {
-  margin-top: 16px; min-height: 1.4em; font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
-  color: var(--crudo-suave);
-}
+.cuenta__titular { margin-top: 12px; color: var(--crudo-suave); padding-left: .2em; }
+.cuenta__aviso { margin-top: 16px; min-height: 1.6em; color: var(--crudo-suave); padding-left: .2em; }
 
 /* Contacto */
-.contacto { display: flex; justify-content: center; gap: clamp(30px, 8vw, 80px); flex-wrap: wrap; font-size: 17px; }
-.contacto strong { display: block; font-size: 10px; font-weight: 400; letter-spacing: .42em; text-transform: uppercase; margin-bottom: 6px; }
-.contacto a { display: inline-block; text-decoration: none; border-bottom: 1px solid var(--filete); padding: 6px 0 4px; }
-.contacto a:hover { border-color: var(--crudo); }
+.contacto { display: flex; justify-content: center; gap: clamp(30px, 8vw, 80px); flex-wrap: wrap; font-size: 1.1875rem; }
+.contacto strong { display: block; font-weight: 300; padding-left: .2em; }
+.contacto a {
+  display: inline-block; min-height: 44px; padding-top: 8px;
+  text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 7px;
+}
 
-/* Pie */
-.footer { border-top: 1px solid var(--filete); padding: 54px 24px; text-align: center; background: var(--mar-hondo); }
-.footer__nombres { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(32px, 6vw, 50px); line-height: 1.2; margin-bottom: 16px; }
-.footer__fecha { font-size: 11px; letter-spacing: .5em; text-transform: uppercase; color: var(--crudo-suave); }
+/* Pie: lo cierra el horizonte de Ons, de lado a lado */
+.footer { padding: 0 24px 54px; text-align: center; background: var(--mar-hondo); overflow: hidden; }
+.footer__horizonte {
+  display: flex; align-items: flex-end; margin: 0 -24px clamp(40px, 6vw, 54px); padding-top: 26px;
+  color: var(--crudo-tenue);
+}
+.footer__horizonte::before, .footer__horizonte::after {
+  content: ''; flex: 1; height: 1px; background: currentColor; margin-bottom: 3.85px;   /* a la altura de la línea del dibujo */
+}
+.footer__horizonte svg {
+  flex: none; display: block; width: 264px; height: 22px;
+  fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;
+}
+.footer__nombres { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(2rem, 6vw, 3.125rem); line-height: 1.2; margin-bottom: 16px; }
+.footer__fecha { color: var(--crudo-suave); padding-left: .3em; }
+
+/* Al pasar el ratón: solo donde hay ratón. En pantallas táctiles el estado se quedaba pegado tras el toque */
+@media (hover: hover) {
+  .confirm__btn:hover, .btn:not(:disabled):hover { background: var(--crudo); color: var(--mar); }
+  .banda__enlaces a:hover, .aloja__mapa a:hover, .enlace:hover, .zona li > a:hover, .contacto a:hover,
+  .cuenta__iban:hover, .acomp__quitar:hover, .btn--ghost:hover, .oferta a:hover, .rows dd a:hover { text-decoration-color: var(--crudo); color: var(--crudo); }
+  .codigo:hover { border-color: var(--crudo); }
+  .zona summary:hover h3 { opacity: .8; }
+}
 
 /* Revelado al hacer scroll (solo con JavaScript: ver la clase «js» en index.html) */
 .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s ease, transform .9s ease; }
@@ -276,15 +378,29 @@ textarea { resize: vertical; }
 .js .d2 { transition-delay: .22s; }
 /* El botón de confirmar también cambia de color al pasar el ratón */
 .js .confirm__btn.reveal { transition: opacity .9s ease .1s, transform .9s ease .1s, background .3s ease, color .3s ease; }
-@media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; transition: none; } }
+/* Quien llega con el teclado no espera al revelado */
+.js .reveal:focus-within, .js .reveal:focus, .js .confirm__btn.reveal:focus {
+  opacity: 1; transform: none; transition: background .3s ease, color .3s ease;
+}
+/* Lo que se despliega entra con un fundido corto */
+.zona[open] > ul, .formulario:not([hidden]) > * { animation: entrar .3s ease both; }
+@keyframes entrar { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .zona[open] > ul, .formulario:not([hidden]) > * { animation: none; }
+  .choice input::before { transition: none; }
+}
+/* Sin JavaScript no hay formulario: sobran el botón y el atajo (queda el aviso con los teléfonos) */
+html:not(.js) .confirm__btn, html:not(.js) .bienvenida__atajo { display: none; }
 
-/* Móvil */
-@media (max-width: 700px) {
-  /* La foto es pequeña: el texto baja debajo para no tapar la iglesia, y los fundidos van en la propia imagen */
+/* Tabletas en vertical y móviles: la foto es pequeña, así que el texto baja debajo para no tapar la iglesia
+   y los fundidos van en la propia imagen */
+@media (max-width: 900px) {
   .banda { display: block; aspect-ratio: auto; }
   .banda img { position: static; height: auto; aspect-ratio: 3 / 2; }
   .banda::after { display: none; }
-  .banda__texto { padding: 22px 24px 34px; }
+  .banda__texto { padding-top: 22px; padding-bottom: 34px; text-shadow: none; }
+  .banda p:not(.banda__enlaces) { color: var(--crudo-suave); }
   .banda--limpia img {
     -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
@@ -293,6 +409,8 @@ textarea { resize: vertical; }
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 36%, #000 64%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, #000 36%, #000 64%, transparent 100%);
   }
+}
+@media (max-width: 700px) {
   .rows > div { grid-template-columns: 1fr; gap: 2px; }
   /* El plano apaisado se desliza de lado en vez de encogerse */
   .plano { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -300,8 +418,49 @@ textarea { resize: vertical; }
   .btn:not(.btn--ghost) { align-self: stretch; text-align: center; padding-inline: 20px; }
 }
 @media (max-width: 480px) {
-  .hero__fecha { font-size: 10.5px; letter-spacing: .24em; line-height: 1.9; }
-  .bienvenida__texto, .cuenta__texto { font-size: 10.5px; letter-spacing: .24em; padding-left: .24em; }
+  .hero__fecha, .bienvenida__texto, .cuenta__texto { font-size: .8125rem; letter-spacing: .16em; line-height: 1.9; }
+  .bienvenida__texto, .cuenta__texto { padding-left: .16em; }
+  /* La fecha de la portada no cabe en una línea: el día arriba y el lugar debajo, sin el punto */
+  .hero__dia { display: block; }
+  .hero__punto { display: none; }
+  .section-label, .banda__tipo, .footer__fecha { letter-spacing: .26em; }
+  .section-label, .banda__tipo, .footer__fecha { padding-left: .26em; }
   .acomp { grid-template-columns: minmax(0, 1fr); }
   .confirm__btn { padding-inline: 30px; }
+  .zona summary { padding-inline: 34px; }
+  .footer__horizonte svg { width: 216px; height: 18px; }
+  .footer__horizonte::before, .footer__horizonte::after { margin-bottom: 3.15px; }
+}
+/* Móvil tumbado: la portada cabe en la pantalla, con el rótulo más pequeño */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero { min-height: 0; padding-bottom: 30px; }
+  .hero__nombres { font-size: clamp(2.5rem, 14vh, 4rem); }
+  .hero__filete { margin: 12px 0; }
+  .hero__bajar { display: none; }
+}
+
+/* Colores forzados (alto contraste de Windows): los dibujos hechos con fondos usan el color del texto */
+@media (forced-colors: active) {
+  .zona__mas::before, .zona__mas::after, .footer__horizonte::before, .footer__horizonte::after { background: CanvasText; }
+  .choice input { appearance: auto; -webkit-appearance: auto; }
+  .hero__bajar { display: none; }
+}
+
+/* En papel: tinta sobre blanco, todo a la vista y sin fotos a sangre */
+@media print {
+  :root { --crudo: #16222c; --crudo-suave: #2c3a45; --crudo-medio: #4a5963; --crudo-tenue: #6f7c85; --filete: #c5cbd0; color-scheme: light; }
+  body, .hero, .footer { background: #fff; color: #16222c; }
+  .js .reveal { opacity: 1; transform: none; }
+  .hero { height: auto; min-height: 0; display: block; padding: 24px var(--lado); }
+  .hero__foto, .hero__velo, .hero__bajar, .banda img, .banda::after { display: none; }
+  .hero__nombres, .hero__fecha, .banda__texto { text-shadow: none; }
+  .banda { display: block; aspect-ratio: auto; }
+  .banda__texto { padding: 28px 24px; }
+  .wrap { padding-top: 36px; padding-bottom: 36px; }
+  details.zona > ul { display: grid; }
+  details.zona:not([open]) > *:not(summary) { display: grid; }
+  details.zona::details-content { content-visibility: visible; display: block; }
+  .zona__mas, .confirm__btn, .bienvenida__atajo, .formulario, .cuenta__aviso { display: none !important; }
+  section, .zona li { break-inside: avoid; }
+  a[href^="http"] { text-decoration: none; }
 }
