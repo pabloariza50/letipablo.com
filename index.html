@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Leti y Pablo · 10 de abril de 2027</title>
   <meta name="description" content="Nos casamos el 10 de abril de 2027 en el Monasterio de Poio. Toda la información de la boda y la confirmación de asistencia.">
   <meta name="robots" content="noindex, nofollow">
@@ -19,191 +19,124 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <meta name="theme-color" content="#f6f5e8">
-  <link rel="preload" href="assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=24">
+  <meta name="theme-color" content="#16222c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=26">
+  <!-- Sin JavaScript no hay revelado al hacer scroll: el contenido se ve siempre -->
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-
-<header class="nav">
-  <a class="nav__brand" href="#inicio" aria-label="Isla de Ons vista desde la playa de Pragueira">
-    <svg class="ons" viewBox="0 0 240 14" width="300" height="18" role="img">
-      <title>Isla de Ons desde Pragueira</title>
-      <defs>
-        <filter id="ons-lavado" x="-5%" y="-60%" width="110%" height="220%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.08 0.3" numOctaves="3" seed="7" result="ruido"/>
-          <feDisplacementMap in="SourceGraphic" in2="ruido" scale="0.7" xChannelSelector="R" yChannelSelector="G" result="forma"/>
-          <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="11" result="grano"/>
-          <feColorMatrix in="grano" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0.6" result="granoA"/>
-          <feComposite in="forma" in2="granoA" operator="in"/>
-        </filter>
-        <filter id="ons-trazo" x="-5%" y="-60%" width="110%" height="220%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="2" seed="3" result="ruido"/>
-          <feDisplacementMap in="SourceGraphic" in2="ruido" scale="0.4" xChannelSelector="R" yChannelSelector="G"/>
-        </filter>
-      </defs>
-      <g filter="url(#ons-lavado)">
-        <path class="ons__agua" d="M9.22 10.0 L12.06 9.01 L14.89 8.01 L17.73 7.45 L19.86 7.16 L22.7 7.3 L25.53 7.87 L28.37 8.87 L30.5 10.0 L30.5 10.7 L9.22 10.7 Z M52.48 10.0 L56.03 8.72 L59.57 7.73 L63.12 7.02 L66.67 6.6 L70.92 6.31 L75.18 6.03 L79.43 5.89 L83.69 6.03 L87.94 6.31 L92.2 6.74 L96.45 7.02 L100.71 7.16 L104.96 6.88 L109.22 6.6 L113.48 6.31 L117.73 6.03 L121.99 5.46 L126.24 5.04 L130.5 4.75 L134.75 4.75 L139.01 5.04 L143.26 5.32 L147.52 5.6 L151.77 5.89 L156.03 6.17 L160.28 6.6 L164.54 6.88 L168.79 7.02 L173.05 6.88 L177.3 6.45 L181.56 5.89 L185.11 5.46 L188.65 5.32 L192.2 5.46 L195.74 5.74 L200.0 6.31 L204.26 6.88 L208.51 7.45 L212.77 7.87 L217.02 8.3 L220.57 8.72 L223.4 9.29 L225.53 10.0 L225.53 10.7 L52.48 10.7 Z M227.38 10.0 L228.65 9.15 L230.07 8.3 L231.49 8.44 L232.91 9.15 L234.04 10.0 L234.04 10.7 L227.38 10.7 Z"/>
-        <path class="ons__agua ons__agua--sombra" d="M52.88 10.0 L56.43 8.91 L59.97 8.07 L63.52 7.47 L67.07 7.11 L71.32 6.86 L75.58 6.63 L79.83 6.51 L84.09 6.63 L88.34 6.86 L92.6 7.23 L96.85 7.47 L101.11 7.59 L105.36 7.35 L109.62 7.11 L113.88 6.86 L118.13 6.63 L122.39 6.14 L126.64 5.78 L130.9 5.54 L135.15 5.54 L139.41 5.78 L143.66 6.02 L147.92 6.26 L152.17 6.51 L156.43 6.74 L160.68 7.11 L164.94 7.35 L169.19 7.47 L173.45 7.35 L177.7 6.98 L181.96 6.51 L185.51 6.14 L189.05 6.02 L192.6 6.14 L196.14 6.38 L200.4 6.86 L204.66 7.35 L208.91 7.83 L213.17 8.19 L217.42 8.55 L220.97 8.91 L223.8 9.4 L225.93 10.0 L225.93 10.4 L52.88 10.4 Z"/>
-      </g>
-      <path class="ons__mar" filter="url(#ons-trazo)" d="M2 10.3 C60 10.2 120 10.4 180 10.25 C210 10.2 225 10.35 238 10.3"/>
-    </svg>
-  </a>
-  <div class="nav__acciones">
-    <a class="nav__cta-movil" href="#confirmar">Confirmar</a>
-    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
-  </div>
-  <nav id="menu" class="nav__links">
-    <a href="#ceremonia">Ceremonia</a>
-    <a href="#celebracion">Celebración</a>
-    <!-- Ocultas hasta tenerlo organizado: se muestran con CONFIG.secciones en app.js -->
-    <a href="#llegar" data-seccion="llegar" hidden>Cómo llegar</a>
-    <a href="#alojamiento" data-seccion="alojamiento" hidden>Alojamiento</a>
-    <a href="#confirmar" class="nav__cta">Confirmar asistencia</a>
-  </nav>
-</header>
 
 <main>
 
   <section id="inicio" class="hero">
-    <div class="hero__text">
-      <h1>Leti y Pablo</h1>
-      <p class="hero__fecha">Sábado, 10 de abril de 2027</p>
-      <div class="links">
-        <a href="#confirmar" class="link">Confirmar asistencia</a>
-        <a href="assets/boda.ics" id="calendario" class="link link--muted" download="boda-leti-y-pablo.ics" type="text/calendar">Añadir al calendario</a>
-      </div>
-    </div>
-    <div class="hero__photo">
-      <img src="assets/portada.jpg" srcset="assets/portada-900.jpg 900w, assets/portada-1200.jpg 1200w, assets/portada.jpg 1400w" sizes="(max-width: 860px) 100vw, 550px" width="1400" height="1400" fetchpriority="high" alt="Leti y Pablo" onerror="this.remove()">
+    <img class="hero__foto" data-portada src="assets/portada.jpg" srcset="assets/portada-900.jpg 900w, assets/portada-1200.jpg 1200w, assets/portada.jpg 1400w, assets/portada-1900.jpg 1900w" sizes="(orientation: landscape) 108vw, 108vh" width="1400" height="1400" fetchpriority="high" alt="Leti y Pablo en la proa de un velero, con la ría al atardecer" onerror="this.remove()">
+    <div class="hero__velo"></div>
+    <div class="hero__texto">
+      <h1 class="hero__nombres">Leti <em>y</em> Pablo</h1>
+      <div class="hero__filete"></div>
+      <p class="hero__fecha">Sábado 10 de abril de 2027 · Rías Baixas</p>
     </div>
   </section>
 
-  <section class="band" aria-label="Resumen">
-    <div class="band__item">
-      <p class="eyebrow">12:30</p>
-      <p class="band__title">Ceremonia</p>
-      <p>Monasterio de Poio</p>
-    </div>
-    <div class="band__item">
-      <p class="eyebrow">Al salir de misa</p>
-      <p class="band__title">Celebración</p>
-      <p>Pazo de Señoráns · hasta las 02:00</p>
-    </div>
-    <div class="band__item">
-      <p class="eyebrow">Confirmación</p>
-      <p class="band__title"><span data-cuenta-atras>10 de abril de 2027</span></p>
-      <p><a class="link" href="#confirmar">Dinos si vienes</a></p>
-    </div>
+  <section class="wrap bienvenida">
+    <p class="ornament" aria-hidden="true">· · ·</p>
+    <h2 class="bienvenida__titulo">¡Os esperamos!</h2>
+    <p class="bienvenida__texto">Un abrazo muy fuerte</p>
   </section>
 
-  <section id="ceremonia" class="section">
-    <div class="section__head">
-      <p class="eyebrow">La ceremonia</p>
+  <section id="ceremonia" class="banda banda--limpia">
+    <img src="assets/foto-poio-700.jpg" srcset="assets/foto-poio-700.jpg 700w, assets/foto-poio-1280.jpg 1280w" sizes="100vw" width="1280" height="854" loading="lazy" alt="Fachada del Monasterio de San Xoán de Poio">
+    <div class="banda__texto">
+      <span class="banda__tipo">Ceremonia · 12:30</span>
       <h2>Monasterio de Poio</h2>
-      <div class="datos">
-        <p class="datos__hora">12:30</p>
-        <p>A 20 minutos de Sanxenxo</p>
-        <a class="link" href="https://www.google.com/maps/search/?api=1&query=Monasterio+de+Poio" target="_blank" rel="noopener">Ver en Google Maps</a>
-      </div>
-    </div>
-    <div class="section__body">
-      <img class="foto" src="assets/foto-poio-700.jpg" srcset="assets/foto-poio-700.jpg 700w, assets/foto-poio-1280.jpg 1280w" sizes="(max-width: 860px) 100vw, 640px" width="1280" height="854" loading="lazy" alt="Fachada del Monasterio de San Xoán de Poio">
+      <p>A 20 minutos de Sanxenxo</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Monasterio+de+Poio" target="_blank" rel="noopener">Ver en el mapa</a>
     </div>
   </section>
 
-  <section id="celebracion" class="section">
-    <div class="section__head">
-      <p class="eyebrow">La celebración</p>
+  <section id="celebracion" class="banda banda--pie">
+    <img src="assets/foto-senorans-700.jpg" srcset="assets/foto-senorans-700.jpg 700w, assets/foto-senorans-1269.jpg 1269w" sizes="100vw" width="1269" height="846" loading="lazy" alt="Pazo de Señoráns al anochecer">
+    <div class="banda__texto">
+      <span class="banda__tipo">Celebramos en…</span>
       <h2>Pazo de Señoráns</h2>
-      <div class="datos">
-        <p class="datos__hora">Al salir de misa</p>
-        <p>Cóctel, comida y fiesta hasta las 02:00</p>
-        <p>Vilanoviña, Meis · a 20 minutos de Poio</p>
-        <a class="link" href="https://www.google.com/maps/search/?api=1&query=Pazo+de+Se%C3%B1or%C3%A1ns+Meis" target="_blank" rel="noopener">Ver en Google Maps</a>
-      </div>
-    </div>
-    <div class="section__body">
-      <img class="foto" src="assets/foto-senorans-700.jpg" srcset="assets/foto-senorans-700.jpg 700w, assets/foto-senorans-1269.jpg 1269w" sizes="(max-width: 860px) 100vw, 640px" width="1269" height="846" loading="lazy" alt="Pazo de Señoráns al anochecer">
+      <p>Vilanoviña, Meis · a 20 minutos de Poio y de Sanxenxo</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Pazo+de+Se%C3%B1or%C3%A1ns+Meis" target="_blank" rel="noopener">Ver en el mapa</a>
     </div>
   </section>
 
-  <section id="llegar" class="section" data-seccion="llegar" hidden>
-    <div class="section__head">
-      <p class="eyebrow">Cómo llegar</p>
-      <h2>Rías Baixas</h2>
-    </div>
-    <!-- Plano ilustrado OCULTO (28 sept 2026): para recuperarlo, descomentar la figura y volver a poner class="section section--plano" en la sección.
+  <!-- «Cómo llegar» y «Alojamiento» se enseñan con CONFIG.secciones en app.js -->
+  <section id="llegar" class="wrap" data-seccion="llegar" hidden>
+    <p class="ornament" aria-hidden="true">· · ·</p>
+    <span class="section-label">Cómo llegar</span>
+    <h2 class="section-title section-title--rotulo">Rías Baixas</h2>
+    <!-- Plano ilustrado OCULTO (28 sept 2026): para recuperarlo, descomentar la figura.
          assets/plano.svg se genera con bocetos/plano/plano2.py y lo incrusta plano() en app.js
-    <figure class="plano" data-plano>
+    <figure class="plano reveal" data-plano>
       <img src="assets/plano.svg" width="940" height="379" loading="lazy" alt="Plano dibujado de la zona: Sanxenxo, Monasterio de Poio y Pazo de Señoráns; la AP-9 lleva a Santiago y a Vigo">
     </figure>
     -->
-    <div class="section__body">
+    <div class="llegar reveal d1">
       <dl class="rows">
         <div><dt>En avión</dt><dd>Vigo, a 35 minutos · Santiago, a una hora</dd></div>
         <div><dt>En tren</dt><dd>Estación de Pontevedra, a 10 minutos en taxi</dd></div>
         <div><dt>En coche</dt><dd>AP-9 hasta Pontevedra</dd></div>
-        <div><dt>El día de la boda</dt><dd>Autobuses desde Sanxenxo y Pontevedra; pídelo en el formulario</dd></div>
+        <div><dt>El día de la boda</dt><dd>Habrá autobuses; las paradas dependerán de dónde durmáis. Dínoslo en el formulario</dd></div>
       </dl>
     </div>
   </section>
 
-  <section id="alojamiento" class="section" data-seccion="alojamiento" hidden>
-    <div class="section__head">
-      <p class="eyebrow">Dónde dormir</p>
-      <h2>Alojamiento</h2>
-    </div>
-    <div class="section__body">
-      <!-- Mapa de hoteles (ver mapa() en app.js): Google Maps por API si hay CONFIG.mapa.apiKey; si no, el My Maps fijo -->
-      <figure class="mapa" data-mapa hidden>
-        <div class="mapa__zonas" data-mapa-zonas role="group" aria-label="Acercar el mapa a una zona"></div>
-        <div class="mapa__lienzo" data-mapa-lienzo hidden></div>
-        <div class="mapa__marco" data-mapa-marco hidden></div>
-        <figcaption><a class="link" data-mapa-enlace target="_blank" rel="noopener">Abrir el mapa en Google Maps</a></figcaption>
-      </figure>
-      <div class="folds">
-        <details class="fold">
-          <summary><h3 class="subhead">Sanxenxo, a un cuarto de hora</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div><dt><a class="link" href="https://www.augustasanxenxo.com/ecowellnessresort/" target="_blank" rel="noopener">Augusta Eco Wellness</a></dt><dd>Spa, a 600 m de Silgar · <span class="nowrap">€€€€</span><span class="oferta">5&nbsp;% de descuento reservando en su web con el código <strong class="codigo">LETIPABLO100427</strong> · mínimo 2 noches</span></dd></div>
-            <div><dt><a class="link" href="https://www.hotelsanxenxo.com/" target="_blank" rel="noopener">Gran Talaso Hotel</a></dt><dd>Talaso, paseo de Silgar · <span class="nowrap">€€€</span></dd></div>
-            <div><dt><a class="link" href="https://apartamentosrotilio.com/" target="_blank" rel="noopener">Apartamentos Rotilio</a></dt><dd>Entre la playa y el puerto · <span class="nowrap">€€€</span></dd></div>
-            <div><dt><a class="link" href="https://www.hotelcarlos.es/" target="_blank" rel="noopener">Hotel Carlos I Silgar</a></dt><dd>Centro, con spa · <span class="nowrap">€</span></dd></div>
-          </dl>
-        </details>
-        <details class="fold">
-          <summary><h3 class="subhead">Raxó y Samieira, a veinte minutos</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div><dt><a class="link" href="https://pepevieira.com/hotel" target="_blank" rel="noopener">Pepe Vieira</a></dt><dd>Hotel paisaje sobre la ría · <span class="nowrap">€€€€</span></dd></div>
-          </dl>
-        </details>
-        <details class="fold">
-          <summary><h3 class="subhead">Meis, junto al pazo</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div><dt><a class="link" href="https://www.quintadesanamaro.com/" target="_blank" rel="noopener">Quinta de San Amaro</a></dt><dd>Hotel rural, a 5 minutos · <span class="nowrap">€€€€</span><span class="oferta">10&nbsp;% de descuento desde 2 noches: reserva en <a href="mailto:info@quintadesanamaro.com">info@quintadesanamaro.com</a> o en el <a class="nowrap" href="tel:+34630877590">630 877 590</a> y di que vienes a la boda de <strong class="codigo">Pablo y Leti</strong> · cancelación gratis hasta 5 días antes</span></dd></div>
-            <div><dt><a class="link" href="https://www.novavilariasbaixas.com/" target="_blank" rel="noopener">Novavila Design Wine</a></dt><dd>En una bodega de albariño · <span class="nowrap">€€€€</span></dd></div>
-            <div><dt><a class="link" href="https://www.escapadarural.com/casa-rural/pontevedra/casal-do-marco" target="_blank" rel="noopener">Casal do Marco</a></dt><dd>Casa rural para grupos de 10 a 14 · <span class="nowrap">€€</span> por persona<span class="oferta">Solo abre para un grupo: mínimo 10 personas y 2 noches. Reserva en el <a class="nowrap" href="tel:+34629253339">629 253 339</a></span></dd></div>
-          </dl>
-        </details>
-        <details class="fold">
-          <summary><h3 class="subhead">Pontevedra, a media hora</h3><span class="fold__icon" aria-hidden="true"></span></summary>
-          <dl class="rows">
-            <div><dt><a class="link" href="https://paradores.es/es/parador-de-pontevedra" target="_blank" rel="noopener">Parador de Pontevedra</a></dt><dd>Pazo del XVI, casco histórico · <span class="nowrap">€€€</span></dd></div>
-          </dl>
-        </details>
-      </div>
+  <section id="alojamiento" class="wrap" data-seccion="alojamiento" hidden>
+    <p class="ornament" aria-hidden="true">· · ·</p>
+    <span class="section-label">Dónde dormir</span>
+    <h2 class="section-title">Aloja<em>miento</em></h2>
+    <div class="aloja reveal d1">
+      <p class="aloja__nota">Precio orientativo, de € a €€€€</p>
+      <p class="aloja__mapa"><a href="https://www.google.com/maps/d/viewer?mid=1GJ3R7VtR8RsSp5BetnM8vyCLKNIT3Eo&ll=42.504111113673225%2C-8.707246764404296&z=11" target="_blank" rel="noopener">Ver en el mapa</a></p>
+      <!-- Los minutos en coche de cada zona salen de assets/mapa/datos.json -->
+      <details class="zona">
+        <summary><h3>Sanxenxo</h3><span class="zona__sub">A 20 minutos del monasterio y del pazo</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <ul>
+          <li><a href="https://www.augustasanxenxo.com/ecowellnessresort/" target="_blank" rel="noopener">Augusta Eco Wellness</a><span>Spa, a 600 m de Silgar · <span class="nowrap">€€€€</span></span><span class="oferta">5&nbsp;% de descuento reservando en su web con el código <strong class="codigo">LETIPABLO100427</strong> · mínimo 2 noches</span></li>
+          <li><a href="https://www.hotelsanxenxo.com/" target="_blank" rel="noopener">Gran Talaso Hotel</a><span>Talaso, paseo de Silgar · <span class="nowrap">€€€</span></span></li>
+          <li><a href="https://apartamentosrotilio.com/" target="_blank" rel="noopener">Apartamentos Rotilio</a><span>Entre la playa y el puerto · <span class="nowrap">€€€</span></span></li>
+          <li><a href="https://www.hotelcarlos.es/" target="_blank" rel="noopener">Hotel Carlos I Silgar</a><span>Centro, con spa · <span class="nowrap">€</span></span></li>
+          <li><a href="https://hotelsilgar92.com/" target="_blank" rel="noopener">Hotel Silgar 92</a><span>En la playa de Silgar · <span class="nowrap">€€€</span></span><span class="oferta">Solo abre si entre todos reservamos 10 habitaciones; si no, anulan las reservas un mes antes. Reserva en <a href="mailto:reservas@hotelsilgar92.com">reservas@hotelsilgar92.com</a> con el asunto «Boda Pablo»</span></li>
+        </ul>
+      </details>
+      <details class="zona">
+        <summary><h3>Raxó y Samieira</h3><span class="zona__sub">A 12 minutos del monasterio · 25 del pazo</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <ul>
+          <li><a href="https://pepevieira.com/hotel" target="_blank" rel="noopener">Pepe Vieira</a><span>Hotel paisaje sobre la ría · <span class="nowrap">€€€€</span></span></li>
+        </ul>
+      </details>
+      <details class="zona">
+        <summary><h3>Meis</h3><span class="zona__sub">A 10-15 minutos del pazo · 20 del monasterio</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <ul>
+          <li><a href="https://www.quintadesanamaro.com/" target="_blank" rel="noopener">Quinta de San Amaro</a><span>Hotel rural, a 5 minutos · <span class="nowrap">€€€€</span></span><span class="oferta">10&nbsp;% de descuento desde 2 noches: reserva en <a href="mailto:info@quintadesanamaro.com">info@quintadesanamaro.com</a> o en el <a class="nowrap" href="tel:+34630877590">630 877 590</a> y di que vienes a la boda de <strong class="codigo">Pablo y Leti</strong> · cancelación gratis hasta 5 días antes</span></li>
+          <li><a href="https://www.novavilariasbaixas.com/" target="_blank" rel="noopener">Novavila Design Wine</a><span>En una bodega de albariño · <span class="nowrap">€€€€</span></span></li>
+          <li><a href="https://www.escapadarural.com/casa-rural/pontevedra/casal-do-marco" target="_blank" rel="noopener">Casal do Marco</a><span>Casa rural para grupos de 10 a 14 · <span class="nowrap">€€</span> por persona</span><span class="oferta">Solo abre para un grupo: mínimo 10 personas y 2 noches. Reserva en el <a class="nowrap" href="tel:+34629253339">629 253 339</a></span></li>
+        </ul>
+      </details>
+      <details class="zona">
+        <summary><h3>Pontevedra</h3><span class="zona__sub">A 10 minutos del monasterio · 20 del pazo</span><span class="zona__mas" aria-hidden="true"></span></summary>
+        <ul>
+          <li><a href="https://paradores.es/es/parador-de-pontevedra" target="_blank" rel="noopener">Parador de Pontevedra</a><span>Pazo del XVI, casco histórico · <span class="nowrap">€€€</span></span></li>
+        </ul>
+      </details>
     </div>
   </section>
 
-  <section id="confirmar" class="section section--form">
-    <div class="section__head">
-      <p class="eyebrow">Confirmación</p>
-      <h2>Dinos si vienes</h2>
-      <p class="muted">Puedes añadir a quienes vienen contigo. Si algo cambia, vuelve a enviarlo y nos quedamos con lo último.</p>
-    </div>
-    <div class="section__body">
+  <section id="confirmar" class="wrap">
+    <p class="ornament" aria-hidden="true">· · ·</p>
+    <h2 class="section-title section-title--frase">Nos hace mucha ilusión verte <em>allí</em></h2>
+    <p class="confirm__fecha reveal"><span data-cuenta-atras>10 de abril de 2027</span></p>
+    <!-- El botón despliega el formulario aquí mismo; quien llega con #confirmar en el enlace lo encuentra ya abierto -->
+    <button type="button" class="confirm__btn reveal d1" data-abrir-formulario aria-expanded="false" aria-controls="formulario">Dinos si vienes</button>
+
+    <div id="formulario" class="formulario" hidden>
       <form id="rsvp" novalidate>
 
         <fieldset>
@@ -300,45 +233,39 @@
         <h3>Gracias, ya lo tenemos.</h3>
         <p data-gracias-texto></p>
         <dl class="rows" data-gracias-resumen hidden></dl>
+        <p data-gracias-calendario hidden><a class="enlace" href="assets/boda.ics" download="boda-leti-y-pablo.ics" type="text/calendar">Añadir al calendario</a></p>
       </div>
-      <noscript><p class="muted">Para confirmar desde aquí hace falta JavaScript. Si no puedes activarlo, escríbenos por WhatsApp: Leti 634 275 463 · Pablo 660 812 140.</p></noscript>
     </div>
+    <noscript><p class="help">Para confirmar desde aquí hace falta JavaScript. Si no puedes activarlo, escríbenos por WhatsApp: Leti 634 275 463 · Pablo 660 812 140.</p></noscript>
   </section>
 
-  <section id="regalo" class="section" data-regalo hidden>
-    <div class="section__head">
-      <p class="eyebrow">Regalo</p>
-      <h2>El mejor regalo es que vengáis</h2>
-    </div>
-    <div class="section__body">
-      <p>Si además queréis tener un detalle, esta es nuestra cuenta:</p>
-      <button type="button" class="cuenta" data-cuenta aria-label="Copiar número de cuenta"></button>
-    </div>
+  <!-- Número de cuenta: sale de CONFIG.iban en app.js. Vacío = la sección no aparece -->
+  <section id="cuenta" class="wrap cuenta" data-regalo hidden>
+    <p class="cuenta__texto">Si quieres ayudarnos en nuestro viaje</p>
+    <button type="button" class="cuenta__iban" data-cuenta aria-label="Copiar el número de cuenta"></button>
+    <p class="cuenta__aviso" data-cuenta-aviso aria-live="polite"></p>
   </section>
 
-  <section id="contacto" class="section">
-    <div class="section__head">
-      <p class="eyebrow">Contacto</p>
-      <h2>¿Alguna duda?</h2>
-    </div>
-    <div class="section__body">
-      <dl class="rows">
-        <div><dt>Leti</dt><dd><a class="link" data-wa-leti href="https://wa.me/34634275463" target="_blank" rel="noopener">634 275 463</a></dd></div>
-        <div><dt>Pablo</dt><dd><a class="link" data-wa-pablo href="https://wa.me/34660812140" target="_blank" rel="noopener">660 812 140</a></dd></div>
-      </dl>
+  <section id="contacto" class="wrap">
+    <p class="ornament" aria-hidden="true">· · ·</p>
+    <span class="section-label">Contacto</span>
+    <h2 class="section-title">¿Alguna <em>duda?</em></h2>
+    <div class="contacto reveal d1">
+      <div><strong>Leti</strong><a data-wa-leti href="https://wa.me/34634275463" target="_blank" rel="noopener">634 275 463</a></div>
+      <div><strong>Pablo</strong><a data-wa-pablo href="https://wa.me/34660812140" target="_blank" rel="noopener">660 812 140</a></div>
     </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <span>Leti y Pablo</span>
-  <span>10 de abril de 2027</span>
+  <p class="footer__nombres">Leti y Pablo</p>
+  <p class="footer__fecha">10 · Abril · 2027</p>
 </footer>
 
 <template id="tpl-acomp">
   <div class="acomp">
-    <label><span>Nombre y apellidos</span><input type="text" data-acomp-nombre required></label>
+    <label class="acomp__nombre"><span>Nombre y apellidos</span><input type="text" data-acomp-nombre required></label>
     <label><span>Tipo</span>
       <select data-acomp-tipo>
         <option value="Adulto">Adulto</option>
@@ -350,6 +277,6 @@
   </div>
 </template>
 
-<script src="app.js?v=27"></script>
+<script src="app.js?v=28"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ const CONFIG = {
   whatsappLeti: '34634275463',
   whatsappPablo: '34660812140',
 
-  // Número de cuenta para regalos. Vacío = no aparece. Se muestra en el pie, entre el nombre y la fecha.
+  // Número de cuenta para regalos. Vacío = no aparece. Se muestra en su propia sección, después de la confirmación.
   iban: 'ES32 1544 7889 7466 5198 1272',
 
   // Secciones que todavía no se enseñan. Pon true para mostrarlas (también aparece su enlace en el menú).
@@ -39,7 +39,9 @@ const CONFIG = {
 document.addEventListener('DOMContentLoaded', () => {
   secciones();
   cuentaAtras();
-  menuMovil();
+  portada();
+  revelar();
+  abrirFormulario();
   paradas();
   contacto();
   cuenta();
@@ -258,20 +260,44 @@ function cuentaAtras() {
   });
 }
 
-/* Menú en móvil */
-function menuMovil() {
-  const nav = document.querySelector('.nav');
-  const btn = nav.querySelector('.nav__toggle');
-  btn.addEventListener('click', () => {
-    const abierto = nav.classList.toggle('is-open');
+/* Portada: la foto se desplaza más despacio que la página */
+function portada() {
+  const foto = document.querySelector('[data-portada]');
+  if (!foto || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  addEventListener('scroll', () => {
+    if (scrollY > innerHeight * 1.2) return;   // ya no se ve
+    foto.style.transform = `scale(1.08) translateY(${scrollY * 0.24}px)`;
+  }, { passive: true });
+}
+
+/* Los bloques con la clase «reveal» aparecen al entrar en pantalla */
+function revelar() {
+  const bloques = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { bloques.forEach(el => el.classList.add('visible')); return; }
+  const io = new IntersectionObserver(entradas => {
+    entradas.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  bloques.forEach(el => io.observe(el));
+}
+
+/* El botón «Dinos si vienes» despliega el formulario debajo. Quien llega con #confirmar en el enlace lo encuentra abierto */
+function abrirFormulario() {
+  const btn = document.querySelector('[data-abrir-formulario]');
+  const caja = document.getElementById('formulario');
+  if (!btn || !caja) return;
+  const poner = abierto => {
+    caja.hidden = !abierto;
     btn.setAttribute('aria-expanded', String(abierto));
-    btn.textContent = abierto ? 'Cerrar' : 'Menú';
+  };
+  btn.addEventListener('click', () => {
+    poner(caja.hidden);
+    if (caja.hidden) return;
+    const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    btn.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'start' });
   });
-  nav.querySelectorAll('.nav__links a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('is-open');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.textContent = 'Menú';
-  }));
+  const porEnlace = () => { if (location.hash === '#confirmar') poner(true); };
+  addEventListener('hashchange', porEnlace);
+  porEnlace();
 }
 
 /* Paradas de autobús en el desplegable del formulario */
@@ -292,7 +318,7 @@ function contacto() {
     if (!a || !num) return;
     a.href = `https://wa.me/${num}`;
     a.target = '_blank'; a.rel = 'noopener';
-    a.textContent = 'WhatsApp · ' + formatoTelefono(num);
+    a.textContent = formatoTelefono(num);
   };
   pon('[data-wa-leti]', CONFIG.whatsappLeti);
   pon('[data-wa-pablo]', CONFIG.whatsappPablo);
@@ -303,7 +329,7 @@ function formatoTelefono(num) {
   return n.replace(/(\d{3})(?=\d)/g, '$1 ').trim();
 }
 
-/* Número de cuenta en el pie: se ve como texto y al tocarlo se copia */
+/* Número de cuenta: se ve como texto y al tocarlo se copia */
 function cuenta() {
   const btn = document.querySelector('[data-cuenta]');
   if (!btn) return;
@@ -314,6 +340,7 @@ function cuenta() {
   btn.hidden = false;
   const frase = btn.closest('[data-regalo]');
   if (frase) frase.hidden = false;
+  const aviso = document.querySelector('[data-cuenta-aviso]');
   let t;
   btn.addEventListener('click', async () => {
     let ok = false;
@@ -324,10 +351,10 @@ function cuenta() {
       try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
       ta.remove();
     }
-    if (!ok) return;
-    btn.textContent = 'Copiado';
+    if (!aviso) return;
+    aviso.textContent = ok ? 'Copiado' : 'Mantén pulsado el número para copiarlo';
     clearTimeout(t);
-    t = setTimeout(() => { btn.textContent = texto; }, 1200);
+    t = setTimeout(() => { aviso.textContent = ''; }, 2600);
   });
 }
 
@@ -546,9 +573,12 @@ function gracias(form, d) {
   fila('Email', d.email);
   fila('Comentarios', d.comentarios);
   resumen.hidden = !resumen.children.length;
+  caja.querySelector('[data-gracias-calendario]').hidden = d.asiste !== 'si';
 
   form.hidden = true;
   caja.hidden = false;
+  const abrir = document.querySelector('[data-abrir-formulario]');
+  if (abrir) abrir.hidden = true;   // ya ha contestado: el botón que despliega el formulario sobra
   const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;
   caja.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'center' });
 }

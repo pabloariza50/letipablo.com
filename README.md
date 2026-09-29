@@ -6,13 +6,13 @@ Las respuestas caen en una hoja de Google Sheets a través de Google Apps Script
 ## Archivos
 
 - `index.html` — la página entera (secciones, formulario).
-- `styles.css` — estilos. Colores y tipografías en las variables del principio.
-- `app.js` — cuenta atrás, menú móvil, calendario, formulario. **La configuración está arriba del todo, en `CONFIG`.**
+- `styles.css` — estilos (estilo «Mar»: fondo azul del mar de la portada, todo el texto en un solo crudo). Colores y tipografías en las variables del principio.
+- `app.js` — cuenta atrás, portada, revelado al hacer scroll, formulario. **La configuración está arriba del todo, en `CONFIG`.**
 - `../apps-script/Code.gs` — el script que recibe las respuestas y las escribe en la hoja de cálculo. Está fuera de `web/` a propósito: esta carpeta se publica entera y el script lleva vuestro email.
-- `assets/portada.jpg` (1400 px) y `assets/portada-900.jpg` (900 px, para móvil) — la foto de portada. Se muestra entera, sin recortes: la columna toma la proporción de la imagen (`aspect-ratio` en `styles.css`). El original a tamaño completo está fuera de esta carpeta, en `../portada-original-v2.jpeg` (la web usa un recorte cuadrado quitando cielo por arriba: `sips -c 3024 3024 --cropOffset 972 0`) (la anterior, en `../portada-original.jpg`).
-- `assets/portada-1200.jpg` — variante para móviles con pantalla 3x (iPhone). `assets/og.jpg` (1200×630, <300 KB) — la imagen que muestran WhatsApp y compañía al compartir el enlace.
+- `assets/portada-900.jpg`, `portada-1200.jpg`, `portada.jpg` (1400 px) y `portada-1900.jpg` — la foto de portada, cuadrada, en cuatro tamaños; el navegador elige según la pantalla. Ocupa la pantalla entera y se recorta sola (`object-fit: cover`). El original está fuera de esta carpeta, en `../IMG_0171.HEIC` (las anteriores, en `../portada-original-v2.jpeg` y `../portada-original.jpg`).
+- `assets/og.jpg` (1200×630, <300 KB) — la imagen que muestran WhatsApp y compañía al compartir el enlace. Sale de la misma foto.
 - `assets/boda.ics` — el archivo de "Añadir al calendario". Es un fichero fijo: si cambia la hora o el sitio, edítalo a mano (DTSTART, LOCATION, DESCRIPTION) y sube la fecha de DTSTAMP.
-- `assets/fonts/*.woff2` — Newsreader y Hanken Grotesk autoalojadas (antes venían de Google Fonts).
+- Tipografías: Cormorant Garamond y Jost, cargadas de Google Fonts desde `index.html`. En `assets/fonts/` quedan las del diseño anterior (Newsreader y Hanken Grotesk, ya sin uso) y la del plano dibujado.
 - `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` — icono de la pestaña y de la pantalla de inicio del móvil (silueta de Ons).
 
 ## Datos por rellenar
@@ -23,15 +23,18 @@ Busca los corchetes en `index.html`:
 grep -n "\[" index.html
 ```
 
-- **Secciones ocultas.** "Cómo llegar" y "Alojamiento" (y sus enlaces del menú) llevan `hidden` en el HTML hasta que esté todo organizado. Para enseñarlas: `CONFIG.secciones` en `app.js`, poner `llegar: true` y/o `alojamiento: true`, y subir el número de `app.js?v=` en `index.html`.
+- **Secciones ocultas.** "Cómo llegar" y "Alojamiento" llevan `hidden` en el HTML hasta que esté todo organizado. Para enseñarlas: `CONFIG.secciones` en `app.js`, poner `llegar: true` y/o `alojamiento: true`, y subir el número de `app.js?v=` en `index.html`.
 - Horarios de autobús: la sección "Cómo llegar" lleva ahora solo un párrafo; cuando haya horarios, se añaden ahí. Las paradas del desplegable se cambian en `CONFIG.paradasBus` (y en `PARADAS` de `Code.gs`).
 - Teléfonos: están en el HTML (sección Contacto y `<noscript>`) y en `CONFIG.whatsappLeti` / `whatsappPablo` (solo dígitos con prefijo). Si cambian, cambiar en los dos sitios.
-- Número de cuenta: se pone en `CONFIG.iban` y aparece en el pie de página, entre el nombre y la fecha. Al tocarlo se copia. Vacío = no aparece.
-- Hora de la ceremonia: en `index.html` (banda y sección Ceremonia) y en `assets/boda.ics`.
+- Número de cuenta: se pone en `CONFIG.iban` y aparece en su propia sección, después de la confirmación. Al tocarlo se copia. Vacío = no aparece.
+- Hora de la ceremonia: en `index.html` (rótulo sobre la foto del monasterio) y en `assets/boda.ics`.
+- Formulario: está plegado bajo el botón «Dinos si vienes»; quien entra por `letipablo.com/#confirmar` lo encuentra abierto.
 
 ## Mapa de hoteles
 
-En Alojamiento hay un mapa con los hoteles, el monasterio, el pazo y las rutas de autobús. Tiene dos modos (`mapa()` en `app.js`):
+**Ahora mismo el mapa no está incrustado**: con el estilo «Mar», Alojamiento solo lleva el enlace «Ver en el mapa» al My Maps, y los hoteles van en una lista por zonas (`<details class="zona">`). El código del mapa sigue en `app.js` sin usarse; lo que sigue describe cómo funcionaba, por si se recupera (habría que volver a poner la figura `[data-mapa]` en Alojamiento y adaptar en `app.js` los selectores de la lista de hoteles, que eran los del diseño anterior).
+
+Tiene dos modos (`mapa()` en `app.js`):
 
 - **Google Maps por API** (si `CONFIG.mapa.apiKey` tiene clave): mapa arrastrable, iconos propios (`assets/mapa/*.png`) y fichas con el estilo de la web. Los hoteles se leen de la lista del HTML; coordenadas y minutos en coche salen de `assets/mapa/datos.json` **por nombre** (`"Nombre": [lat, lon, min a Poio, min al pazo]`): si añades un hotel a la lista, añádelo también ahí o no tendrá marcador. Las casas de alquiler entero llevan `data-casa` en su fila (`<div data-casa>`): salen con la «C» (`casa-c.png`) en vez de la «H» y su ficha dice «Ver la casa». Cada desplegable es una zona del mapa; si añades uno, añade también su centro en `mapaFijo()`. Rutas y paradas: `CONFIG.mapa.rutas`.
 - **My Maps fijo** (sin clave, o si Google rechaza la clave): el mapa de Google My Maps de `CONFIG.mapa.myMaps` incrustado como imagen fija, con botones de zona. No se puede tocar a propósito: Google abriría sus fichas y su cabecera con el título y el autor, que no se pueden quitar. Los hoteles de ese mapa se editan en mymaps.google.com (archivo de partida: `~/Documents/Boda/bocetos/mapa-hoteles/donde-dormir.kml`).
@@ -42,14 +45,9 @@ La clave de la API se crea en console.cloud.google.com (proyecto con facturació
 
 ## Foto de portada
 
-Para cambiar la foto, genera las dos versiones a partir del original (la web carga la de 900 px en móvil y la de 1400 px en escritorio):
+Para cambiar la foto hacen falta los cuatro tamaños de `assets/portada*.jpg` (900, 1200, 1400 y 1900 px de lado) y `assets/og.jpg`, a partir de un recorte cuadrado del original. Con una foto vertical, el recorte se hace quitando cielo por arriba. Si el original es HEIC de iPhone, conviértelo antes a JPEG en sRGB y con la orientación ya aplicada (`sips` no la aplica al recortar).
 
-```bash
-sips -s format jpeg -s formatOptions 78 --resampleWidth 1400 original.jpg --out assets/portada.jpg
-sips -s format jpeg -s formatOptions 78 --resampleWidth 900 original.jpg --out assets/portada-900.jpg
-```
-
-Si la proporción cambia, actualiza el `aspect-ratio` de `.hero__photo` en `styles.css` y los atributos `width`/`height` y `og:image:width/height` de `index.html` con las medidas de la nueva foto de 1400 px.
+El encuadre dentro de la pantalla se ajusta con `object-position` de `.hero__foto` en `styles.css` (ahora `50% 18%`: centrada y tirando hacia arriba, para que las caras queden por encima del rótulo).
 
 ## Conectar el formulario a Google Sheets
 
