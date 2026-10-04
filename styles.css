@@ -177,8 +177,14 @@ label > span, .acomp__quitar, .btn--ghost {
   background: none; border: 0; border-radius: 0; cursor: pointer;
 }
 
-/* Cómo llegar */
-.llegar { max-width: 640px; margin: 0 auto; text-align: left; }
+/* Cómo llegar: una vía por bloque, con el mismo trazo que las zonas de alojamiento pero sin desplegable */
+.llegar { max-width: 640px; margin: 0 auto; text-align: center; }
+.via { border-top: 1px solid var(--filete); padding: clamp(20px, 2.8vw, 28px) 0; }
+.via:last-child { border-bottom: 1px solid var(--filete); }
+.via h3, .zona h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3.4vw, 1.875rem); line-height: 1.15; }
+.via p { max-width: 44ch; margin: 9px auto 0; font-size: .9375rem; line-height: 1.8; color: var(--crudo-suave); text-wrap: balance; }
+.via p a { display: inline-block; padding: 0 2px; text-decoration: underline; text-decoration-color: var(--crudo-tenue); text-underline-offset: 3px; }
+/* Filas etiqueta–valor: las usa el resumen de «gracias» */
 .rows > div {
   display: grid; grid-template-columns: minmax(110px, .8fr) 1.5fr; gap: 12px; padding: 10px 0;
   border-top: 1px solid var(--filete); font-size: 1rem; line-height: 1.6;
@@ -206,7 +212,6 @@ label > span, .acomp__quitar, .btn--ghost {
 .zona:last-child { border-bottom: 1px solid var(--filete); }
 .zona summary { list-style: none; cursor: pointer; position: relative; padding: clamp(20px, 2.8vw, 28px) 44px; }
 .zona summary::-webkit-details-marker { display: none; }
-.zona h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3.4vw, 1.875rem); line-height: 1.15; }
 .zona__sub { display: block; color: var(--crudo-suave); margin-top: 9px; line-height: 1.8; text-wrap: balance; }
 /* El más se convierte en menos al abrir */
 .zona__mas { position: absolute; right: 6px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); }
@@ -366,7 +371,7 @@ textarea { resize: none; }
 @media (hover: hover) {
   .confirm__btn:hover, .btn:not(:disabled):hover { background: var(--crudo); color: var(--mar); }
   .banda__enlaces a:hover, .aloja__mapa a:hover, .enlace:hover, .zona li > a:hover, .contacto a:hover,
-  .cuenta__iban:hover, .acomp__quitar:hover, .btn--ghost:hover, .oferta a:hover, .rows dd a:hover { text-decoration-color: var(--crudo); color: var(--crudo); }
+  .cuenta__iban:hover, .acomp__quitar:hover, .btn--ghost:hover, .oferta a:hover, .via p a:hover, .rows dd a:hover { text-decoration-color: var(--crudo); color: var(--crudo); }
   .codigo:hover { border-color: var(--crudo); }
   .zona summary:hover h3 { opacity: .8; }
 }
@@ -461,6 +466,6 @@ html:not(.js) .confirm__btn, html:not(.js) .bienvenida__atajo { display: none; }
   details.zona:not([open]) > *:not(summary) { display: grid; }
   details.zona::details-content { content-visibility: visible; display: block; }
   .zona__mas, .confirm__btn, .bienvenida__atajo, .formulario, .cuenta__aviso { display: none !important; }
-  section, .zona li { break-inside: avoid; }
+  section, .zona li, .via { break-inside: avoid; }
   a[href^="http"] { text-decoration: none; }
 }
