@@ -165,7 +165,7 @@ label > span, .acomp__quitar, .btn--ghost {
   position: relative; z-index: 1; text-shadow: 0 2px 14px rgba(0, 0, 0, .55);
   padding: 0 max(24px, env(safe-area-inset-right, 0px)) clamp(30px, 5vw, 52px) max(24px, env(safe-area-inset-left, 0px));
 }
-.banda__tipo { display: block; margin-bottom: 12px; padding-left: .3em; }
+.banda__tipo { display: block; margin-bottom: 12px; padding-left: .3em; font-weight: 700; }
 .banda h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.125rem, 6.5vw, 3.75rem); line-height: 1.2; margin-bottom: 12px; }
 /* Sobre la foto, el texto va en crudo pleno */
 .banda p { font-size: 1rem; line-height: 1.7; text-wrap: balance; }
