@@ -376,7 +376,7 @@ function formulario() {
   const estado = () => ({
     campos: Object.fromEntries(CAMPOS.map(c => [c, form[c].value])),
     asiste: form.asiste.value, acompanado: form.acompanado.value, bus: form.bus.value,
-    parada: form.parada.value, alojamiento: form.alojamiento.checked,
+    parada: form.parada.value,
     acomp: filas().map(f => ({
       nombre: f.querySelector('[data-acomp-nombre]').value,
       tipo: f.querySelector('[data-acomp-tipo]').value,
@@ -388,7 +388,6 @@ function formulario() {
     CAMPOS.forEach(c => { form[c].value = (e.campos && e.campos[c]) || ''; });
     const marca = (nombre, valor) => form.querySelectorAll(`input[name="${nombre}"]`).forEach(r => { r.checked = r.value === valor; });
     marca('asiste', e.asiste || ''); marca('acompanado', e.acompanado || ''); marca('bus', e.bus || 'No');
-    form.alojamiento.checked = !!e.alojamiento;
     cont.innerHTML = '';
     (e.acomp || []).slice(0, CONFIG.maxAcompanantes).forEach(a => anadirFila(a));
     pintarParadas();
@@ -555,7 +554,6 @@ function leer(form) {
     alergias: viene ? form.alergias.value.trim() : '',
     bus: viene ? form.bus.value : '',
     parada: viene && form.bus.value !== 'No' ? parada : '',
-    alojamiento: viene && form.alojamiento.checked,
     comentarios: form.comentarios.value.trim(),
     hp: form.confirma_web.value,
     origen: location.hostname,
@@ -689,7 +687,6 @@ function gracias(form, d, opciones) {
       .concat((d.acompanantes || []).map(a => a.nombre + detalle(a.tipo, a.alergias)));
     fila(gente.length > 1 ? 'Venís' : 'Vienes', gente.join(' · '));
     fila('Autobús', d.bus && d.bus !== 'No' ? d.bus + textoParada(d.parada) : 'No');
-    fila('Alojamiento', d.alojamiento ? 'Nos pides ayuda con el hotel' : '');
   } else {
     fila('Respuesta', 'No podrás venir');
   }

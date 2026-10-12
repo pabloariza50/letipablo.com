@@ -61,14 +61,14 @@ h1, h2, h3, p, dd, dt, legend, label, summary { overflow-wrap: anywhere; min-wid
 .section-label, .banda__tipo, .footer__fecha {
   font-size: .8125rem; line-height: 1.6; letter-spacing: .3em; text-transform: uppercase;
 }
-.aloja__nota, .zona__sub, .confirm__fecha, .cuenta__aviso, .cuenta__titular, .copiado, .contacto strong,
+.aloja__nota, .confirm__fecha, .cuenta__aviso, .cuenta__titular, .copiado, .contacto strong,
 label > span, .acomp__quitar, .btn--ghost {
   font-size: .8125rem; line-height: 1.6; letter-spacing: .2em; text-transform: uppercase;
 }
 .hero__fecha, .bienvenida__texto, .cuenta__texto {
   font-size: clamp(.75rem, 2.2vw, .875rem); line-height: 1.7; letter-spacing: .42em; text-transform: uppercase;
 }
-.confirm__btn, .btn, .banda__enlaces a, .aloja__mapa a, .enlace {
+.confirm__btn, .btn, .banda__enlaces a, .enlace {
   font-family: var(--sans); font-weight: 300; font-size: .8125rem; line-height: 1.6;
   letter-spacing: .26em; text-transform: uppercase;
 }
@@ -171,7 +171,7 @@ label > span, .acomp__quitar, .btn--ghost {
 .banda p { font-size: 1rem; line-height: 1.7; text-wrap: balance; }
 .banda__enlaces { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 clamp(24px, 4vw, 40px); margin-top: 4px; }
 /* El filete queda bajo el texto y la zona que se puede tocar mide 44 px de alto */
-.banda__enlaces a, .aloja__mapa a, .enlace {
+.banda__enlaces a, .enlace {
   display: inline-block; min-height: 44px; padding: 16px 0 0 .26em; color: var(--crudo);
   text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 7px;
   background: none; border: 0; border-radius: 0; cursor: pointer;
@@ -204,15 +204,15 @@ label > span, .acomp__quitar, .btn--ghost {
 }
 .plano svg, .plano img { display: block; width: 100%; height: auto; }
 
-/* Alojamiento: una zona por desplegable, cerradas al entrar */
+/* Alojamiento: solo Sanxenxo, un hotel por desplegable, cerrados al entrar */
 .aloja { max-width: 640px; margin: 0 auto; text-align: center; }
 .aloja__nota { color: var(--crudo-suave); padding-left: .2em; text-wrap: balance; }
-.aloja__mapa { margin-bottom: clamp(36px, 5.5vw, 56px); }
+.aloja__zona { margin-bottom: 8px; text-wrap: balance; }
+.aloja__nota { margin-bottom: clamp(36px, 5.5vw, 56px); }
 .zona { border-top: 1px solid var(--filete); }
 .zona:last-child { border-bottom: 1px solid var(--filete); }
 .zona summary { list-style: none; cursor: pointer; position: relative; padding: clamp(20px, 2.8vw, 28px) 44px; }
 .zona summary::-webkit-details-marker { display: none; }
-.zona__sub { display: block; color: var(--crudo-suave); margin-top: 9px; line-height: 1.8; text-wrap: balance; }
 /* El más se convierte en menos al abrir */
 .zona__mas { position: absolute; right: 6px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); }
 .zona__mas::before, .zona__mas::after {
@@ -221,14 +221,10 @@ label > span, .acomp__quitar, .btn--ghost {
 }
 .zona__mas::after { transform: rotate(90deg); }
 .zona[open] .zona__mas::after { transform: rotate(0deg); }
-.zona ul { list-style: none; display: grid; gap: clamp(16px, 2.4vw, 24px); padding: 0 0 clamp(30px, 4.5vw, 42px); }
-.zona li > a {
-  display: inline-block; min-height: 44px; padding-top: 10px; font-size: 1.1875rem;
-  text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 6px;
-}
-.zona li > span { display: block; font-size: .9375rem; line-height: 1.65; color: var(--crudo-suave); margin-top: 2px; }
+.hotel { display: grid; gap: 8px; padding: 0 0 clamp(26px, 4vw, 36px); }
+.hotel > p { font-size: .9375rem; line-height: 1.65; color: var(--crudo-suave); }
 /* Condiciones para invitados, bajo la descripción del hotel */
-.zona li > .oferta { max-width: 44ch; margin: 8px auto 0; color: var(--crudo); line-height: 2.1; text-wrap: balance; }
+.hotel > .oferta { max-width: 44ch; margin: 0 auto; color: var(--crudo); line-height: 2.1; text-wrap: balance; }
 .oferta a { display: inline-block; padding: 0 2px; text-decoration: underline; text-decoration-color: var(--crudo-tenue); text-underline-offset: 3px; }
 .oferta .referencia { font-weight: 400; display: inline-block; }
 /* El código de descuento se copia al tocarlo, como el número de cuenta */
@@ -370,7 +366,7 @@ textarea { resize: none; }
 /* Al pasar el ratón: solo donde hay ratón. En pantallas táctiles el estado se quedaba pegado tras el toque */
 @media (hover: hover) {
   .confirm__btn:hover, .btn:not(:disabled):hover { background: var(--crudo); color: var(--mar); }
-  .banda__enlaces a:hover, .aloja__mapa a:hover, .enlace:hover, .zona li > a:hover, .contacto a:hover,
+  .banda__enlaces a:hover, .enlace:hover, .contacto a:hover,
   .cuenta__iban:hover, .acomp__quitar:hover, .btn--ghost:hover, .oferta a:hover, .via p a:hover, .rows dd a:hover { text-decoration-color: var(--crudo); color: var(--crudo); }
   .codigo:hover { border-color: var(--crudo); }
   .zona summary:hover h3 { opacity: .8; }
@@ -388,11 +384,11 @@ textarea { resize: none; }
   opacity: 1; transform: none; transition: background .3s ease, color .3s ease;
 }
 /* Lo que se despliega entra con un fundido corto */
-.zona[open] > ul, .formulario:not([hidden]) > * { animation: entrar .3s ease both; }
+.zona[open] > .hotel, .formulario:not([hidden]) > * { animation: entrar .3s ease both; }
 @keyframes entrar { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
-  .zona[open] > ul, .formulario:not([hidden]) > * { animation: none; }
+  .zona[open] > .hotel, .formulario:not([hidden]) > * { animation: none; }
   .choice input::before { transition: none; }
 }
 /* Sin JavaScript no hay formulario: sobran el botón y el atajo (queda el aviso con los teléfonos) */
@@ -462,10 +458,10 @@ html:not(.js) .confirm__btn, html:not(.js) .bienvenida__atajo { display: none; }
   .banda { display: block; aspect-ratio: auto; }
   .banda__texto { padding: 28px 24px; }
   .wrap { padding-top: 36px; padding-bottom: 36px; }
-  details.zona > ul { display: grid; }
+  details.zona > .hotel { display: grid; }
   details.zona:not([open]) > *:not(summary) { display: grid; }
   details.zona::details-content { content-visibility: visible; display: block; }
   .zona__mas, .confirm__btn, .bienvenida__atajo, .formulario, .cuenta__aviso { display: none !important; }
-  section, .zona li, .via { break-inside: avoid; }
+  section, .zona, .via { break-inside: avoid; }
   a[href^="http"] { text-decoration: none; }
 }
