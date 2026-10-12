@@ -6,8 +6,9 @@ const CONFIG = {
   fecha: '2027-04-10',
 
   // Puntos del recorrido donde puede parar el autobús, en el orden del recorrido. El formulario añade siempre
-  // «Aún no lo sé» y «Otro sitio». Si cambias esta lista, cambia también PARADAS en apps-script/Code.gs.
-  paradasBus: ['Sanxenxo', 'Raxó', 'Samieira', 'Combarro', 'Poio (después de la ceremonia)', 'Pontevedra'],
+  // «Aún no lo sé» y «Otro sitio». Si añades una parada nueva, añádela también a PARADAS en apps-script/Code.gs
+  // (allí siguen Raxó, Samieira, Combarro y Pontevedra para que las respuestas antiguas no pasen a «Otro»).
+  paradasBus: ['Sanxenxo', 'Poio (después de la ceremonia)'],
   // Paradas que no tienen sentido para quien solo quiere la vuelta
   paradasSoloIda: ['Poio (después de la ceremonia)'],
 
