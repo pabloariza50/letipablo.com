@@ -495,15 +495,18 @@ function calentarServidor() {
   fetch(CONFIG.appsScriptUrl, { method: 'GET', mode: 'no-cors', cache: 'no-store', keepalive: true }).catch(() => {});
 }
 
-/* Envía la respuesta. Reintenta si no llega respuesta o si llega algo que no es la de doPost (Apps Script a veces
-   devuelve una página HTML de error, o la salida de doGet, aunque haya guardado la fila). El reintento lleva el
-   mismo identificador de envío, así que el servidor no guarda ni avisa dos veces: contesta que ya lo tiene. */
+/* Envía la respuesta. Si un intento no recibe respuesta, o recibe algo que no es la de doPost (Apps Script a veces
+   tarda, o devuelve una página HTML de error o la salida de doGet aunque haya guardado la fila), antes de volver a
+   enviar pregunta si ese envío ya está guardado. El reintento lleva el mismo identificador de envío, así que el
+   servidor tampoco guarda ni avisa dos veces. Solo da error si, tras todo eso, el envío no consta en la hoja. */
 async function enviar(datos, alReintentar) {
   let ultimoError;
   for (let intento = 0; intento <= CONFIG.envioReintentos; intento++) {
     if (intento > 0) {
       if (alReintentar) alReintentar(intento);
       await new Promise(r => setTimeout(r, 1500));
+      const ya = await comprobarEnvio(datos.envio);
+      if (ya) return ya;
     }
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), CONFIG.envioTimeout);
@@ -529,7 +532,28 @@ async function enviar(datos, alReintentar) {
       clearTimeout(t);
     }
   }
+  // Última oportunidad: puede que el último intento se guardara y solo se perdiera la respuesta
+  await new Promise(r => setTimeout(r, 2000));
+  const ya = await comprobarEnvio(datos.envio);
+  if (ya) return ya;
   throw ultimoError;
+}
+
+/* ¿Está ya en la hoja este envío? Devuelve una respuesta como la de doPost si consta, o null si no consta o no se
+   sabe (sin red, o un Apps Script anterior que no entiende ?envio= y contesta lo de siempre). */
+async function comprobarEnvio(envio) {
+  if (!envio) return null;
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 15000);
+  try {
+    const res = await fetch(CONFIG.appsScriptUrl + '?envio=' + encodeURIComponent(envio), { cache: 'no-store', signal: ctrl.signal });
+    const json = JSON.parse(await res.text());
+    if (json && json.ok && json.comprobacion && json.guardado) {
+      return { ok: true, repetido: true, sustituye: false, revisar: !!json.revisar, acuse: false, email: '' };
+    }
+  } catch (e) { /* no se sabe: se sigue como si no constara */ }
+  finally { clearTimeout(t); }
+  return null;
 }
 
 function leer(form) {
