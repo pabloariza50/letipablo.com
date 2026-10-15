@@ -178,7 +178,7 @@ function calendario() {
   const datos = new URLSearchParams({
     action: 'TEMPLATE',
     text: 'Boda de Leti y Pablo',
-    dates: '20270410T123000/20270411T020000',
+    dates: '20270410T123000/20270411T010000',
     ctz: 'Europe/Madrid',
     location: 'Monasterio de Poio, Poio, Pontevedra',
     details: 'Ceremonia a las 12:30 en el Monasterio de Poio. Después celebramos en el Pazo de Señoráns (Vilanoviña, Meis). Toda la información en https://letipablo.com',
