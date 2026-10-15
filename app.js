@@ -20,7 +20,7 @@ const CONFIG = {
   iban: 'ES32 1544 7889 7466 5198 1272',
   // Titular de la cuenta, tal como figura en el banco (los bancos comprueban que el nombre coincide con el número).
   // Vacío = no se muestra. Ejemplo: 'A nombre de Nombre Apellido Apellido'
-  titular: '',
+  titular: 'A nombre de Leticia García Gutiérrez de Terán',
 
   // Secciones que se pueden esconder: pon false para ocultar una.
   secciones: { llegar: true, alojamiento: true },
