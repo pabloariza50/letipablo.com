@@ -18,9 +18,10 @@ const CONFIG = {
 
   // Número de cuenta para regalos. Vacío = no aparece. Se muestra en su propia sección, después de la confirmación.
   iban: 'ES32 1544 7889 7466 5198 1272',
-  // Titular de la cuenta, tal como figura en el banco (los bancos comprueban que el nombre coincide con el número).
-  // Vacío = no se muestra. Ejemplo: 'A nombre de Nombre Apellido Apellido'
-  titular: 'A nombre de Leticia García Gutiérrez de Terán',
+  // Titulares de la cuenta, tal como figuran en el banco (los bancos comprueban que el nombre coincide con el número).
+  // Se muestran uno por línea: «A nombre de <primero>» y «o de <segundo>», para que el invitado copie UNO.
+  // Lista vacía = no se muestra.
+  titulares: ['Leticia García Gutiérrez de Terán', 'Pablo Ariza Suárez'],
 
   // Secciones que se pueden esconder: pon false para ocultar una.
   secciones: { llegar: true, alojamiento: true },
@@ -217,7 +218,15 @@ function cuenta() {
   const frase = btn.closest('[data-regalo]');
   if (frase) frase.hidden = false;
   const titular = document.querySelector('[data-cuenta-titular]');
-  if (titular && CONFIG.titular) { titular.textContent = CONFIG.titular; titular.hidden = false; }
+  const nombres = (CONFIG.titulares || []).map(n => String(n).trim()).filter(Boolean);
+  if (titular && nombres.length) {
+    titular.textContent = '';
+    nombres.forEach((n, i) => {
+      if (i) titular.append(document.createElement('br'));
+      titular.append((i ? 'o de ' : 'A nombre de ') + n);
+    });
+    titular.hidden = false;
+  }
   const aviso = document.querySelector('[data-cuenta-aviso]');
   let t;
   btn.addEventListener('click', async () => {
