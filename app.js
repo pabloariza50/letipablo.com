@@ -30,8 +30,8 @@ const CONFIG = {
   envioTimeout: 30000,
   envioReintentos: 2,
 
-  // Tope de acompañantes por respuesta (= MAX.acompanantes en Code.gs)
-  maxAcompanantes: 10,
+  // Tope de acompañantes por respuesta (= MAX.acompanantes en Code.gs). Cada invitado trae como mucho a una persona
+  maxAcompanantes: 1,
 };
 
 const SUAVE = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -267,7 +267,6 @@ function formulario() {
   const cont = form.querySelector('[data-acompanantes]');
   const tpl = document.getElementById('tpl-acomp');
   const anadir = form.querySelector('[data-add-acomp]');
-  const tope = form.querySelector('[data-acomp-tope]');
   const parada = form.querySelector('[data-parada]');
   const otra = form.querySelector('[data-parada-otra]');
   const plazas = form.querySelector('[data-plazas]');
@@ -294,12 +293,10 @@ function formulario() {
   const numerar = () => {
     filas().forEach((fila, i) => {
       const nombre = fila.querySelector('[data-acomp-nombre]').value.trim();
-      fila.querySelector('[data-acomp-rotulo]').textContent = `Acompañante ${i + 1} · nombre y apellidos`;
+      fila.querySelector('[data-acomp-rotulo]').textContent = CONFIG.maxAcompanantes === 1 ? 'Nombre y apellidos de tu acompañante' : `Acompañante ${i + 1} · nombre y apellidos`;
       fila.querySelector('[data-acomp-quitar]').setAttribute('aria-label', `Quitar a ${nombre || 'acompañante ' + (i + 1)}`);
     });
-    const lleno = filas().length >= CONFIG.maxAcompanantes;
-    anadir.hidden = lleno;
-    tope.hidden = !lleno;
+    anadir.hidden = filas().length >= CONFIG.maxAcompanantes;
   };
 
   const anadirFila = (datos) => {
