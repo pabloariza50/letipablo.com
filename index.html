@@ -228,7 +228,6 @@
               <label class="choice"><input type="radio" name="acompanado" value="si"><span>Sí, con un acompañante</span></label>
             </div>
             <div data-acompanantes-bloque hidden>
-              <p class="help">Los niños tendrán menú infantil.</p>
               <div data-acompanantes></div>
               <button type="button" class="btn btn--ghost" data-add-acomp>Añadir otra persona</button>
             </div>
@@ -315,17 +314,11 @@
 <template id="tpl-acomp">
   <div class="acomp">
     <label class="acomp__nombre"><span data-acomp-rotulo>Nombre y apellidos</span><input type="text" data-acomp-nombre autocomplete="off" autocapitalize="words" enterkeyhint="next" maxlength="80" required></label>
-    <label><span>¿Adulto o niño?</span>
-      <select data-acomp-tipo autocomplete="off">
-        <option value="Adulto">Adulto</option>
-        <option value="Niño">Niño</option>
-      </select>
-    </label>
     <label><span>Alergias o dieta (opcional)</span><input type="text" data-acomp-alergias autocomplete="off" enterkeyhint="next" maxlength="120"></label>
     <button type="button" class="acomp__quitar" data-acomp-quitar>Quitar</button>
   </div>
 </template>
 
-<script src="app.js?v=34"></script>
+<script src="app.js?v=35"></script>
 </body>
 </html>

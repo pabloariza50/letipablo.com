@@ -312,7 +312,6 @@ function formulario() {
     const fila = tpl.content.firstElementChild.cloneNode(true);
     if (datos) {
       fila.querySelector('[data-acomp-nombre]').value = datos.nombre || '';
-      fila.querySelector('[data-acomp-tipo]').value = datos.tipo === 'Niño' ? 'Niño' : 'Adulto';
       fila.querySelector('[data-acomp-alergias]').value = datos.alergias || '';
     }
     fila.querySelector('[data-acomp-quitar]').addEventListener('click', () => {
@@ -386,7 +385,6 @@ function formulario() {
     parada: form.parada.value,
     acomp: filas().map(f => ({
       nombre: f.querySelector('[data-acomp-nombre]').value,
-      tipo: f.querySelector('[data-acomp-tipo]').value,
       alergias: f.querySelector('[data-acomp-alergias]').value,
     })),
   });
@@ -567,7 +565,6 @@ function leer(form) {
   const conGente = viene && form.acompanado.value === 'si';
   const filas = conGente ? [...form.querySelectorAll('.acomp')].map(f => ({
     nombre: f.querySelector('[data-acomp-nombre]').value.trim().replace(/\s+/g, ' '),
-    tipo: f.querySelector('[data-acomp-tipo]').value,
     alergias: f.querySelector('[data-acomp-alergias]').value.trim(),
     campo: f.querySelector('[data-acomp-nombre]'),
   })) : [];
@@ -579,9 +576,9 @@ function leer(form) {
     contacto: [form.telefono.value.trim(), form.email.value.trim()].filter(Boolean).join(' · '),
     asiste: form.asiste.value,
     acompanado: viene ? form.acompanado.value : 'no',
-    acompanantes: filas.filter(a => a.nombre).map(a => ({ nombre: a.nombre, tipo: a.tipo, alergias: a.alergias })),
+    acompanantes: filas.filter(a => a.nombre).map(a => ({ nombre: a.nombre, alergias: a.alergias })),
     // Filas con algo escrito pero sin nombre: no se envían sin avisar (se perdería una alergia)
-    sinNombre: filas.filter(a => !a.nombre && (a.alergias || a.tipo === 'Niño')).map(a => a.campo),
+    sinNombre: filas.filter(a => !a.nombre && a.alergias).map(a => a.campo),
     alergias: viene ? form.alergias.value.trim() : '',
     bus: viene ? form.bus.value : '',
     parada: viene && form.bus.value !== 'No' ? parada : '',
@@ -710,12 +707,9 @@ function gracias(form, d, opciones) {
     div.append(dt, dd); resumen.appendChild(div);
   };
   if (viene) {
-    const detalle = (tipo, alergias) => {
-      const p = [tipo === 'Niño' ? 'niño' : '', alergias].filter(Boolean);
-      return p.length ? ` (${p.join(', ')})` : '';
-    };
-    const gente = [d.nombre + detalle('Adulto', d.alergias)]
-      .concat((d.acompanantes || []).map(a => a.nombre + detalle(a.tipo, a.alergias)));
+    const detalle = alergias => alergias ? ` (${alergias})` : '';
+    const gente = [d.nombre + detalle(d.alergias)]
+      .concat((d.acompanantes || []).map(a => a.nombre + detalle(a.alergias)));
     fila(gente.length > 1 ? 'Venís' : 'Vienes', gente.join(' · '));
     fila('Autobús', d.bus && d.bus !== 'No' ? d.bus + textoParada(d.parada) : 'No');
   } else {
