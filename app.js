@@ -228,14 +228,26 @@ function cuenta() {
     titular.hidden = false;
   }
   const aviso = document.querySelector('[data-cuenta-aviso]');
+  // Botón visible «Copiar»: tocar el número también copia, pero nadie lo adivinaba
+  const boton = document.querySelector('[data-cuenta-copiar]');
+  const textoBoton = boton ? boton.textContent : '';
   let t;
-  btn.addEventListener('click', async () => {
+  const copiarIban = async () => {
     const ok = await copiar(iban);
-    if (!aviso) return;
-    aviso.textContent = ok ? 'Número de cuenta copiado' : 'Mantén pulsado el número para copiarlo';
+    if (boton) boton.textContent = ok ? 'Copiado ✓' : textoBoton;
+    if (aviso) {
+      // Si se copió, el botón ya lo dice: el aviso queda solo para el lector de pantalla
+      aviso.classList.toggle('sr', ok);
+      aviso.textContent = ok ? 'Número de cuenta copiado' : 'Mantén pulsado el número para copiarlo';
+    }
     clearTimeout(t);
-    t = setTimeout(() => { aviso.textContent = ''; }, 5500);
-  });
+    t = setTimeout(() => {
+      if (aviso) aviso.textContent = '';
+      if (boton) boton.textContent = textoBoton;
+    }, 5500);
+  };
+  btn.addEventListener('click', copiarIban);
+  if (boton) boton.addEventListener('click', copiarIban);
 }
 
 /* Códigos de descuento de los hoteles: se copian al tocarlos, como el número de cuenta */

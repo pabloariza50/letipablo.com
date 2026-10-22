@@ -336,6 +336,7 @@ textarea { resize: none; }
   text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--crudo-tenue); text-underline-offset: 7px;
   user-select: all; -webkit-user-select: all;
 }
+.cuenta__copiar { margin-top: 22px; min-width: min(100%, 300px); }
 .cuenta__titular { margin-top: 12px; color: var(--crudo-suave); padding-left: .2em; }
 .cuenta__aviso { margin-top: 16px; min-height: 1.6em; color: var(--crudo-suave); padding-left: .2em; }
 

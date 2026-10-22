@@ -29,7 +29,7 @@
   <meta name="theme-color" content="#16222c">
   <link rel="preload" href="assets/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=27">
+  <link rel="stylesheet" href="styles.css?v=28">
   <!-- Sin JavaScript no hay revelado al hacer scroll: el contenido se ve siempre -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -291,6 +291,7 @@
     <p class="cuenta__texto">Si quieres ayudarnos en nuestro viaje</p>
     <button type="button" class="cuenta__iban" data-cuenta translate="no"></button>
     <p class="cuenta__titular" data-cuenta-titular translate="no" hidden></p>
+    <p><button type="button" class="btn cuenta__copiar" data-cuenta-copiar>Copiar número de cuenta</button></p>
     <p class="cuenta__aviso" data-cuenta-aviso role="status"></p>
   </section>
 
@@ -319,6 +320,6 @@
   </div>
 </template>
 
-<script src="app.js?v=35"></script>
+<script src="app.js?v=36"></script>
 </body>
 </html>
