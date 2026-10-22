@@ -213,7 +213,17 @@ function cuenta() {
   // El lector de pantalla lee el número: lo que se ve forma parte del nombre del botón
   const oculto = t => { const s = document.createElement('span'); s.className = 'sr'; s.textContent = t; return s; };
   btn.textContent = '';
-  btn.append(oculto('Número de cuenta: '), iban.replace(/(.{4})/g, '$1 ').trim(), oculto('. Toca para copiarlo'));
+  // Icono de portapapeles junto al número: que se entienda que al tocarlo se copia
+  const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${d}</svg>`;
+  const iconoCopiar = svg('<rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>');
+  const iconoHecho = svg('<path d="M5 12.5l4.5 4.5L19 7.5"/>');
+  const icono = document.createElement('span');
+  icono.className = 'cuenta__icono';
+  icono.innerHTML = iconoCopiar;
+  const numero = document.createElement('span');
+  numero.className = 'cuenta__numero';
+  numero.textContent = iban.replace(/(.{4})/g, '$1 ').trim();
+  btn.append(oculto('Número de cuenta: '), numero, icono, oculto('. Toca para copiarlo'));
   btn.hidden = false;
   const frase = btn.closest('[data-regalo]');
   if (frase) frase.hidden = false;
@@ -228,26 +238,17 @@ function cuenta() {
     titular.hidden = false;
   }
   const aviso = document.querySelector('[data-cuenta-aviso]');
-  // Botón visible «Copiar»: tocar el número también copia, pero nadie lo adivinaba
-  const boton = document.querySelector('[data-cuenta-copiar]');
-  const textoBoton = boton ? boton.textContent : '';
   let t;
-  const copiarIban = async () => {
+  btn.addEventListener('click', async () => {
     const ok = await copiar(iban);
-    if (boton) boton.textContent = ok ? 'Copiado ✓' : textoBoton;
-    if (aviso) {
-      // Si se copió, el botón ya lo dice: el aviso queda solo para el lector de pantalla
-      aviso.classList.toggle('sr', ok);
-      aviso.textContent = ok ? 'Número de cuenta copiado' : 'Mantén pulsado el número para copiarlo';
-    }
+    icono.innerHTML = ok ? iconoHecho : iconoCopiar;
+    if (aviso) aviso.textContent = ok ? 'Copiado' : 'Mantén pulsado el número para copiarlo';
     clearTimeout(t);
     t = setTimeout(() => {
       if (aviso) aviso.textContent = '';
-      if (boton) boton.textContent = textoBoton;
+      icono.innerHTML = iconoCopiar;
     }, 5500);
-  };
-  btn.addEventListener('click', copiarIban);
-  if (boton) boton.addEventListener('click', copiarIban);
+  });
 }
 
 /* Códigos de descuento de los hoteles: se copian al tocarlos, como el número de cuenta */
